@@ -27,11 +27,14 @@ jt() {
     "obsidian")
         cd $STORAGE/Obsidian
         ;;
-    "config")
-        cd ~/config
+    "vs")
+        cd $VS_DIRECTORY
+        ;;
+    "glaze")
+        cd $GLAZE_DIRECTORY
         ;;
     *)
-        echo "Jump to: personal, work, anime, movies, music, youtube, password, obsidian or config"
+        echo "Jump to: personal, work, anime, movies, music, youtube, password, obsidian, vs or glaze"
         ;;
     esac
 }
