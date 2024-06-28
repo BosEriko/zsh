@@ -68,6 +68,7 @@ g() {
 
 # Rework
 git-rework() {
+  git reset
   git checkout .
   git clean -fd
 }
