@@ -15,9 +15,6 @@ ZSH_DISABLE_COMPFIX=true
 # Source Oh My ZSH
 source $ZSH/oh-my-zsh.sh
 
-# Set Theme
-ZSH_THEME=clean
-
 # Use nano as the editor
 export VISUAL=nano
 export EDITOR=nano
