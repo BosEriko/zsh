@@ -12,7 +12,7 @@ SAVEHIST=10000
 # Disable Compfix
 ZSH_DISABLE_COMPFIX=true
 
-# Source ZSH
+# Source Oh My ZSH
 source $ZSH/oh-my-zsh.sh
 
 # Set Theme

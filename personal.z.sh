@@ -25,7 +25,6 @@ ${RESET}
 
     -a, --assist                path                    Print out the list of paths
                                 restart-zsh             Restart ZSH
-                                restow                  Restow your config
 
     -y, --yarn                  list                    List global yarn packages
                                 interactive             Upgrade global yarn packages interactively
@@ -85,10 +84,6 @@ bos() {
             elif [ "$2" = "restart-zsh" ]; then
                 source ~/.zshrc
                 terminal-notifier -title 'ZSH' -message 'ZSH has been restarted!'
-            elif [ "$2" = "restow" ]; then
-                echo "Do you want to restow your config? (Ctrl-C to abort, or press enter to continue)"
-                read
-                ~/.files/install/modules/config.sh
             else
                 echo "Usage: -a <command> or --assist <command>"
             fi

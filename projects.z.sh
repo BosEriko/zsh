@@ -30,11 +30,8 @@ jt() {
     "config")
         cd ~/config
         ;;
-    ".files")
-        cd ~/.files
-        ;;
     *)
-        echo "Jump to: personal, work, anime, movies, music, youtube, password, obsidian, config or .files."
+        echo "Jump to: personal, work, anime, movies, music, youtube, password, obsidian or config"
         ;;
     esac
 }
