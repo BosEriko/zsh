@@ -16,7 +16,7 @@ ZSH_DISABLE_COMPFIX=true
 source $ZSH/oh-my-zsh.sh
 
 # Set Theme
-ZSH_THEME=robbyrussell
+ZSH_THEME=clean
 
 # Use nano as the editor
 export VISUAL=nano
