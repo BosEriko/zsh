@@ -68,7 +68,7 @@ g() {
 
 # Rework
 git-rework() {
-  git stash
+  git checkout .
   git clean -fd
 }
 
