@@ -35,6 +35,9 @@ jt() {
 
 jc() {
     case "$1" in
+    "obs")
+        cd $OBS_DIRECTORY
+        ;;
     "zsh")
         cd ~/.files/zsh
         ;;
@@ -45,7 +48,7 @@ jc() {
         cd $GLAZE_DIRECTORY
         ;;
     *)
-        echo "Jump to: zsh, vs or glaze"
+        echo "Jump to: obs, zsh, vs or glaze"
         ;;
     esac
 }
