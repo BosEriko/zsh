@@ -27,6 +27,17 @@ jt() {
     "obsidian")
         cd $STORAGE/Obsidian
         ;;
+    *)
+        echo "Jump to: personal, work, anime, movies, music, youtube, password or obsidian"
+        ;;
+    esac
+}
+
+jc() {
+    case "$1" in
+    "zsh")
+        cd ~/.files/zsh
+        ;;
     "vs")
         cd $VS_DIRECTORY
         ;;
@@ -34,7 +45,7 @@ jt() {
         cd $GLAZE_DIRECTORY
         ;;
     *)
-        echo "Jump to: personal, work, anime, movies, music, youtube, password, obsidian, vs or glaze"
+        echo "Jump to: zsh, vs or glaze"
         ;;
     esac
 }
