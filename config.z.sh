@@ -15,8 +15,8 @@ ZSH_DISABLE_COMPFIX=true
 # Source Oh My ZSH
 source $ZSH/oh-my-zsh.sh
 
-# Line Name
-PROMPT='$ '
+# Remove Line Name
+PROMPT=''
 
 # Use nano as the editor
 export VISUAL=nano
