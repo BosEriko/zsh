@@ -18,11 +18,14 @@ auto-push() {
 
 end-session() {
   # history
-  echo "${CYAN}${2} History has been changed. Pushing.${RESET}"
-  git add ~/.zsh_history
-  git commit -m ":pencil: History #$(date +%s)"
-  git push origin master
-  echo "${GREEN}${2} History has been pushed successfully.${RESET}"
+  (
+    cd ~
+    echo "${CYAN}${2} History has been changed. Pushing.${RESET}"
+    git add ~/.zsh_history
+    git commit -m ":pencil: History #$(date +%s)"
+    git push origin master
+    echo "${GREEN}${2} History has been pushed successfully.${RESET}"
+  )
   # password
   auto-push $STORAGE/Password "Password"
   # obsidian
