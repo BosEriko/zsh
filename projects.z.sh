@@ -47,8 +47,11 @@ jc() {
     "glaze")
         cd $GLAZE_DIRECTORY
         ;;
+    "vivaldi")
+        cd $STORAGE/Vivaldi
+        ;;
     *)
-        echo "Jump to: obs, zsh, vs or glaze"
+        echo "Jump to: obs, zsh, vs, glaze or vivaldi"
         ;;
     esac
 }
