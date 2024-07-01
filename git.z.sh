@@ -16,6 +16,7 @@ ${RESET}
     b                           Alias for branch
     bd, branch-delete           Delete a branch locally and remotely
     bnc, branch-name-copy       Copy the current branch name to clipboard
+    cmc, commit-message-copy    Copy the latest commit message to clipboard
     c                           Alias for commit
     cp                          Alias for cherry-pick
     co                          Alias for checkout
@@ -53,6 +54,8 @@ g() {
     git-wtf
   elif [ "$1" = "bnc" ] || [ "$1" = "branch-name-copy" ]; then
     git-branch-name-copy
+  elif [ "$1" = "cmc" ] || [ "$1" = "commit-message-copy" ]; then
+    git-commit-message-copy
   elif [ "$1" = "bd" ] || [ "$1" = "branch-delete" ]; then
     git-branch-delete $2
   elif [ "$1" = "so" ] || [ "$1" = "set-origin" ]; then
@@ -97,6 +100,14 @@ git-wtf() {
 # Branch Name Copy
 git-branch-name-copy() {
   git branch | grep \* | cut -d ' ' -f2 | tr -d '\n' | clip.exe
+  echo "Branch name has been copied."
+}
+
+# Latest Commit Message Copy
+git-commit-message-copy() {
+  last_commit_message=$(git log -1 --pretty=%B)
+  echo -n "$last_commit_message" | clip.exe
+  echo "Latest commit message has been copied."
 }
 
 # Branch Delete
