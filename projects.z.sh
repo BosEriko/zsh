@@ -35,6 +35,9 @@ jt() {
 
 jc() {
     case "$1" in
+    "ytm")
+        check-and-cd $STORAGE/YouTubeMusic
+        ;;
     "obs")
         cd $OBS_DIRECTORY
         ;;
@@ -48,10 +51,17 @@ jc() {
         cd $GLAZE_DIRECTORY
         ;;
     "vivaldi")
-        cd $STORAGE/Vivaldi
+        check-and-cd $STORAGE/Vivaldi
         ;;
     *)
-        echo "Jump to: obs, zsh, vs, glaze or vivaldi"
+        echo "Jump to: ytm, obs, zsh, vs, glaze or vivaldi"
         ;;
     esac
+}
+
+check-and-cd() {
+    if [ ! -d "$1" ]; then
+        mkdir -p "$1"
+    fi
+    cd "$1"
 }
