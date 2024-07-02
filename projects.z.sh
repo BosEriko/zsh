@@ -35,9 +35,6 @@ jt() {
 
 jc() {
     case "$1" in
-    "ytm")
-        check-and-cd $STORAGE/YouTubeMusic
-        ;;
     "obs")
         cd $OBS_DIRECTORY
         ;;
@@ -54,7 +51,7 @@ jc() {
         check-and-cd $STORAGE/Vivaldi
         ;;
     *)
-        echo "Jump to: ytm, obs, zsh, vs, glaze or vivaldi"
+        echo "Jump to: obs, zsh, vs, glaze or vivaldi"
         ;;
     esac
 }
