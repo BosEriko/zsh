@@ -30,6 +30,7 @@ ${RESET}
     ls                          Alias for ls-files
     pl                          Alias for pull
     ps                          Alias for push
+    pa, push-automatic          Push to the current branch automatically
     r, rework                   Stash and clean the extra files
     re                          Alias for reset
     rl                          List versions
@@ -54,6 +55,8 @@ g() {
     git-wtf
   elif [ "$1" = "bnc" ] || [ "$1" = "branch-name-copy" ]; then
     git-branch-name-copy
+  elif [ "$1" = "pa" ] || [ "$1" = "push-automatic" ]; then
+    git-push-automatic
   elif [ "$1" = "cmc" ] || [ "$1" = "commit-message-copy" ]; then
     git-commit-message-copy
   elif [ "$1" = "bd" ] || [ "$1" = "branch-delete" ]; then
@@ -97,6 +100,12 @@ git-wtf() {
   git commit -m "[AUTO] $(curl -s http://whatthecommit.com/index.txt)"
 }
 
+# Push Automatically
+git-push-automatic() {
+  BRANCH_NAME=$(git branch | grep \* | cut -d ' ' -f2 | tr -d '\n')
+  git push origin $BRANCH_NAME
+}
+
 # Branch Name Copy
 git-branch-name-copy() {
   git branch | grep \* | cut -d ' ' -f2 | tr -d '\n' | clip.exe
@@ -105,8 +114,8 @@ git-branch-name-copy() {
 
 # Latest Commit Message Copy
 git-commit-message-copy() {
-  last_commit_message=$(git log -1 --pretty=%B)
-  echo -n "$last_commit_message" | clip.exe
+  LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+  echo -n "$LAST_COMMIT_MESSAGE" | clip.exe
   echo "Latest commit message has been copied."
 }
 
