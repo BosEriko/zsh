@@ -15,20 +15,11 @@ jt() {
     "movies")
         cd $STORAGE/Movies
         ;;
-    "music")
-        cd $STORAGE/Music
-        ;;
     "youtube")
         cd $STORAGE/YouTube
         ;;
-    "password")
-        cd $STORAGE/Password
-        ;;
-    "obsidian")
-        cd $STORAGE/Obsidian
-        ;;
     *)
-        echo "Jump to: personal, work, anime, movies, music, youtube, password or obsidian"
+        echo "Jump to: personal, work, anime, movies or youtube"
         ;;
     esac
 }
@@ -50,8 +41,14 @@ jc() {
     "vivaldi")
         check-and-cd $STORAGE/Vivaldi
         ;;
+    "password")
+        cd $STORAGE/Password
+        ;;
+    "obsidian")
+        cd $STORAGE/Obsidian
+        ;;
     *)
-        echo "Jump to: obs, zsh, vs, glaze or vivaldi"
+        echo "Jump to: obs, zsh, vs, glaze, vivaldi, password or obsidian"
         ;;
     esac
 }
