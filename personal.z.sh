@@ -33,7 +33,6 @@ ${RESET}
     -p, --programming           external-ip             Show external IP address
                                 ssh-key                 Copy Main SSH Key to clipboard
                                 rbenv-rehash            Run Rehash on rbenv
-                                ngrok                   Start ngrok
 
     -s, --session               start                   Start programming session
                                 end                     End programming session
@@ -99,12 +98,6 @@ bos() {
                 echo "SSH Key has been copied to clipboard."
             elif [ "$2" = "rbenv-rehash" ]; then
                 rbenv rehash
-            elif [ "$2" = "ngrok" ]; then
-                if [ -z "$3" ]; then
-                    echo "Please specify a port"
-                else
-                    ngrok http --region=ap $3
-                fi
             else
                 echo "Usage: -p <command> or --programming <command>"
             fi
