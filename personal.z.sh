@@ -52,9 +52,6 @@ bos() {
                 ~/.files/scripts/anime/download.sh
             elif [ "$2" = "youtube" ]; then
                 ~/.files/scripts/youtube/download.sh
-            elif [ "$2" = "music" ]; then
-                spotdl "https://open.spotify.com/playlist/306g28MRDf9bctpRaKcX3F?si=d4da5b76a7a94a58" --output $STORAGE/Music
-                echo "${YELLOW}Downloaded! If you're using Spotify as your player don't forget to reindex the songs by toggling on and off the music directory you have your music on under the \"Show songs from\" settings.${RESET}"
             else
                 echo "Usage: -dl <command> or --download <command>"
             fi
@@ -71,10 +68,6 @@ bos() {
                 echo "Do you want to delete Anime videos? (Ctrl-C to abort, or press enter to continue)"
                 read
                 rm -rf $STORAGE/Anime/*
-            elif [ "$2" = "music" ]; then
-                echo "Do you want to delete your music library? (Ctrl-C to abort, or press enter to continue)"
-                read
-                rm -rf $STORAGE/Music/*
             else
                 echo "Usage: -dm <command> or --delete-media <command>"
             fi
