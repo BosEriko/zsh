@@ -13,8 +13,6 @@ auto-pull() {
 start-session() {
   # configuration
   auto-pull ~ "Configuration"
-  # password
-  auto-pull $STORAGE/Password "Password"
   # obsidian
   auto-pull $STORAGE/Obsidian "Obsidian"
   # Source ZSH

@@ -26,8 +26,6 @@ end-session() {
     git push origin master
     echo "${GREEN}${2} History has been pushed successfully.${RESET}"
   )
-  # password
-  auto-push $STORAGE/Password "Password"
   # obsidian
   auto-push $STORAGE/Obsidian/personal "Personal Obsidian"
   auto-push $STORAGE/Obsidian/games "Games Obsidian"
