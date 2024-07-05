@@ -1,6 +1,7 @@
 
 # ============================================================================ [End Session] ===== #
 
+# To Use: auto-push <FOLDER_PATH> <FOLDER_NAME>
 auto-push() {
   (
     cd $1
@@ -26,15 +27,4 @@ end-session() {
     git push origin master
     echo "${GREEN}${2} History has been pushed successfully.${RESET}"
   )
-  # obsidian
-  auto-push $STORAGE/Obsidian/personal "Personal Obsidian"
-  auto-push $STORAGE/Obsidian/games "Games Obsidian"
-  auto-push $STORAGE/Obsidian/professional "Professional Obsidian"
-  auto-push $STORAGE/Obsidian/til "TIL Obsidian"
-  auto-push $STORAGE/Obsidian/morning-ritual "Morning Ritual Obsidian"
-  auto-push $STORAGE/Obsidian/daily-journal "Daily Journal Obsidian"
-  auto-push $STORAGE/Obsidian/blogs "Blogs Obsidian"
-  auto-push $STORAGE/Obsidian/dreams "Dreams Obsidian"
-  auto-push $STORAGE/Obsidian/twisuandbosu "TwisuAndBosu Obsidian"
-  auto-push $STORAGE/Obsidian "Obsidian"
 }

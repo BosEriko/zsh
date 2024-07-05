@@ -13,8 +13,6 @@ auto-pull() {
 start-session() {
   # configuration
   auto-pull ~ "Configuration"
-  # obsidian
-  auto-pull $STORAGE/Obsidian "Obsidian"
   # Source ZSH
   printf "${B_YELLOW}Do you want to source your ZSH config (y/n)? ${RESET}"
   read answer

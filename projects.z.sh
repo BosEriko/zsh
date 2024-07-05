@@ -41,11 +41,8 @@ jc() {
     "vivaldi")
         check-and-cd $STORAGE/Vivaldi
         ;;
-    "obsidian")
-        cd $STORAGE/Obsidian
-        ;;
     *)
-        echo "Jump to: obs, zsh, vs, glaze, vivaldi or obsidian"
+        echo "Jump to: obs, zsh, vs, glaze or vivaldi"
         ;;
     esac
 }
