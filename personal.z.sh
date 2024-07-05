@@ -26,9 +26,6 @@ ${RESET}
     -a, --assist                path                    Print out the list of paths
                                 restart-zsh             Restart ZSH
 
-    -vs, --visual-studio        install                 Install extensions
-                                backup                  Backup extensions
-
     -y, --yarn                  list                    List global yarn packages
                                 interactive             Upgrade global yarn packages interactively
                                 upgrade                 Upgrade global yarn packages
@@ -81,16 +78,6 @@ bos() {
                 terminal-notifier -title 'ZSH' -message 'ZSH has been restarted!'
             else
                 echo "Usage: -a <command> or --assist <command>"
-            fi
-        elif [ "$1" = "-vs" ] || [ "$1" = "--visual-studio" ]; then
-            if [ "$2" = "install" ]; then
-                sh $VS_DIRECTORY/extensions.sh
-                echo "Installation completed!"
-            elif [ "$2" = "backup" ]; then
-                code --list-extensions | xargs -L 1 echo code --install-extension > $VS_DIRECTORY/extensions.sh
-                echo "Backup completed!"
-            else
-                echo "Usage: -vs <command> or --visual-studio <command>"
             fi
         elif [ "$1" = "-y" ] || [ "$1" = "--yarn" ]; then
             if [ "$2" = "list" ]; then
