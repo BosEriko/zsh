@@ -1,7 +1,7 @@
 
 # =============================================================================== [Projects] ===== #
 
-jt() {
+jf() {
     case "$1" in
     "personal")
         cd ~/Documents/Codes/Personal
@@ -19,7 +19,7 @@ jt() {
         cd $STORAGE/YouTube
         ;;
     *)
-        echo "Jump to: personal, work, anime, movies or youtube"
+        echo "Jump Folder: personal, work, anime, movies or youtube"
         ;;
     esac
 }
@@ -45,7 +45,7 @@ jc() {
         check-and-cd $STORAGE/Vivaldi
         ;;
     *)
-        echo "Jump to: obs, chatty, zsh, vs, glaze or vivaldi"
+        echo "Jump Configuration: obs, chatty, zsh, vs, glaze or vivaldi"
         ;;
     esac
 }
