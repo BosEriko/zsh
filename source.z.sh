@@ -6,7 +6,7 @@
 
 # Source fnm
 FNM_PATH="$HOME/.fnm"
-if [ -d "$FNPM_PATH" ]; then
+if [ -d "$FNM_PATH" ]; then
     export PATH="$FNM_PATH:$PATH"
     eval "$(fnm env --use-on-cd)"
 fi
