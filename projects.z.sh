@@ -53,19 +53,19 @@ jc() {
 work() {
     case "$1" in
     "kuru-studio-panel")
-        cd $KURU_STUDIO_PANEL_DIRECTORY && code-alias
+        cd $(eval echo $KURU_STUDIO_PANEL_DIRECTORY) && code-alias
         ;;
     "kuru-studio-server")
-        cd $KURU_STUDIO_SERVER_DIRECTORY && code-alias
+        cd $(eval echo $KURU_STUDIO_SERVER_DIRECTORY) && code-alias
         ;;
     "kuru-studio-network")
-        cd $KURU_STUDIO_NETWORK_DIRECTORY && code-alias
+        cd $(eval echo $KURU_STUDIO_NETWORK_DIRECTORY) && code-alias
         ;;
     "purrintables")
-        cd $PURRINTABLES_DIRECTORY && code-alias
+        cd $(eval echo $PURRINTABLES_DIRECTORY) && code-alias
         ;;
     "referscout")
-        cd $REFERSCOUT_DIRECTORY && code-alias
+        cd $(eval echo $REFERSCOUT_DIRECTORY) && code-alias
         ;;
     *)
         echo "Jump Work Folder: kuru-studio-panel, kuru-studio-server, kuru-studio-network, purrintables or referscout"
