@@ -15,3 +15,5 @@ alias v="code-alias"
 
 alias start="start-session"
 alias end="end-session"
+
+alias work:referscout="cd $REFERSCOUT_DIRECTORY && code-alias"
