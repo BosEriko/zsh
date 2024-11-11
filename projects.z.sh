@@ -67,11 +67,11 @@ work() {
     "referscout")
         cd $(eval echo $REFERSCOUT_DIRECTORY) && code-alias
         ;;
-    "saturn")
-        cd $(eval echo $SATURN_DIRECTORY) && code-alias
+    "admin-now")
+        cd $(eval echo $ADMIN_NOW_DIRECTORY) && code-alias
         ;;
     *)
-        echo "Jump Work Folder: kuru-studio-panel, kuru-studio-server, kuru-studio-network, purrintables, referscout or saturn"
+        echo "Jump Work Folder: kuru-studio-panel, kuru-studio-server, kuru-studio-network, purrintables, referscout or admin-now"
         ;;
     esac
 }
