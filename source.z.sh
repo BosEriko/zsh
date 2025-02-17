@@ -14,3 +14,8 @@ fi
 # Source rbenv
 export PATH="$HOME/.rbenv/bin:$PATH" && eval "$(rbenv init -)"
 export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
+
+# Source elixir
+installs_dir=$HOME/.elixir-install/installs
+export PATH=$installs_dir/otp/27.1.2/bin:$PATH
+export PATH=$installs_dir/elixir/1.18.2-otp-27/bin:$PATH
