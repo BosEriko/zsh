@@ -52,14 +52,8 @@ jc() {
 
 work() {
     case "$1" in
-    "kuru-studio-panel")
-        cd $(eval echo $KURU_STUDIO_PANEL_DIRECTORY) && code-alias
-        ;;
-    "kuru-studio-server")
-        cd $(eval echo $KURU_STUDIO_SERVER_DIRECTORY) && code-alias
-        ;;
-    "kuru-studio-network")
-        cd $(eval echo $KURU_STUDIO_NETWORK_DIRECTORY) && code-alias
+    "bos-eriko-data")
+        cd $(eval echo $BOS_ERIKO_DATA_DIRECTORY) && code-alias
         ;;
     "purrintables")
         cd $(eval echo $PURRINTABLES_DIRECTORY) && code-alias
@@ -74,7 +68,7 @@ work() {
         cd $(eval echo $ADMIN_NOW_WEBSITE_DIRECTORY) && code-alias
         ;;
     *)
-        echo "Jump Work Folder: kuru-studio-panel, kuru-studio-server, kuru-studio-network, purrintables, referscout, admin-now-server or admin-now-website"
+        echo "Jump Work Folder: bos-eriko-data, purrintables, referscout, admin-now-server or admin-now-website"
         ;;
     esac
 }
