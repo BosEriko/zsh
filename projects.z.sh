@@ -55,6 +55,9 @@ work() {
     "bos-eriko-data")
         cd $(eval echo $BOS_ERIKO_DATA_DIRECTORY) && code-alias
         ;;
+    "bos-eriko-cms")
+        cd $(eval echo $BOS_ERIKO_CMS_DIRECTORY) && code-alias
+        ;;
     "purrintables")
         cd $(eval echo $PURRINTABLES_DIRECTORY) && code-alias
         ;;
@@ -68,7 +71,7 @@ work() {
         cd $(eval echo $ADMIN_NOW_WEBSITE_DIRECTORY) && code-alias
         ;;
     *)
-        echo "Jump Work Folder: bos-eriko-data, purrintables, referscout, admin-now-server or admin-now-website"
+        echo "Jump Work Folder: bos-eriko-data, bos-eriko-cms, purrintables, referscout, admin-now-server or admin-now-website"
         ;;
     esac
 }
