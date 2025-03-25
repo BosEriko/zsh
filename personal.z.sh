@@ -110,7 +110,7 @@ bos() {
             elif [ "$2" = "psql" ]; then
                 sudo service postgresql start
             else
-                echo "Usage: -s <command> or --session <command>"
+                echo "Usage: -e <command> or --enable <command>"
             fi
         elif [ "$1" = "-s" ] || [ "$1" = "--session" ]; then
             if [ "$2" = "start" ]; then
