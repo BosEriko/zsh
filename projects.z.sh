@@ -52,23 +52,17 @@ jc() {
 
 work() {
     case "$1" in
-    "bos-eriko-data")
-        cd $(eval echo $BOS_ERIKO_DATA_DIRECTORY) && code-alias
+    "bos-eriko-plus")
+        cd $(eval echo $BOS_ERIKO_PLUS_DIRECTORY) && code-alias
         ;;
-    "bos-eriko-cms")
-        cd $(eval echo $BOS_ERIKO_CMS_DIRECTORY) && code-alias
+    "boteriko")
+        cd $(eval echo $BOTERIKO_DIRECTORY) && code-alias
         ;;
-    "bosekko")
-        cd $(eval echo $BOSEKKO_DIRECTORY) && code-alias
-        ;;
-    "purrintables")
-        cd $(eval echo $PURRINTABLES_DIRECTORY) && code-alias
-        ;;
-    "referscout")
-        cd $(eval echo $REFERSCOUT_DIRECTORY) && code-alias
+    "overlay")
+        cd $(eval echo $OVERLAY_DIRECTORY) && code-alias
         ;;
     *)
-        echo "Jump Work Folder: bos-eriko-data, bos-eriko-cms, bosekko, purrintables or referscout"
+        echo "Jump Work Folder: bos-eriko-plus, boteriko or overlay"
         ;;
     esac
 }
