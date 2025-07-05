@@ -29,9 +29,6 @@ jc() {
     "obs")
         cd $OBS_DIRECTORY
         ;;
-    "chatty")
-        cd $CHATTY_DIRECTORY
-        ;;
     "zsh")
         cd ~/.files/zsh
         ;;
@@ -45,7 +42,7 @@ jc() {
         check-and-cd $STORAGE/Vivaldi
         ;;
     *)
-        echo "Jump Configuration: obs, chatty, zsh, vs, glaze or vivaldi"
+        echo "Jump Configuration: obs, zsh, vs, glaze or vivaldi"
         ;;
     esac
 }
