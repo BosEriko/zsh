@@ -49,6 +49,9 @@ jc() {
 
 work() {
     case "$1" in
+    "bos-eriko-com")
+        cd $(eval echo $BOS_ERIKO_COM_DIRECTORY) && code-alias
+        ;;
     "bos-eriko-plus")
         cd $(eval echo $BOS_ERIKO_PLUS_DIRECTORY) && code-alias
         ;;
@@ -59,7 +62,7 @@ work() {
         cd $(eval echo $OVERLAY_DIRECTORY) && code-alias
         ;;
     *)
-        echo "Jump Work Folder: bos-eriko-plus, boteriko or overlay"
+        echo "Jump Work Folder: bos-eriko-com, bos-eriko-plus, boteriko or overlay"
         ;;
     esac
 }
