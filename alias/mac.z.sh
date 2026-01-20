@@ -3,7 +3,7 @@
 
 alias copy="pbcopy"
 alias npm="echo 'Do you really want to use NPM instead of Yarn? (Ctrl-C to abort, or press enter to continue)' && read && npm"
-alias sudo="echo $PASSWORD | sudo -S "
+sudo() { echo "$PASSWORD" | command sudo -S "$@" }
 
 alias vim="nvim"
 alias vi="nvim"
