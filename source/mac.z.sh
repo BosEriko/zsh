@@ -14,6 +14,9 @@ fi
 # Source Yarn
 export PATH="$HOME/.yarn/bin:$PATH"
 
+# Source Python
+export PATH="/opt/homebrew/opt/python@3.14/libexec/bin:$PATH"
+
 # Source rbenv
 export PATH="$HOME/.rbenv/bin:$PATH" && eval "$(rbenv init -)"
 
