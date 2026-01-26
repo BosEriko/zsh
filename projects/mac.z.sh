@@ -26,20 +26,29 @@ jf() {
 
 jc() {
     case "$1" in
-    "obs")
-        cd $OBS_DIRECTORY
+    "brave")
+        cd ~/Documents/Codes/Configuration/brave
+        ;;
+    "ghostty")
+        cd ~/.config/ghostty
+        ;;
+    "mac")
+        cd ~
+        ;;
+    "opencode")
+        cd ~/Documents/Codes/Configuration/opencode
+        ;;
+    "yabai")
+        cd ~/Documents/Codes/Configuration/yabai
+        ;;
+    "zed")
+        cd ~/.config/zed
         ;;
     "zsh")
         cd ~/.files/zsh
         ;;
-    "vs")
-        cd $VS_DIRECTORY
-        ;;
-    "glaze")
-        cd $GLAZE_DIRECTORY
-        ;;
     *)
-        echo "Jump Configuration: obs, zsh, vs or glaze"
+        echo "Jump Configuration: brave, ghostty, mac, opencode, yabai, zed or zsh"
         ;;
     esac
 }
