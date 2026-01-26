@@ -23,6 +23,6 @@ if [ "$TMUX" = "" ]; then
   tmux attach-session || tmux new -s default
 fi
 
-# Use nano as the editor
-export VISUAL=nvim
-export EDITOR=nvim
+# Use zed as the editor
+export VISUAL=zed
+export EDITOR=zed
