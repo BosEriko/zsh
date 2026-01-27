@@ -55,7 +55,7 @@ bos() {
                 EXTERNALIP=$(curl -sS ipinfo.io/ip)
                 echo $EXTERNALIP
             elif [ "$2" = "ssh-key" ]; then
-                cat ~/.ssh/id_rsa.pub | clip.exe
+                cat ~/.ssh/id_rsa.pub | pbcopy
                 echo "SSH Key has been copied to clipboard."
             elif [ "$2" = "rbenv-rehash" ]; then
                 rbenv rehash
