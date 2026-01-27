@@ -35,9 +35,6 @@ jc() {
     "mac")
         cd ~
         ;;
-    "opencode")
-        cd ~/Documents/Codes/Configuration/opencode
-        ;;
     "yabai")
         cd ~/Documents/Codes/Configuration/yabai
         ;;
@@ -48,7 +45,7 @@ jc() {
         cd ~/.files/zsh
         ;;
     *)
-        echo "Jump Configuration: brave, ghostty, mac, opencode, yabai, zed or zsh"
+        echo "Jump Configuration: brave, ghostty, mac, yabai, zed or zsh"
         ;;
     esac
 }
