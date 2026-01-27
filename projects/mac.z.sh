@@ -26,9 +26,6 @@ jf() {
 
 jc() {
     case "$1" in
-    "brave")
-        cd ~/Documents/Codes/Configuration/brave
-        ;;
     "ghostty")
         cd ~/.config/ghostty
         ;;
@@ -41,11 +38,14 @@ jc() {
     "zed")
         cd ~/.config/zed
         ;;
+    "zen")
+        cd ~/Documents/Codes/Configuration/zen
+        ;;
     "zsh")
         cd ~/.files/zsh
         ;;
     *)
-        echo "Jump Configuration: brave, ghostty, mac, yabai, zed or zsh"
+        echo "Jump Configuration: brave, ghostty, mac, yabai, zed, zen or zsh"
         ;;
     esac
 }
