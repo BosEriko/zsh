@@ -12,6 +12,3 @@ alias vim="send-to-zed"
 alias vi="send-to-zed"
 alias vs="send-to-zed"
 alias v="send-to-zed"
-
-alias start="start-session"
-alias end="end-session"

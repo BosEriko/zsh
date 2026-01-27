@@ -28,12 +28,6 @@ ${RESET}
                                 ssh-key                 Copy Main SSH Key to clipboard
                                 rbenv-rehash            Run Rehash on rbenv
 
-    -e, --enable                redis                   Start Redis
-                                psql                    Start PostgreSQL
-
-    -s, --session               start                   Start programming session
-                                end                     End programming session
-
 "
 bos() {
     if [ -z "$1" ]; then
@@ -85,22 +79,6 @@ bos() {
                 rbenv rehash
             else
                 echo "Usage: -p <command> or --programming <command>"
-            fi
-        elif [ "$1" = "-e" ] || [ "$1" = "--enable" ]; then
-            if [ "$2" = "redis" ]; then
-                sudo service redis-server start
-            elif [ "$2" = "psql" ]; then
-                sudo service postgresql start
-            else
-                echo "Usage: -e <command> or --enable <command>"
-            fi
-        elif [ "$1" = "-s" ] || [ "$1" = "--session" ]; then
-            if [ "$2" = "start" ]; then
-                start-session
-            elif [ "$2" = "end" ]; then
-                end-session
-            else
-                echo "Usage: -s <command> or --session <command>"
             fi
         else
             echo "Command not found: $1"
