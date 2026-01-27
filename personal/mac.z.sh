@@ -14,12 +14,8 @@ ${B_GREEN}
 ${RESET}
 
     -dl, --download             anime                   Download anime
-                                movie                   Download a movie
-                                music                   Download music
 
     -dm, --delete-media         anime                   Delete anime
-                                movies                  Delete movies
-                                music                   Delete music
 
     -a, --assist                path                    Print out the list of paths
                                 restart-zsh             Restart ZSH
@@ -46,19 +42,13 @@ bos() {
         if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
             (cd ~; figlet $FIGLET_MESSAGE | lolcat && echo -e $BOS_HELP_MESSAGE;)
         elif [ "$1" = "-dl" ] || [ "$1" = "--download" ]; then
-            if [ "$2" = "movie" ]; then
-                ~/.files/scripts/movie/download.sh
-            elif [ "$2" = "anime" ]; then
+            if [ "$2" = "anime" ]; then
                 ~/.files/scripts/anime/download.sh
             else
                 echo "Usage: -dl <command> or --download <command>"
             fi
         elif [ "$1" = "-dm" ] || [ "$1" = "--delete-media" ]; then
-            if [ "$2" = "movies" ]; then
-                echo "Do you want to delete your movies? (Ctrl-C to abort, or press enter to continue)"
-                read
-                rm -rf ~/Movies/Films/*
-            elif [ "$2" = "anime" ]; then
+            if [ "$2" = "anime" ]; then
                 echo "Do you want to delete Anime videos? (Ctrl-C to abort, or press enter to continue)"
                 read
                 rm -rf ~/Movies/Anime/*
