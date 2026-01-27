@@ -168,4 +168,5 @@ git-tag() {
 git-add() {
   git add -N .
   git add -p
+  git status
 }
