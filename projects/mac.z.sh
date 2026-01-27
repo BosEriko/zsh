@@ -27,22 +27,22 @@ jf() {
 jc() {
     case "$1" in
     "ghostty")
-        cd ~/.config/ghostty
+        check-and-cd ~/.config/ghostty
         ;;
     "mac")
-        cd ~
+        check-and-cd ~
         ;;
     "yabai")
-        cd ~/Documents/Codes/Configuration/yabai
+        check-and-cd ~/Documents/Codes/Configuration/yabai
         ;;
     "zed")
-        cd ~/.config/zed
+        check-and-cd ~/.config/zed
         ;;
     "zen")
-        cd ~/Documents/Codes/Configuration/zen
+        check-and-cd ~/Documents/Codes/Configuration/zen
         ;;
     "zsh")
-        cd ~/.files/zsh
+        check-and-cd ~/.files/zsh
         ;;
     *)
         echo "Jump Configuration: brave, ghostty, mac, yabai, zed, zen or zsh"
