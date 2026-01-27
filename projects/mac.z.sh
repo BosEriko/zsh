@@ -44,16 +44,16 @@ jc() {
 work() {
     case "$1" in
     "bos-eriko-com")
-        cd $(eval echo $BOS_ERIKO_COM_DIRECTORY)
+        check-and-cd $(eval echo $BOS_ERIKO_COM_DIRECTORY)
         ;;
     "bos-eriko-plus")
-        cd $(eval echo $BOS_ERIKO_PLUS_DIRECTORY)
+        check-and-cd $(eval echo $BOS_ERIKO_PLUS_DIRECTORY)
         ;;
     "boteriko")
-        cd $(eval echo $BOTERIKO_DIRECTORY)
+        check-and-cd $(eval echo $BOTERIKO_DIRECTORY)
         ;;
     "overlay")
-        cd $(eval echo $OVERLAY_DIRECTORY)
+        check-and-cd $(eval echo $OVERLAY_DIRECTORY)
         ;;
     *)
         echo "Jump Work Folder: bos-eriko-com, bos-eriko-plus, boteriko or overlay"
