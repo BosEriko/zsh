@@ -4,22 +4,22 @@
 jf() {
     case "$1" in
     "personal")
-        cd ~/Documents/Codes/Personal
+        check-and-cd ~/Documents/Codes/Personal
         ;;
     "work")
-        cd ~/Documents/Codes/Work
+        check-and-cd ~/Documents/Codes/Work
         ;;
     "anime")
-        cd ~/Movies/Anime
+        check-and-cd ~/Movies/Anime
         ;;
-    "movies")
-        cd ~/Movies/Movies
+    "films")
+        check-and-cd ~/Movies/Films
         ;;
     "youtube")
-        cd ~/Movies/YouTube
+        check-and-cd ~/Movies/YouTube
         ;;
     *)
-        echo "Jump Folder: personal, work, anime, movies or youtube"
+        echo "Jump Folder: personal, work, anime, films or youtube"
         ;;
     esac
 }
@@ -53,16 +53,16 @@ jc() {
 work() {
     case "$1" in
     "bos-eriko-com")
-        cd $(eval echo $BOS_ERIKO_COM_DIRECTORY) && code-alias
+        cd $(eval echo $BOS_ERIKO_COM_DIRECTORY)
         ;;
     "bos-eriko-plus")
-        cd $(eval echo $BOS_ERIKO_PLUS_DIRECTORY) && code-alias
+        cd $(eval echo $BOS_ERIKO_PLUS_DIRECTORY)
         ;;
     "boteriko")
-        cd $(eval echo $BOTERIKO_DIRECTORY) && code-alias
+        cd $(eval echo $BOTERIKO_DIRECTORY)
         ;;
     "overlay")
-        cd $(eval echo $OVERLAY_DIRECTORY) && code-alias
+        cd $(eval echo $OVERLAY_DIRECTORY)
         ;;
     *)
         echo "Jump Work Folder: bos-eriko-com, bos-eriko-plus, boteriko or overlay"
