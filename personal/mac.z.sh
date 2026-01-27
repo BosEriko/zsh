@@ -1,7 +1,7 @@
 
 # =============================================================================== [Personal] ===== #
 
-FIGLET_MESSAGE="Lakad Matatag!"
+FIGLET_MESSAGE="boseriko.com"
 BOS_HELP_MESSAGE="
 
     This is a helper showing all your Bos commands.
