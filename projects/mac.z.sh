@@ -15,11 +15,8 @@ jf() {
     "films")
         check-and-cd ~/Movies/Films
         ;;
-    "youtube")
-        check-and-cd ~/Movies/YouTube
-        ;;
     *)
-        echo "Jump Folder: personal, work, anime, films or youtube"
+        echo "Jump Folder: personal, work, anime or films"
         ;;
     esac
 }

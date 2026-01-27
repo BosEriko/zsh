@@ -16,12 +16,10 @@ ${RESET}
     -dl, --download             anime                   Download anime
                                 movie                   Download a movie
                                 music                   Download music
-                                youtube                 Download a YouTube Video
 
     -dm, --delete-media         anime                   Delete anime
                                 movies                  Delete movies
                                 music                   Delete music
-                                youtube                 Delete YouTube videos
 
     -a, --assist                path                    Print out the list of paths
                                 restart-zsh             Restart ZSH
@@ -52,8 +50,6 @@ bos() {
                 ~/.files/scripts/movie/download.sh
             elif [ "$2" = "anime" ]; then
                 ~/.files/scripts/anime/download.sh
-            elif [ "$2" = "youtube" ]; then
-                ~/.files/scripts/youtube/download.sh
             else
                 echo "Usage: -dl <command> or --download <command>"
             fi
@@ -62,10 +58,6 @@ bos() {
                 echo "Do you want to delete your movies? (Ctrl-C to abort, or press enter to continue)"
                 read
                 rm -rf ~/Movies/Films/*
-            elif [ "$2" = "youtube" ]; then
-                echo "Do you want to delete YouTube videos? (Ctrl-C to abort, or press enter to continue)"
-                read
-                rm -rf ~/Movies/YouTube/*
             elif [ "$2" = "anime" ]; then
                 echo "Do you want to delete Anime videos? (Ctrl-C to abort, or press enter to continue)"
                 read
