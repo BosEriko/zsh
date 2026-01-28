@@ -9,8 +9,11 @@ jf() {
     "work")
         check-and-cd ~/Documents/Codes/Work
         ;;
+    "notes")
+        check-and-cd ~/Documents/Notes
+        ;;
     *)
-        echo "Jump Folder: personal or work"
+        echo "Jump Folder: personal, work or notes"
         ;;
     esac
 }
