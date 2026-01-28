@@ -6,8 +6,9 @@ save-notes() {
   local STATE_FILE="$NOTES_DIR/.last_sync"
   local TODAY="$(date +%Y-%m-%d)"
   local YESTERDAY="$(date -v-1d +%Y-%m-%d)"
+  local DAY_OF_WEEK="$(date +%u)"
 
-  if [[ -f "$STATE_FILE" ]] && [[ "$(cat "$STATE_FILE")" == "$TODAY" ]]; then
+  if [[ "$DAY_OF_WEEK" -eq 6 || "$DAY_OF_WEEK" -eq 7 || ( -f "$STATE_FILE" && "$(cat "$STATE_FILE")" == "$TODAY" ) ]]; then
     return
   fi
 
