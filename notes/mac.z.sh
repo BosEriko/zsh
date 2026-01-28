@@ -15,7 +15,7 @@ save-notes() {
     cd "$NOTES_DIR" || return
     echo "${CYAN}${2} Syncing Notes.${RESET}"
     git add .
-    git diff --cached --quiet || git commit -m ":pencil: $YESTERDAY Note"
+    git diff --cached --quiet || git commit -m ":pencil: $YESTERDAY"
     git push origin master && echo "$TODAY" > "$STATE_FILE"
     echo "${GREEN}${2} Notes has been synced.${RESET}"
   )
