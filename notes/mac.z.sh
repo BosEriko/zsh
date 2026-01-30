@@ -18,7 +18,7 @@ save-notes() {
     git fetch origin master >/dev/null 2>&1
     if git rev-list --count HEAD..origin/master | grep -qv '^0$'; then
       echo "$TODAY" > "$STATE_FILE"
-      echo "${YELLOW}${2}Changes on the cloud detected. Skipping sync today. Please fix manually.${RESET}"
+      clear && echo "${YELLOW}${2}Changes on the cloud detected. Skipping sync today. Please fix manually.${RESET}"
       return
     fi
 
@@ -27,9 +27,8 @@ save-notes() {
     git add .
     git commit -m ":pencil: $YESTERDAY"
     git push origin master
-    echo "${GREEN}${2} Notes has been synced.${RESET}"
+    clear && echo "${GREEN}${2} Notes has been synced.${RESET}"
   )
 
-  clear
 }
 save-notes
