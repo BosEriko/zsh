@@ -15,7 +15,12 @@ ${RESET}
 
     -a, --assist                path                    Print out the list of paths
                                 restart-zsh             Restart ZSH
-                                colima                  Toggle Colima on/off (Required by Docker)
+
+    -s, --services              borders                 Toggle Borders service
+                                colima                  Toggle Colima service
+                                psql                    Toggle PostgreSQL service
+                                redis                   Toggle Redis service
+                                sketchybar              Toggle SketchyBar service
 
     -y, --yarn                  list                    List global yarn packages
                                 interactive             Upgrade global yarn packages interactively
@@ -38,19 +43,29 @@ bos() {
             elif [ "$2" = "restart-zsh" ]; then
                 source ~/.zshrc
                 terminal-notifier -title 'ZSH' -message 'ZSH has been restarted!'
-            elif [ "$2" = "colima" ]; then
-                STATUS=$(colima status 2>/dev/null | grep 'Colima is' | awk '{print $3}')
-                if [ "$STATUS" = "Running" ]; then
-                    echo "Stopping Colima..."
-                    colima stop
-                    echo "Colima stopped."
-                else
-                    echo "Starting Colima..."
-                    colima start
-                    echo "Colima started."
-                fi
             else
                 echo "Usage: -a <command> or --assist <command>"
+            fi
+        elif [ "$1" = "-s" ] || [ "$1" = "--services" ]; then
+            SERVICE=""
+            case "$2" in
+                borders) SERVICE="borders"; DESC="Borders";;
+                colima) SERVICE="colima"; DESC="Colima";;
+                psql) SERVICE="postgresql@14"; DESC="PostgreSQL";;
+                redis) SERVICE="redis"; DESC="Redis";;
+                sketchybar) SERVICE="sketchybar"; DESC="SketchyBar";;
+                *) echo "Usage: -s <service> or --services <service>"; return;;
+            esac
+
+            STATUS=$(brew services list | grep "^$SERVICE" | awk '{print $2}')
+            if [ "$STATUS" = "started" ]; then
+                echo "Stopping $DESC service..."
+                brew services stop "$SERVICE"
+                echo "$DESC service stopped."
+            else
+                echo "Starting $DESC service..."
+                brew services start "$SERVICE"
+                echo "$DESC service started."
             fi
         elif [ "$1" = "-y" ] || [ "$1" = "--yarn" ]; then
             if [ "$2" = "list" ]; then
