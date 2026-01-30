@@ -14,7 +14,7 @@ ${B_GREEN}
 ${RESET}
 
     -a, --assist                path                    Print out the list of paths
-                                restart-zsh             Restart ZSH
+                                resource                Restart ZSH
                                 services                List all running brew services
 
     -s, --services              borders                 Toggle Borders service
@@ -41,7 +41,7 @@ bos() {
         elif [ "$1" = "-a" ] || [ "$1" = "--assist" ]; then
             if [ "$2" = "path" ]; then
                 echo $PATH | tr \: \\n
-            elif [ "$2" = "restart-zsh" ]; then
+            elif [ "$2" = "resource" ]; then
                 source ~/.zshrc
                 echo 'ZSH has been restarted!'
             elif [ "$2" = "services" ]; then
