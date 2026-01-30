@@ -15,6 +15,7 @@ ${RESET}
 
     -a, --assist                path                    Print out the list of paths
                                 restart-zsh             Restart ZSH
+                                colima                  Toggle Colima on/off (Required by Docker)
 
     -y, --yarn                  list                    List global yarn packages
                                 interactive             Upgrade global yarn packages interactively
@@ -37,6 +38,17 @@ bos() {
             elif [ "$2" = "restart-zsh" ]; then
                 source ~/.zshrc
                 terminal-notifier -title 'ZSH' -message 'ZSH has been restarted!'
+            elif [ "$2" = "colima" ]; then
+                STATUS=$(colima status 2>/dev/null | grep 'Colima is' | awk '{print $3}')
+                if [ "$STATUS" = "Running" ]; then
+                    echo "Stopping Colima..."
+                    colima stop
+                    echo "Colima stopped."
+                else
+                    echo "Starting Colima..."
+                    colima start
+                    echo "Colima started."
+                fi
             else
                 echo "Usage: -a <command> or --assist <command>"
             fi
