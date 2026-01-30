@@ -17,11 +17,9 @@ ${RESET}
                                 resource                Restart ZSH
                                 services                List all running brew services
 
-    -s, --services              borders                 Toggle Borders service
-                                colima                  Toggle Colima service
+    -s, --services              colima                  Toggle Colima service
                                 psql                    Toggle PostgreSQL service
                                 redis                   Toggle Redis service
-                                sketchybar              Toggle SketchyBar service
 
     -y, --yarn                  list                    List global yarn packages
                                 interactive             Upgrade global yarn packages interactively
@@ -46,14 +44,12 @@ bos() {
                 echo 'ZSH has been restarted!'
             elif [ "$2" = "services" ]; then
                 declare -A SERVICE_MAP=(
-                    [borders]="borders"
                     [colima]="colima"
                     [psql]="postgresql@14"
                     [redis]="redis"
-                    [sketchybar]="sketchybar"
                 )
                 LIST=$(brew services list)
-                for KEY in borders colima psql redis sketchybar; do
+                for KEY in colima psql redis; do
                     BREW_NAME="${SERVICE_MAP[$KEY]}"
                     STATUS=$(echo "$LIST" | awk -v name="$BREW_NAME" '$1==name {print $2}')
                     case "$STATUS" in
