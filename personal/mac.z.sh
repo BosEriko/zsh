@@ -15,6 +15,7 @@ ${RESET}
 
     -a, --assist                path                    Print out the list of paths
                                 restart-zsh             Restart ZSH
+                                services                List all running brew services
 
     -s, --services              borders                 Toggle Borders service
                                 colima                  Toggle Colima service
@@ -42,7 +43,24 @@ bos() {
                 echo $PATH | tr \: \\n
             elif [ "$2" = "restart-zsh" ]; then
                 source ~/.zshrc
-                terminal-notifier -title 'ZSH' -message 'ZSH has been restarted!'
+                echo 'ZSH has been restarted!'
+            elif [ "$2" = "services" ]; then
+                declare -A SERVICE_MAP=(
+                    [borders]="borders"
+                    [colima]="colima"
+                    [psql]="postgresql@14"
+                    [redis]="redis"
+                    [sketchybar]="sketchybar"
+                )
+                for KEY in borders colima psql redis sketchybar; do
+                    BREW_NAME="${SERVICE_MAP[$KEY]}"
+                    STATUS=$(brew services list | awk -v name="$BREW_NAME" '$1==name {print $2}')
+                    if [ "$STATUS" = "started" ]; then
+                        echo -e "$KEY is \033[32mrunning\033[0m."
+                    else
+                        echo -e "$KEY is \033[31mnot running\033[0m."
+                    fi
+                done
             else
                 echo "Usage: -a <command> or --assist <command>"
             fi
