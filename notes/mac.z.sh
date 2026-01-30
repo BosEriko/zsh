@@ -14,6 +14,14 @@ save-notes() {
 
   (
     cd "$NOTES_DIR" || return
+
+    git fetch origin master >/dev/null 2>&1
+    if git rev-list --count HEAD..origin/master | grep -qv '^0$'; then
+      echo "$TODAY" > "$STATE_FILE"
+      echo "${YELLOW}${2}Changes on the cloud detected. Skipping sync today. Please fix manually.${RESET}"
+      return
+    fi
+
     echo "${CYAN}${2} Syncing Notes.${RESET}"
     echo "$TODAY" > "$STATE_FILE"
     git add .
