@@ -52,15 +52,23 @@ bos() {
                     [redis]="redis"
                     [sketchybar]="sketchybar"
                 )
+                LIST=$(brew services list)
                 for KEY in borders colima psql redis sketchybar; do
                     BREW_NAME="${SERVICE_MAP[$KEY]}"
-                    STATUS=$(brew services list | awk -v name="$BREW_NAME" '$1==name {print $2}')
-                    if [ "$STATUS" = "started" ]; then
-                        echo -e "$KEY is \033[32mrunning\033[0m."
-                    else
-                        echo -e "$KEY is \033[31mnot running\033[0m."
-                    fi
+                    STATUS=$(echo "$LIST" | awk -v name="$BREW_NAME" '$1==name {print $2}')
+                    case "$STATUS" in
+                        started)
+                            echo -e "$KEY is \033[32mrunning\033[0m."
+                            ;;
+                        error)
+                            echo -e "$KEY is \033[33merror\033[0m."
+                            ;;
+                        *)
+                            echo -e "$KEY is \033[31mnot running\033[0m."
+                            ;;
+                    esac
                 done
+                echo -e "\nFor more information, run \`brew services list\`."
             else
                 echo "Usage: -a <command> or --assist <command>"
             fi
