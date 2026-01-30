@@ -27,7 +27,7 @@ save-notes() {
     git add .
     git commit -m ":pencil: $YESTERDAY"
     git push origin master
-    clear && echo "${GREEN}${2} Notes has been synced.${RESET}"
+    clear && echo "${GREEN}${2}Notes has been synced.${RESET}"
   )
 
 }
