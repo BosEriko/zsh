@@ -39,7 +39,7 @@ jc() {
         check-and-cd ~/.files/zsh
         ;;
     *)
-        echo "Jump Configuration: brave, ghostty, mac, yabai, zed, zen or zsh"
+        echo "Jump Configuration: ghostty, mac, yabai, zed, zen or zsh"
         ;;
     esac
 }
