@@ -30,7 +30,7 @@ save-notes() {
       return
     fi
 
-    echo "${CYAN}${2} Syncing Notes.${RESET}"
+    echo "${CYAN}${2}Syncing Notes.${RESET}"
     echo "$TODAY" > "$STATE_FILE"
     rm -f "$WARNING_FILE"
     git add .
