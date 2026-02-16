@@ -18,3 +18,9 @@ After setting up the variables you can now restart your terminal to start instal
 ```sh
 source ~/.zshrc
 ```
+
+## Installation/Update (Tmux)
+To update or install new Tmux plugins run this command.
+```sh
+~/.tmux/plugins/tpm/bin/install_plugins
+```
