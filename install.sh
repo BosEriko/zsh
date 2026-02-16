@@ -2,6 +2,6 @@
 
 cd ~
 git init
-git remote add origin https://github.com/BosEriko/steam.git
+git remote add origin https://github.com/BosEriko/zsh.git
 git fetch
 git reset --hard origin/master

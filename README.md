@@ -1,10 +1,10 @@
-# SteamOS (Distro)
-This is my personal configuration for SteamOS. Feel free to use it or fork it.
+# Zsh (Shell)
+This is my personal configuration for Zsh. Feel free to use it or fork it.
 
 ## Sync the repository
 To start you must first sync the home directory. Run the command below to do so.
 ```sh
-curl -fsSL https://raw.githubusercontent.com/BosEriko/steam/HEAD/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/BosEriko/zsh/HEAD/install.sh | sh
 ```
 
 ## Setup Environment Variables
