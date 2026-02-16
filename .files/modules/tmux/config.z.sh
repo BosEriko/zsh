@@ -1,5 +1,5 @@
 # ========================================================================== [Configuration] ===== #
 
 if [ "$TMUX" = "" ]; then
-  tmux attach-session || tmux new -s default
+  tmux -u attach-session || tmux -u new -s default
 fi
