@@ -20,7 +20,7 @@ source ~/.zshrc
 ```
 
 ## Installation/Update (Tmux)
-To update or install new Tmux plugins run this command.
+To update or install new Tmux plugins run this command inside a Tmux instance.
 ```sh
 ~/.tmux/plugins/tpm/bin/install_plugins
 ```
