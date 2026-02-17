@@ -1,5 +1,5 @@
 # =========================================================================== [Installation] ===== #
 
 if [[ "$OS_TYPE" == "stm" ]]; then
-  echo "[Modules — Welcome] Installed Via: https://github.com/boseriko/nix"
+  echo "[Initalizers — SteamOS] Installed."
 fi
