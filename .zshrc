@@ -8,28 +8,15 @@ HISTFILESIZE=100000
 HISTSIZE=10000
 
 # =========================================================================== [Os Detection] ===== #
-detect_os() {
-  # macOS
-  if [[ "$(uname -s)" == "Darwin" ]]; then
-    echo "mac"
-    return
-  fi
-
-  # WSL (Ubuntu on Windows)
-  if grep -qi microsoft /proc/version 2>/dev/null; then
-    echo "win"
-    return
-  fi
-
-  # SteamOS
-  if [[ -f /etc/os-release ]] && grep -qi steamos /etc/os-release; then
-    echo "stm"
-    return
-  fi
-
-  echo "unknown"
-}
-export OS_TYPE="$(detect_os)"
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  export OS_TYPE="mac"
+elif grep -qi microsoft /proc/version 2>/dev/null; then
+  export OS_TYPE="win"
+elif [[ -f /etc/os-release ]] && grep -qi steamos /etc/os-release; then
+  export OS_TYPE="stm"
+else
+  export OS_TYPE="n/a"
+fi
 
 # ========================================================= [Automate Install/Configuration] ===== #
 INSTALL_STATE="$HOME/.install-state"
@@ -58,7 +45,7 @@ setup() {
 }
 
 # =============================================================== [Source Modules/Languages] ===== #
-for folder in modules languages; do
+for folder in initializers modules languages; do
   base=~/.files/$folder
   [[ -d $base ]] || continue
 
