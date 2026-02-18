@@ -10,17 +10,3 @@ if [[ "$OS_TYPE" == "stm" ]]; then
     export PS1="$PS1(nix-shell) "
   fi
 fi
-
-bos-append nix \
-  short=n \
-  long=nix \
-  command=switch \
-  exec="home-manager switch" \
-  desc="Build your nix configuration"
-
-bos-append nix \
-  short=n \
-  long=nix \
-  command=garbage-collect \
-  exec="nix-collect-garbage" \
-  desc="Remove unused nix paths"
