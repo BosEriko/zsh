@@ -1,20 +1,23 @@
 # ================================================================================ [Hotkeys] ===== #
 
-# reload config file
+# Set Prefix
+unbind C-g
+set -g prefix C-a
+bind C-g send-prefix
+bind-key g send-prefix
+
+# Reload Config
 bind r run-shell "~/.tmux/plugins/tpm/bin/install_plugins" \; source-file ~/.tmux.conf \; display-message "Config reloaded"
 
-# split window and fix path for tmux 1.9
-bind | split-window -h -c "#{pane_current_path}"
+# Split Window
+bind \\ split-window -h -c "#{pane_current_path}"
 bind - split-window -v -c "#{pane_current_path}"
 bind c new-window -c '#{pane_current_path}'
 
-# Stop autorename on window
-set-option -g allow-rename off
-
-# synchronize all panes in a window
+# Synchronize Panes in Window
 bind y setw synchronize-panes
 
-# pane movement shortcuts
+# Pane Movement
 bind h select-pane -L
 bind j select-pane -D
 bind k select-pane -U
@@ -23,15 +26,14 @@ bind l select-pane -R
 bind -r C-h select-window -t :-
 bind -r C-l select-window -t :+
 
-# Resize pane shortcuts
+# Resize Panes
 bind -r H resize-pane -L 1
 bind -r J resize-pane -D 1
 bind -r K resize-pane -U 1
 bind -r L resize-pane -R 1
 
-# set vi mode for copy mode
+# VIM Mode
 setw -g mode-keys vi
-# more settings to make copy-mode more vim-like
 unbind [
 bind Escape copy-mode
 unbind p
@@ -39,9 +41,9 @@ bind p paste-buffer
 bind -Tcopy-mode-vi 'v' send -X begin-selection
 bind -Tcopy-mode-vi 'y' send -X copy-pipe-and-cancel "tmux save-buffer - | reattach-to-user-namespace pbcopy"
 
-# opencode mode
+# Opencode Mode
 bind o new-window -n Opencode -c "#{pane_current_path}" "opencode .; read -p 'Press Enter to close...'"
 
-# Buffers to/from Mac clipboard, yay tmux book from pragprog
+# Buffers
 bind C-c run "tmux save-buffer - | reattach-to-user-namespace pbcopy"
 bind C-v run "tmux set-buffer $(reattach-to-user-namespace pbpaste); tmux paste-buffer"
