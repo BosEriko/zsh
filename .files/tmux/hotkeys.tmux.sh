@@ -22,6 +22,7 @@ bind j select-pane -D
 bind k select-pane -U
 bind l select-pane -R
 
+# Cycle Window
 bind -r C-h select-window -t :-
 bind -r C-l select-window -t :+
 
