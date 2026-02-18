@@ -1,10 +1,9 @@
 # ================================================================================ [Hotkeys] ===== #
 
 # Set Prefix
-unbind C-g
-set -g prefix C-a
+unbind C-b
+set -g prefix C-g
 bind C-g send-prefix
-bind-key g send-prefix
 
 # Reload Config
 bind r run-shell "~/.tmux/plugins/tpm/bin/install_plugins" \; source-file ~/.tmux.conf \; display-message "Config reloaded"
