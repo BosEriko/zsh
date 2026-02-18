@@ -13,6 +13,10 @@ bind \\ split-window -h -c "#{pane_current_path}"
 bind - split-window -v -c "#{pane_current_path}"
 bind c new-window -c '#{pane_current_path}'
 
+# Cycle Window
+bind -r C-h select-window -t :-
+bind -r C-l select-window -t :+
+
 # Synchronize Panes in Window
 bind y setw synchronize-panes
 
@@ -21,10 +25,6 @@ bind h select-pane -L
 bind j select-pane -D
 bind k select-pane -U
 bind l select-pane -R
-
-# Cycle Window
-bind -r C-h select-window -t :-
-bind -r C-l select-window -t :+
 
 # Resize Panes
 bind -r H resize-pane -L 1
