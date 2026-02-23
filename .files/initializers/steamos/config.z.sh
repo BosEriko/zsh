@@ -1,8 +1,10 @@
 # ========================================================================== [Configuration] ===== #
 
 if [[ "$OS_TYPE" == "stm" ]]; then
-  if [ ! "$TMUX" = "" ] && [ -z "$TMUX_FIRST_RUN" ]; then
-    neofetch
-    export TMUX_FIRST_RUN=1
+  if [ ! "$TMUX" = "" ]; then
+    if ! tmux show-environment -g NEOFETCH_DONE >/dev/null 2>&1; then
+      neofetch
+      tmux set-environment -g NEOFETCH_DONE 1
+    fi
   fi
 fi
