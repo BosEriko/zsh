@@ -1,5 +1,6 @@
 # =========================================================================== [Installation] ===== #
 
+# Install lolcat and figlet
 if [[ "$OS_TYPE" == "stm" ]]; then
-  echo "[Modules — Git] Installed by Default"
+  nix-env -iA nixpkgs.figlet nixpkgs.lolcat
 fi
