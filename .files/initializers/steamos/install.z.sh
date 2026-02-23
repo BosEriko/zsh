@@ -1,5 +1,5 @@
 # =========================================================================== [Installation] ===== #
 
 if [[ "$OS_TYPE" == "stm" ]]; then
-  echo "[Initalizers — SteamOS] Installed."
+  nix-env -iA nixpkgs.neofetch
 fi
