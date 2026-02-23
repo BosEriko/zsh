@@ -1,5 +1,7 @@
 # ========================================================================== [Configuration] ===== #
 
 if [[ "$OS_TYPE" == "stm" ]]; then
-  neofetch
+  if [ ! "$TMUX" = "" ]; then
+    neofetch
+  fi
 fi
