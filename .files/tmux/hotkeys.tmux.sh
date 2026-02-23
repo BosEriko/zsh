@@ -2,8 +2,8 @@
 
 # Set Prefix
 unbind C-b
-set -g prefix C-g
-bind C-g send-prefix
+set -g prefix C-Space
+bind C-Space send-prefix
 
 # Reload Config
 bind r source-file ~/.tmux.conf
