@@ -45,7 +45,7 @@ setup() {
 }
 
 # =============================================================== [Source Modules/Languages] ===== #
-for folder in initializers modules languages; do
+for folder in initializers modules programming; do
   base=~/.files/$folder
   [[ -d $base ]] || continue
 
