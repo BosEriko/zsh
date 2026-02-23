@@ -2,7 +2,7 @@
 
 # Install Tmux
 if [[ "$OS_TYPE" == "stm" ]]; then
-  echo "[Modules — Tmux] Installed Via: https://github.com/boseriko/nix"
+  nix-env -iA nixpkgs.tmux
 fi
 
 # Install Plugin Manager
