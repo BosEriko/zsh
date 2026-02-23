@@ -6,9 +6,6 @@ set-option -g default-shell /bin/zsh
 # History Limit
 set -g history-limit 10000
 
-# Top Tmux Bar
-set-option -g status-position top
-
 # automatically renumber tmux windows
 set -g renumber-windows on
 

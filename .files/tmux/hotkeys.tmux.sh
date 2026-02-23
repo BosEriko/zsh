@@ -6,7 +6,7 @@ set -g prefix C-g
 bind C-g send-prefix
 
 # Reload Config
-bind r run-shell "~/.tmux/plugins/tpm/bin/install_plugins" \; source-file ~/.tmux.conf \; display-message "Config reloaded"
+bind r source-file ~/.tmux.conf
 
 # Split Window
 bind \\ split-window -h -c "#{pane_current_path}"
