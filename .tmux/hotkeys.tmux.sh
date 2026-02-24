@@ -44,6 +44,9 @@ bind -Tcopy-mode-vi 'y' send -X copy-pipe-and-cancel "tmux save-buffer - | reatt
 # Opencode Mode
 bind o new-window -n Opencode -c "#{pane_current_path}" "opencode .; read -p 'Press Enter to close...'"
 
+# Edit Mode
+bind e new-window -n NeoVim -c "#{pane_current_path}" "nvim .; read -p 'Press Enter to close...'"
+
 # Buffers
 bind C-c run "tmux save-buffer - | reattach-to-user-namespace pbcopy"
 bind C-v run "tmux set-buffer $(reattach-to-user-namespace pbpaste); tmux paste-buffer"
