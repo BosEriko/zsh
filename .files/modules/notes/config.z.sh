@@ -6,7 +6,8 @@ function notes() {
   if [[ "$1" == "pull" ]]; then
     (
       cd ~/Documents/Notes
-      git checkout .zsh_history
+      git fetch origin
+      rm -rf .zsh_history
       git pull origin master
     )
   elif [[ "$1" == "push" ]]; then
