@@ -62,16 +62,17 @@ bos() {
             (( ${#cmd} > max_cmd )) && max_cmd=${#cmd}
         done
 
-        # Print all commands with colors
+        # Colors
+        local GREEN="\033[0;32m"
+        local YELLOW="\033[0;33m"
+        local NC="\033[0m"
+
+        # Print all commands
         for key in "${(@k)BOS_CMDS}"; do
             local module="${key%%:*}"
             local cmd="${key##*:}"
             local desc="${BOS_DESC[$key]}"
             local flag="-${module:0:1}/--$module"
-
-            local GREEN="\033[0;32m"
-            local YELLOW="\033[0;33m"
-            local NC="\033[0m"
 
             printf "${GREEN}%-*s${NC}  ${YELLOW}%-*s${NC}  %s\n" \
                 $max_flag "$flag" $max_cmd "$cmd" "$desc"
@@ -109,17 +110,25 @@ bos() {
     # Show module-specific help if no command provided
     if [[ -z "$command" ]]; then
         echo "Commands for module '$module':"
+
+        # Compute max command length
         local max_cmd=0
         for key in "${(@k)BOS_CMDS}"; do
             [[ "${key%%:*}" == "$module" ]] || continue
             local cmd="${key##*:}"
             (( ${#cmd} > max_cmd )) && max_cmd=${#cmd}
         done
+
+        # Colors
+        local YELLOW="\033[0;33m"
+        local NC="\033[0m"
+
+        # Print commands with color
         for key in "${(@k)BOS_CMDS}"; do
             [[ "${key%%:*}" == "$module" ]] || continue
             local cmd="${key##*:}"
             local desc="${BOS_DESC[$key]}"
-            printf "  %-*s  %s\n" $max_cmd "$cmd" "$desc"
+            printf "${YELLOW}%-*s${NC}  %s\n" $max_cmd "$cmd" "$desc"
         done
         return
     fi
