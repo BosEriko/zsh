@@ -19,26 +19,20 @@ jf() {
 
 jc() {
   case "$1" in
-  "ghostty")
-    check-and-cd ~/.config/ghostty
+  "foot")
+    check-and-cd ~/.config/foot
     ;;
-  "mac")
+  "kmonad")
+    check-and-cd ~/.config/kmonad
+    ;;
+  "steam")
     check-and-cd ~
     ;;
-  "yabai")
-    check-and-cd ~/Documents/Codes/Configuration/yabai
-    ;;
-  "zed")
-    check-and-cd ~/.config/zed
-    ;;
-  "zen")
-    check-and-cd ~/Documents/Codes/Configuration/zen
-    ;;
-  "zsh")
-    check-and-cd ~/.files/zsh
+  "sway")
+    check-and-cd ~/.config/sway
     ;;
   *)
-    echo "Jump Configuration: ghostty, mac, yabai, zed, zen or zsh"
+    echo "Jump Configuration: foot, kmonad, steam or sway"
     ;;
   esac
 }
