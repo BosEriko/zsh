@@ -7,7 +7,7 @@ function notes() {
     (
       cd ~/Documents/Notes
       git checkout .zsh_history
-      git pull origin main
+      git pull origin master
     )
   elif [[ "$1" == "push" ]]; then
     (
@@ -16,7 +16,7 @@ function notes() {
         git add .
         timestamp=$(date "+%Y-%m-%d — %I:%M%p")
         git commit -m ":pencil: $timestamp"
-        git push origin main
+        git push origin master
       else
         echo "No changes to push."
       fi
