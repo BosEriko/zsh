@@ -4,6 +4,8 @@
 # But not these files...
 !.files/
 !.files/**
+!.tmux/
+!.tmux/**
 !.gitconfig
 !.gitignore
 !.tmux.conf
