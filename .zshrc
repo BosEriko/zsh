@@ -22,6 +22,82 @@ else
   export OS_TYPE="n/a"
 fi
 
+# =================================================================================== [Help] ===== #
+
+# Initialize associative arrays
+typeset -A BOS_CMDS
+typeset -A BOS_DESC
+
+# Append a new command dynamically (in memory)
+bos-append() {
+    local module="$1"
+    local cmd="$2"
+    local desc="$3"
+    local shell_cmd="$4"
+
+    local key="${module}:${cmd}"
+
+    if [[ -n "${BOS_CMDS[$key]}" ]]; then
+        echo "Command $module $cmd already exists."
+        return 1
+    fi
+
+    BOS_CMDS[$key]="$shell_cmd"
+    BOS_DESC[$key]="$desc"
+}
+
+bos() {
+    # Show help
+    if [[ "$1" == "-h" || "$1" == "--help" || -z "$1" ]]; then
+        echo "Available commands:"
+        for key in "${(@k)BOS_CMDS}"; do
+            local module="${key%%:*}"
+            local cmd="${key##*:}"
+            local desc="${BOS_DESC[$key]}"
+            printf "%-6s %-10s %s\n" "-${module:0:1}/--$module" "$cmd" "$desc"
+        done
+        return
+    fi
+
+    # Parse module flag
+    local flag="$1"
+    shift
+    local command="$1"
+    shift
+
+    local module=""
+    if [[ "$flag" == --* ]]; then
+        module="${flag:2}"
+    elif [[ "$flag" == -* ]]; then
+        local letter="${flag:1}"
+        # find module with that first letter
+        for key in "${(@k)BOS_CMDS}"; do
+            local mod="${key%%:*}"
+            if [[ "${mod:0:1}" == "$letter" ]]; then
+                module="$mod"
+                break
+            fi
+        done
+        if [[ -z "$module" ]]; then
+            echo "Unknown module for flag $flag"
+            return 1
+        fi
+    else
+        echo "Invalid module flag: $flag"
+        return 1
+    fi
+
+    # Execute command
+    local key="${module}:${command}"
+    local shell_cmd="${BOS_CMDS[$key]}"
+    if [[ -z "$shell_cmd" ]]; then
+        echo "Command '$command' not found in module '$module'"
+        return 1
+    fi
+
+    eval "$shell_cmd"
+}
+
 # ================================================================================= [Colors] ===== #
 
 # Reset
