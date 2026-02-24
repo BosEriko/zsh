@@ -1,6 +1,6 @@
 # =========================================================================== [Installation] ===== #
 
-# Install Docker
+# Install Podman
 if [[ "$OS_TYPE" == "stm" ]]; then
-  nix-env -iA nixpkgs.docker nixpkgs.docker-compose
+  nix-env -iA nixpkgs.podman nixpkgs.podman-compose
 fi
