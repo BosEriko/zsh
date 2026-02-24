@@ -2,6 +2,7 @@
 
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
+ZSH_DISABLE_COMPFIX=true
 
 source $HOME/.nix-profile/share/antigen/antigen.zsh
 export ZSH_PLUGINS_ALIAS_TIPS_TEXT="Has alias: "

@@ -4,8 +4,12 @@ source ~/env.z.sh
 
 # ==================================================================== [Shell Configuration] ===== #
 export SHELL=/bin/zsh
+HISTFILE="$HOME/.zsh_history"
 HISTFILESIZE=100000
 HISTSIZE=10000
+SAVEHIST=10000
+export VISUAL=nvim
+export EDITOR=nvim
 
 # =========================================================================== [Os Detection] ===== #
 if [[ "$(uname -s)" == "Darwin" ]]; then
