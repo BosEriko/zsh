@@ -1,7 +1,7 @@
 # ========================================================================== [Configuration] ===== #
 
-if [[ ! "$PATH" == */home/deck/.fzf/bin* ]]; then
-  PATH="${PATH:+${PATH}:}/home/deck/.fzf/bin"
+if [[ ! "$PATH" == *"$HOME/.fzf/bin"* ]]; then
+  PATH="${PATH:+${PATH}:}$HOME/.fzf/bin"
 fi
 
 source <(fzf --zsh)
