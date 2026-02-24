@@ -1,6 +1,6 @@
 # =========================================================================== [Installation] ===== #
 
-if [[ "$OS_TYPE" == "stm-" ]]; then
+if [[ "$OS_TYPE" == "stm" ]]; then
   nix-env -iA nixpkgs.xclip
   ssh-keygen -t rsa -b 4096 -C "boseriko@duck.com" -f ~/.ssh/id_rsa -N ""
   hosts=(
