@@ -50,11 +50,30 @@ bos() {
     # Show help
     if [[ "$1" == "-h" || "$1" == "--help" || -z "$1" ]]; then
         echo "Available commands:"
+        
+        local max_flag=0
+        local max_cmd=0
+        for key in "${(@k)BOS_CMDS}"; do
+            local module="${key%%:*}"
+            local cmd="${key##*:}"
+            local flag="-${module:0:1}/--$module"
+            (( ${#flag} > max_flag )) && max_flag=${#flag}
+            (( ${#cmd} > max_cmd )) && max_cmd=${#cmd}
+        done
+
         for key in "${(@k)BOS_CMDS}"; do
             local module="${key%%:*}"
             local cmd="${key##*:}"
             local desc="${BOS_DESC[$key]}"
-            printf "%-6s %-10s %s\n" "-${module:0:1}/--$module" "$cmd" "$desc"
+            local flag="-${module:0:1}/--$module"
+
+            local RED="\033[0;31m"
+            local GREEN="\033[0;32m"
+            local YELLOW="\033[0;33m"
+            local NC="\033[0m"
+
+            printf "${GREEN}%-*s${NC}  ${YELLOW}%-*s${NC}  %s\n" \
+                $max_flag "$flag" $max_cmd "$cmd" "$desc"
         done
         return
     fi
