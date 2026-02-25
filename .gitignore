@@ -6,6 +6,8 @@
 !.files/**
 !.tmux/
 !.tmux/**
+!.zsh/
+!.zsh/**
 !.gitconfig
 !.gitignore
 !.tmux.conf
