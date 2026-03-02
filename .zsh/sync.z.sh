@@ -12,7 +12,7 @@ sync-zsh() {
       read -r response
       if [[ ! "$response" =~ ^[Nn]$ ]]; then
         echo "Pulling latest changes..."
-        git pull --ff-only
+        git pull origin "$BRANCH"
       else
         echo "Skipping pull."
       fi
