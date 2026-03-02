@@ -19,3 +19,4 @@ After setting up the variables you can now restart your terminal to start instal
 source ~/.zshrc
 ```
 
+test
