@@ -1,11 +1,11 @@
 # =================================================================================== [Sync] ===== #
 
 sync-zsh() {
-  local WARNING_FILE="$HOME/.last_warning"
+  local SYNC_FILE="$HOME/.last_sync"
   local TODAY="$(date +%Y-%m-%d)"
   local BRANCH=$(git symbolic-ref --short HEAD)
 
-  if [[ -f "$WARNING_FILE" && "$(cat "$WARNING_FILE")" != "$TODAY" ]]; then
+  if [[ -f "$SYNC_FILE" && "$(cat "$SYNC_FILE")" != "$TODAY" ]]; then
     git fetch --quiet
     if ! [[ $(git rev-list --count HEAD..origin/"$BRANCH") -eq 0 ]]; then
       echo "There are changes on origin. Do you want to pull? (Y/n)"
@@ -19,6 +19,6 @@ sync-zsh() {
     fi
   fi
 
-  echo "$TODAY" >"$WARNING_FILE"
+  echo "$TODAY" >"$SYNC_FILE"
 }
 [ -n "$TMUX" ] && sync-zsh
