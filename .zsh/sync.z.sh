@@ -21,4 +21,4 @@ sync-zsh() {
 
   echo "$TODAY" >"$WARNING_FILE"
 }
-sync-zsh
+[ -n "$TMUX" ] && sync-zsh
