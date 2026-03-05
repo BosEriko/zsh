@@ -4,7 +4,14 @@ export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
 ZSH_DISABLE_COMPFIX=true
 
-source $HOME/.nix-profile/share/antigen/antigen.zsh
+if [[ "$OS_TYPE" == "stm" ]]; then
+  source $HOME/.nix-profile/share/antigen/antigen.zsh
+fi
+
+if [[ "$OS_TYPE" == "mac" ]]; then
+  source $(brew --prefix)/share/antigen/antigen.zsh
+fi
+
 export ZSH_PLUGINS_ALIAS_TIPS_TEXT="Has alias: "
 antigen use oh-my-zsh
 antigen bundle djui/alias-tips
