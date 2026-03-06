@@ -18,13 +18,15 @@ function notes() {
       git pull origin "$BRANCH"
       ;;
     push)
-      if [[ -n "$(git status --porcelain)" ]]; then
+      if [[ -z "$(git status --porcelain)" ]]; then
+        echo "No changes to push."
+      elif [[ $(git rev-list --count HEAD..origin/"$BRANCH") -gt 0 ]]; then
+        echo "There are changes on origin. Please pull it first."
+      else
         git add .
         timestamp=$(date "+%Y-%m-%d — %I:%M%p")
         git commit -m ":pencil: $timestamp"
         git push origin "$BRANCH"
-      else
-        echo "No changes to push."
       fi
       ;;
     *)
