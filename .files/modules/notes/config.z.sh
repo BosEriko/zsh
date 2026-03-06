@@ -1,18 +1,19 @@
 # ========================================================================== [Configuration] ===== #
 
-HISTFILE="$HOME/Documents/Notes/.zsh_history"
+NOTES_DIR="$HOME/Documents/Notes"
+HISTFILE="$NOTES_DIR/.zsh_history"
 
 function notes() {
   if [[ "$1" == "pull" ]]; then
     (
-      cd ~/Documents/Notes
+      cd "$NOTES_DIR"
       git fetch origin
       rm -rf .zsh_history
       git pull origin master
     )
   elif [[ "$1" == "push" ]]; then
     (
-      cd ~/Documents/Notes
+      cd "$NOTES_DIR"
       if [[ -n "$(git status --porcelain)" ]]; then
         git add .
         timestamp=$(date "+%Y-%m-%d — %I:%M%p")
