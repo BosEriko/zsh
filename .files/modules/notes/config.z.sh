@@ -18,6 +18,7 @@ function notes() {
       git pull origin "$BRANCH"
       ;;
     push)
+      git fetch --quiet
       if [[ -z "$(git status --porcelain)" ]]; then
         echo "No changes to push."
       elif [[ $(git rev-list --count HEAD..origin/"$BRANCH") -gt 0 ]]; then
