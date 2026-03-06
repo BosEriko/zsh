@@ -7,7 +7,7 @@ sync-zsh() {
 
   if [[ -f "$SYNC_FILE" && "$(cat "$SYNC_FILE")" != "$TODAY" ]]; then
     git fetch --quiet
-    if ! [[ $(git rev-list --count HEAD..origin/"$BRANCH") -eq 0 ]]; then
+    if [[ $(git rev-list --count HEAD..origin/"$BRANCH") -gt 0 ]]; then
       echo "There are changes on origin. Do you want to pull? (Y/n)"
       read -r response
       if [[ ! "$response" =~ ^[Nn]$ ]]; then
