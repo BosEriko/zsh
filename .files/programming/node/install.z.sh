@@ -12,7 +12,7 @@ if [[ "$OS_TYPE" == "mac" ]]; then
   yarn config set "strict-ssl" false
 
   # Install fnm (https://github.com/Schniz/fnm)
-  cd ~ && curl -fsSL https://fnm.vercel.app/install | bash -s -- --install-dir "~/.fnm" --skip-shell
+  cd ~ && curl -fsSL https://fnm.vercel.app/install | bash -s -- --install-dir "~/.fnm"
 
   # Avoid running postinstall scripts from packages
   npm config set ignore-scripts true
