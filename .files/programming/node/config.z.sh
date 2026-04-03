@@ -1,9 +1,8 @@
 # ========================================================================== [Configuration] ===== #
 
 if [[ "$OS_TYPE" == "mac" ]]; then
-  FNM_PATH="$HOME/.fnm"
+  FNM_PATH="/opt/homebrew/opt/fnm/bin"
   if [ -d "$FNM_PATH" ]; then
-    export PATH="$FNM_PATH:$PATH"
-    eval "$(fnm env --use-on-cd)"
+    eval "$(fnm env --shell zsh)"
   fi
 fi
