@@ -21,6 +21,7 @@ ${RESET}
     co                          Alias for checkout
     d                           Alias for diff
     dt                          Alias for difftool
+    e, emoji                    Show the list of Gitmojis
     g, go                       Instantly add, commit and push
     graph                       Show graph of branches
     h, help                     Show the list of custom Git commands
@@ -52,6 +53,8 @@ g() {
     git-go $2
   elif [ "$1" = "w" ] || [ "$1" = "wtf" ]; then
     git-wtf
+  elif [ "$1" = "e" ] || [ "$1" = "emoji" ]; then
+    git-emoji
   elif [ "$1" = "bnc" ] || [ "$1" = "branch-name-copy" ]; then
     git-branch-name-copy
   elif [ "$1" = "pa" ] || [ "$1" = "push-automatic" ]; then
@@ -100,6 +103,11 @@ git-go() {
 # WTF
 git-wtf() {
   git commit -m "[AUTO] $(curl -s http://whatthecommit.com/index.txt)"
+}
+
+# emoji
+git-emoji() {
+  gitmoji -c
 }
 
 # Push Automatically
