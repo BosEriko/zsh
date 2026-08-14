@@ -8,9 +8,8 @@
 !.tmux/**
 !.zsh/
 !.zsh/**
-!.config/
-!.config/opencode/
-!.config/opencode/AGENTS.md
+!.codex/
+!.codex/AGENTS.md
 !.gitconfig
 !.gitignore
 !.tmux.conf
