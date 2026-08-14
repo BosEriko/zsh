@@ -42,7 +42,7 @@ bind -Tcopy-mode-vi 'v' send -X begin-selection
 bind -Tcopy-mode-vi 'y' send -X copy-pipe-and-cancel "tmux save-buffer - | reattach-to-user-namespace pbcopy"
 
 # Codex Mode
-bind a new-window -n Codex -c "#{pane_current_path}" "codex -p dotfiles; read -p 'Press Enter to close...'"
+bind a new-window -n Codex -c "#{pane_current_path}" "codex -p personal; read -p 'Press Enter to close...'"
 
 # Edit Mode
 bind e new-window -n NeoVim -c "#{pane_current_path}" "nvim .; read -p 'Press Enter to close...'"
