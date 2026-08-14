@@ -41,8 +41,8 @@ bind p paste-buffer
 bind -Tcopy-mode-vi 'v' send -X begin-selection
 bind -Tcopy-mode-vi 'y' send -X copy-pipe-and-cancel "tmux save-buffer - | reattach-to-user-namespace pbcopy"
 
-# Opencode Mode
-bind o new-window -n Opencode -c "#{pane_current_path}" "opencode .; read -p 'Press Enter to close...'"
+# Codex Mode
+bind o new-window -n Codex -c "#{pane_current_path}" "codex .; read -p 'Press Enter to close...'"
 
 # Edit Mode
 bind e new-window -n NeoVim -c "#{pane_current_path}" "nvim .; read -p 'Press Enter to close...'"

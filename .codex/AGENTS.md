@@ -1,8 +1,8 @@
-# OpenCode Workflow
+# Codex Workflow
 
 ## Task Intake
 
-When OpenCode is opened, wait for the user to provide the task description.
+When Codex is opened, wait for the user to provide the task description.
 
 Do not ask the user "What's your task for today?" or any other introductory question. The user will directly send the task description.
 

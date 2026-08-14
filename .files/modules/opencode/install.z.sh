@@ -1,6 +1,6 @@
 # =========================================================================== [Installation] ===== #
 
-# Install Opencode
-if [[ "$OS_TYPE" == "stm" ]]; then
-  nix-env -iA nixpkgs.opencode
+# Install Codex
+if [[ "$OS_TYPE" == "mac" ]]; then
+  brew install --cask codex
 fi
