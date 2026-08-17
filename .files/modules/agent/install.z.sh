@@ -1,10 +1,10 @@
 # =========================================================================== [Installation] ===== #
 
 # Clone repository
-mkdir -p ~/.config/agents
+mkdir -p ~/.config
+git clone https://github.com/BosEriko/AGENTS.md.git ~/.config/agents
 (
   cd ~/.config/agents
-  git init
   git remote add origin git@github.com:BosEriko/AGENTS.md.git
   git remote add github git@github.com:BosEriko/AGENTS.md.git
   git remote add gitlab git@gitlab.com:BosEriko/AGENTS.md.git
