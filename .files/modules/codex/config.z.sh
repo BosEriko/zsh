@@ -1,10 +1,10 @@
 # ========================================================================== [Configuration] ===== #
 
-agents-sync() {
+agent-sync() {
   ~/.config/agents/sync-agents.sh
 }
 
-agents-create() {
+agent-create() {
   repo_root=$(git rev-parse --show-toplevel 2>/dev/null) || {
     echo "Not inside a Git repository."
     return 1
@@ -42,10 +42,25 @@ agents-create() {
   agents-sync
 }
 
-start-codex() {
+agent-push() {
+  agents_repo="$HOME/.config/agents"
+
+  git -C "$agents_repo" add -A
+
+  if git -C "$agents_repo" diff --cached --quiet; then
+    echo "No AGENTS changes to push."
+    return 0
+  fi
+
+  git -C "$agents_repo" commit -m "${1:-update AGENTS.md files}"
+  git -C "$agents_repo" push -u origin main
+}
+
+agent-start() {
   tmux new-window -n Codex -c "#{pane_current_path}" "codex; read -p 'Press Enter to close...'"
 }
 
-bos-append programming codex "Start codex" "start-codex"
-bos-append programming agents-sync "Sync AGENTS.md files" "agents-sync"
-bos-append programming agents-create "Create AGENTS.md" "agents-create"
+bos-append agent start "Start codex" "agent-start"
+bos-append agent sync "Sync AGENTS.md files" "agent-sync"
+bos-append agent create "Create AGENTS.md" "agent-create"
+bos-append agent push "Push AGENTS.md changes" "agent-push"
