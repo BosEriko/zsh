@@ -8,6 +8,8 @@
 !.tmux/**
 !.zsh/
 !.zsh/**
+!.agents/
+!.agents/**
 !.gitconfig
 !.gitignore
 !.tmux.conf
