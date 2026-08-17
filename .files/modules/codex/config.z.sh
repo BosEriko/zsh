@@ -65,7 +65,7 @@ agent-start() {
 }
 
 bos-append agent cd "Go to AGENTS repo" "agent-cd"
-bos-append agent create "Create AGENTS.md" "agent-create"
-bos-append agent push "Push AGENTS.md changes" "agent-push"
+bos-append agent create "Create AGENTS" "agent-create"
+bos-append agent push "Push AGENTS changes" "agent-push"
 bos-append agent start "Start codex" "agent-start"
 bos-append agent sync "Sync AGENTS.md files" "agent-sync"
