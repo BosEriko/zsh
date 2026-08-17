@@ -19,6 +19,9 @@ jf() {
 
 jc() {
   case "$1" in
+  "agents")
+    check-and-cd ~/.config/agents
+    ;;
   "foot")
     check-and-cd ~/.config/foot
     ;;
@@ -32,7 +35,7 @@ jc() {
     check-and-cd ~/.config/sway
     ;;
   *)
-    echo "Jump Configuration: foot, kmonad, steam or sway"
+    echo "Jump Configuration: agents, foot, kmonad, steam or sway"
     ;;
   esac
 }
