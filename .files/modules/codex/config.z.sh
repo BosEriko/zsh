@@ -28,13 +28,17 @@ agent-create() {
   agents_dir="$agents_repo/$relative_path"
   agents_file="$agents_dir/AGENTS.md"
 
+  # Get repository folder name
+  repo_name=$(basename "$repo_root")
+
   mkdir -p "$agents_dir"
 
   if [ -e "$agents_file" ]; then
     echo "AGENTS.md already exists:"
     echo "$agents_file"
   else
-    touch "$agents_file"
+    printf '# %s Agent\n' "$repo_name" >"$agents_file"
+
     echo "Created:"
     echo "$agents_file"
 
