@@ -41,7 +41,7 @@ bind p paste-buffer
 bind -Tcopy-mode-vi 'v' send -X begin-selection
 bind -Tcopy-mode-vi 'y' send -X copy-pipe-and-cancel "tmux save-buffer - | reattach-to-user-namespace pbcopy"
 
-# Codex Mode
+# Agent Mode
 bind a new-window -n Codex -c "#{pane_current_path}" "codex; read -p 'Press Enter to close...'"
 
 # Edit Mode

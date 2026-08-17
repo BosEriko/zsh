@@ -14,7 +14,7 @@ mkdir -p ~/.config/agents
   git remote set-url --add --push origin git@bitbucket.org:BosEriko/AGENTS.md.git
 )
 
-# Install Codex
+# Install Agent
 if [[ "$OS_TYPE" == "mac" ]]; then
   brew install --cask codex
 fi
