@@ -20,7 +20,8 @@ agents-create() {
     ;;
   esac
 
-  agents_dir="$HOME/.config/agents/$relative_path"
+  agents_repo="$HOME/.config/agents"
+  agents_dir="$agents_repo/$relative_path"
   agents_file="$agents_dir/AGENTS.md"
 
   mkdir -p "$agents_dir"
@@ -32,6 +33,10 @@ agents-create() {
     touch "$agents_file"
     echo "Created:"
     echo "$agents_file"
+
+    git -C "$agents_repo" add "$agents_file"
+    git -C "$agents_repo" commit -m "add AGENTS.md for $relative_path"
+    git -C "$agents_repo" push
   fi
 
   agents-sync
