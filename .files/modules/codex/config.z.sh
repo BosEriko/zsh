@@ -1,5 +1,9 @@
 # ========================================================================== [Configuration] ===== #
 
+agent-cd() {
+  cd "$HOME/.config/agents" || return 1
+}
+
 agent-sync() {
   ~/.config/agents/sync-agents.sh
 }
@@ -60,7 +64,8 @@ agent-start() {
   tmux new-window -n Codex -c "#{pane_current_path}" "codex; read -p 'Press Enter to close...'"
 }
 
-bos-append agent start "Start codex" "agent-start"
-bos-append agent sync "Sync AGENTS.md files" "agent-sync"
+bos-append agent cd "Go to AGENTS repo" "agent-cd"
 bos-append agent create "Create AGENTS.md" "agent-create"
 bos-append agent push "Push AGENTS.md changes" "agent-push"
+bos-append agent start "Start codex" "agent-start"
+bos-append agent sync "Sync AGENTS.md files" "agent-sync"
