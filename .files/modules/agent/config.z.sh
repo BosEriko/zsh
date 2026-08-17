@@ -1,7 +1,7 @@
 # ========================================================================== [Configuration] ===== #
 
 agent-cd() {
-  cd "$HOME/.config/agents" || return 1
+  mkdir -p "$HOME/.config/agents" && cd "$HOME/.config/agents"
 }
 
 agent-sync() {
