@@ -36,7 +36,7 @@ agents-create() {
 
     git -C "$agents_repo" add "$agents_file"
     git -C "$agents_repo" commit -m "add AGENTS.md for $relative_path"
-    git -C "$agents_repo" push
+    git -C "$agents_repo" push -u origin main
   fi
 
   agents-sync
