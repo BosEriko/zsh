@@ -104,12 +104,20 @@ agent-push() {
   git -C "$agents_repo" push -u origin main
 }
 
+agent-pull() {
+  agents_repo="$HOME/.config/agents"
+
+  git -C "$agents_repo" pull --ff-only || return 1
+  agent-sync
+}
+
 agent-start() {
   tmux new-window -n Codex -c "#{pane_current_path}" "codex; read -p 'Press Enter to close...'"
 }
 
 bos-append agent cd "Go to AGENTS.md repo" "agent-cd"
 bos-append agent create "Create AGENTS.md" "agent-create"
+bos-append agent pull "Pull and sync AGENTS.md changes" "agent-pull"
 bos-append agent push "Push AGENTS.md changes" "agent-push"
 bos-append agent start "Start agent" "agent-start"
 bos-append agent sync "Sync AGENTS.md files" "agent-sync"
