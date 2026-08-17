@@ -5,7 +5,47 @@ agent-cd() {
 }
 
 agent-sync() {
-  ~/.config/agents/sync-agents.sh
+  agents_repo="$HOME/.config/agents"
+
+  find "$agents_repo" -type f -name AGENTS.md -not -path "$agents_repo/.git/*" -print0 |
+    while IFS= read -r -d '' source; do
+      relative_path=${source#"$agents_repo"/}
+      target="$HOME/$relative_path"
+      target_dir=${target%/AGENTS.md}
+
+      if [ ! -d "$target_dir" ]; then
+        printf 'Skipping %s: target directory does not exist\n' "$relative_path" >&2
+        continue
+      fi
+
+      if [ -L "$target" ]; then
+        current_source=$(readlink "$target")
+
+        if [ "$current_source" != "$source" ]; then
+          printf 'Skipping %s: symlink points to %s\n' "$target" "$current_source" >&2
+          continue
+        fi
+      elif [ -e "$target" ]; then
+        printf 'Skipping %s: a non-symlink file already exists\n' "$target" >&2
+        continue
+      else
+        ln -s "$source" "$target"
+        printf 'Linked %s -> %s\n' "$target" "$source"
+      fi
+
+      if git_dir=$(git -C "$target_dir" rev-parse --absolute-git-dir 2>/dev/null); then
+        exclude_file="$git_dir/info/exclude"
+
+        mkdir -p "${exclude_file%/exclude}"
+
+        if ! grep -Fqx 'AGENTS.md' "$exclude_file" 2>/dev/null; then
+          printf '%s\n' 'AGENTS.md' >>"$exclude_file"
+          printf 'Ignored AGENTS.md in %s\n' "$target_dir"
+        fi
+      else
+        printf 'Skipping ignore rule for %s: not inside a Git repository\n' "$target_dir" >&2
+      fi
+    done
 }
 
 agent-create() {
@@ -47,7 +87,7 @@ agent-create() {
     git -C "$agents_repo" push -u origin main
   fi
 
-  agents-sync
+  agent-sync
 }
 
 agent-push() {
