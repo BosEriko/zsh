@@ -116,7 +116,7 @@ agent-pull() {
 }
 
 agent-start() {
-  tmux new-window -n Codex -c "#{pane_current_path}" "codex; read -p 'Press Enter to close...'"
+  tmux new-window -n Codex -c "#{pane_current_path}" "codex resume --last; read -p 'Press Enter to close...'"
 }
 
 bos-append agent cd "Go to AGENTS.md repo" "agent-cd"
