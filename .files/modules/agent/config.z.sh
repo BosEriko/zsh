@@ -4,6 +4,10 @@ agent-cd() {
   mkdir -p "$HOME/.config/agents" && cd "$HOME/.config/agents"
 }
 
+agent-diff() {
+  git -C "$HOME/.config/agents" diff "$@"
+}
+
 agent-sync() {
   agents_repo="$HOME/.config/agents"
 
@@ -117,6 +121,7 @@ agent-start() {
 
 bos-append agent cd "Go to AGENTS.md repo" "agent-cd"
 bos-append agent create "Create AGENTS.md" "agent-create"
+bos-append agent diff "Show AGENTS.md changes" "agent-diff"
 bos-append agent pull "Pull and sync AGENTS.md changes" "agent-pull"
 bos-append agent push "Push AGENTS.md changes" "agent-push"
 bos-append agent start "Start agent" "agent-start"
