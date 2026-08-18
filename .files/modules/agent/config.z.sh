@@ -119,7 +119,30 @@ agent-start() {
   tmux new-window -n Codex -c "#{pane_current_path}" "codex resume --last; read -p 'Press Enter to close...'"
 }
 
+agent-clear() {
+  sessions_dir="$HOME/.codex/sessions"
+
+  if [ ! -d "$sessions_dir" ]; then
+    echo "No Codex sessions directory found."
+    return 0
+  fi
+
+  printf "Delete ALL Codex sessions? [y/N] "
+  read -r answer
+
+  case "$answer" in
+  y | Y | yes | YES)
+    rm -rf "$sessions_dir"/*
+    echo "All Codex sessions deleted."
+    ;;
+  *)
+    echo "Cancelled."
+    ;;
+  esac
+}
+
 bos-append agent cd "Go to AGENTS.md repo" "agent-cd"
+bos-append agent clear "Clear all agent sessions" "agent-clear"
 bos-append agent create "Create AGENTS.md" "agent-create"
 bos-append agent diff "Show AGENTS.md changes" "agent-diff"
 bos-append agent pull "Pull and sync AGENTS.md changes" "agent-pull"
