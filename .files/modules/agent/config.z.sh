@@ -75,9 +75,9 @@ agent-sync() {
           printf 'Ignored AGENTS.md in %s\n' "$repo_root"
         fi
 
-        if ! grep -Fqx '.agents/' "$exclude_file" 2>/dev/null; then
-          printf '%s\n' '.agents/' >>"$exclude_file"
-          printf 'Ignored .agents/ in %s\n' "$repo_root"
+        if ! grep -Fqx '.agents/skills' "$exclude_file" 2>/dev/null; then
+          printf '%s\n' '.agents/skills' >>"$exclude_file"
+          printf 'Ignored .agents/skills in %s\n' "$repo_root"
         fi
       else
         printf 'Skipping ignore rules for %s: not a Git repository\n' "$repo_root" >&2
