@@ -30,7 +30,7 @@ bos() {
         # Compute max lengths for alignment
         local max_flag=0
         local max_cmd=0
-        for key in "${(@k)BOS_CMDS}"; do
+        for key in "${(@ok)BOS_CMDS}"; do
             local module="${key%%:*}"
             local cmd="${key##*:}"
             local flag="-${module:0:1}/--$module"
@@ -44,7 +44,7 @@ bos() {
         local NC="\033[0m"
 
         # Print all commands
-        for key in "${(@k)BOS_CMDS}"; do
+        for key in "${(@ok)BOS_CMDS}"; do
             local module="${key%%:*}"
             local cmd="${key##*:}"
             local desc="${BOS_DESC[$key]}"
@@ -67,7 +67,7 @@ bos() {
         module="${flag:2}"
     elif [[ "$flag" == -* ]]; then
         local letter="${flag:1}"
-        for key in "${(@k)BOS_CMDS}"; do
+        for key in "${(@ok)BOS_CMDS}"; do
             local mod="${key%%:*}"
             if [[ "${mod:0:1}" == "$letter" ]]; then
                 module="$mod"
@@ -89,7 +89,7 @@ bos() {
 
         # Compute max command length
         local max_cmd=0
-        for key in "${(@k)BOS_CMDS}"; do
+        for key in "${(@ok)BOS_CMDS}"; do
             [[ "${key%%:*}" == "$module" ]] || continue
             local cmd="${key##*:}"
             (( ${#cmd} > max_cmd )) && max_cmd=${#cmd}
@@ -100,7 +100,7 @@ bos() {
         local NC="\033[0m"
 
         # Print commands with color
-        for key in "${(@k)BOS_CMDS}"; do
+        for key in "${(@ok)BOS_CMDS}"; do
             [[ "${key%%:*}" == "$module" ]] || continue
             local cmd="${key##*:}"
             local desc="${BOS_DESC[$key]}"
