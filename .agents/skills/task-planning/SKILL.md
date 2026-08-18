@@ -1,24 +1,19 @@
 ---
 name: task-planning
-description: Analyze development tasks and create sequential implementation plans. Use when starting a new development task, planning code changes, or determining the steps required before implementation.
+description: Analyze development tasks, create sequential implementation plans, and optionally split plans into smaller logical tasks. Use when planning code changes or when the user asks to split, divide, simplify, or break down development work.
 ---
 
-# Task Planning
+# Task Planning and Splitting
 
 ## Workflow
 
-1. Analyze the task thoroughly.
-2. Determine the required changes.
-3. Identify the files and components likely affected.
-4. Create a sequential implementation plan.
-5. Present the plan to the user.
-6. Ask whether to divide the task into smaller parts or proceed with the plan as-is.
+1. Analyze the task, required changes, and likely affected files.
+2. Create and present a sequential implementation plan.
+3. If the user asks to split the work, divide it at logical boundaries into small, focused tasks that preserve the original requirements.
+4. Ask whether to proceed with the plan, or which split task to address first.
 
 ## Rules
 
-- Keep implementation plans simple and sequential.
-- Use only a single-level numbered list.
-- Do not use nested steps such as 1.1, 1.2, A1, or A2.
-- Do not implement changes while planning.
-- Do not include unrelated changes.
-- After presenting the plan, ask: "Do you want to divide this task into smaller parts, or proceed with the plan as-is?"
+- Use a simple, single-level numbered list without nested steps.
+- Do not implement changes while planning or before the user selects a split task.
+- Do not introduce unrelated work.
