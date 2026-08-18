@@ -141,11 +141,16 @@ agent-clear() {
   esac
 }
 
+agent-sessions() {
+  codex resume --all
+}
+
 bos-append agent cd "Go to AGENTS.md repo" "agent-cd"
 bos-append agent clear "Clear all agent sessions" "agent-clear"
 bos-append agent create "Create AGENTS.md" "agent-create"
 bos-append agent diff "Show AGENTS.md changes" "agent-diff"
 bos-append agent pull "Pull and sync AGENTS.md changes" "agent-pull"
 bos-append agent push "Push AGENTS.md changes" "agent-push"
+bos-append agent sessions "List all Codex sessions" "agent-sessions"
 bos-append agent start "Start agent" "agent-start"
 bos-append agent sync "Sync AGENTS.md files" "agent-sync"
