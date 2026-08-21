@@ -197,6 +197,10 @@ agent-start() {
   tmux new-window -n Codex -c "#{pane_current_path}" "codex resume --last; read -p 'Press Enter to close...'"
 }
 
+agent-free() {
+  tmux new-window -n Opencode -c "#{pane_current_path}" "opencode -c; read -p 'Press Enter to close...'"
+}
+
 agent-clear() {
   sessions_dir="$HOME/.codex/sessions"
 
@@ -294,6 +298,7 @@ bos-append agent clear "Clear all agent sessions" "agent-clear"
 bos-append agent connect "Connect an MCP server" "agent-connect"
 bos-append agent create "Create agent config" "agent-create"
 bos-append agent diff "Show agent config changes" "agent-diff"
+bos-append agent free "Start free agent" "agent-free"
 bos-append agent pull "Pull and sync agent changes" "agent-pull"
 bos-append agent push "Push agent changes" "agent-push"
 bos-append agent sessions "List all Codex sessions" "agent-sessions"
