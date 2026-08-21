@@ -2,19 +2,19 @@
 *
 
 # But not these files...
+!.agents/
+!.agents/**
+!.bashrc
 !.files/
 !.files/**
+!.gitconfig
+!.gitignore
+!.tmux.conf
 !.tmux/
 !.tmux/**
 !.zsh/
 !.zsh/**
-!.agents/
-!.agents/**
-!.gitconfig
-!.gitignore
-!.tmux.conf
-!.bashrc
 !.zshrc
+!README.md
 !example.env.z.sh
 !install.sh
-!README.md
