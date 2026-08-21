@@ -223,8 +223,75 @@ agent-sessions() {
   codex resume --all
 }
 
+agent-connect() {
+  if ! command -v codex >/dev/null 2>&1; then
+    echo "Codex is not installed or is not in PATH."
+    return 1
+  fi
+
+  local -a mcp_names
+  local selected=1 key
+  local mcp_name
+
+  mcp_names=(atlassian)
+
+  while true; do
+    printf '\033[2J\033[H'
+    echo "Select an MCP server (↑/↓, Enter; q to cancel):"
+    echo
+
+    local index
+    for ((index = 1; index <= ${#mcp_names}; index++)); do
+      if ((index == selected)); then
+        printf '  \033[7m> %s\033[0m\n' "${mcp_names[index]}"
+      else
+        printf '    %s\n' "${mcp_names[index]}"
+      fi
+    done
+
+    read -rs -k 1 key || return 0
+
+    case "$key" in
+    $'\e')
+      read -rs -k 2 key
+      case "$key" in
+      '[A') ((selected = selected > 1 ? selected - 1 : ${#mcp_names})) ;;
+      '[B') ((selected = selected < ${#mcp_names} ? selected + 1 : 1)) ;;
+      esac
+      ;;
+    $'\n' | $'\r')
+      mcp_name="${mcp_names[selected]}"
+      break
+      ;;
+    q | Q)
+      printf '\033[2J\033[H'
+      echo "Cancelled."
+      return 0
+      ;;
+    esac
+  done
+
+  printf '\033[2J\033[H'
+
+  if codex mcp get "$mcp_name" >/dev/null 2>&1; then
+    echo "Already connected: $mcp_name"
+    return 0
+  fi
+
+  case "$mcp_name" in
+  atlassian)
+    codex mcp add atlassian --url https://mcp.atlassian.com/v1/mcp/authv2
+    ;;
+  *)
+    echo "Unknown MCP server: $mcp_name"
+    return 1
+    ;;
+  esac
+}
+
 bos-append agent cd "Go to agents repo" "agent-cd"
 bos-append agent clear "Clear all agent sessions" "agent-clear"
+bos-append agent connect "Connect an MCP server" "agent-connect"
 bos-append agent create "Create agent config" "agent-create"
 bos-append agent diff "Show agent config changes" "agent-diff"
 bos-append agent pull "Pull and sync agent changes" "agent-pull"
