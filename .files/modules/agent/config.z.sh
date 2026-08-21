@@ -205,7 +205,6 @@ agent-clear() {
   setopt localoptions RM_STAR_SILENT
 
   codex_sessions_dir="$HOME/.codex/sessions"
-  opencode_sessions_dir="$HOME/.local/share/opencode/storage/session"
 
   printf "Press Enter to delete ALL Codex and OpenCode sessions (anything else cancels): "
   read -r answer
@@ -216,10 +215,8 @@ agent-clear() {
       echo "All Codex sessions deleted."
     fi
 
-    if [ -d "$opencode_sessions_dir" ]; then
-      rm -rf -- "$opencode_sessions_dir"/*(N)
-      echo "All OpenCode sessions deleted."
-    fi
+    opencode session list --format json | jq -r '.[].id' | xargs -I {} opencode session delete {}
+    echo "All OpenCode sessions deleted."
   else
     echo "Cancelled."
   fi
