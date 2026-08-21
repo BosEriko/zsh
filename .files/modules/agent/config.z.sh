@@ -212,12 +212,12 @@ agent-clear() {
 
   if [ -z "$answer" ]; then
     if [ -d "$codex_sessions_dir" ]; then
-      rm -rf "$codex_sessions_dir"/*
+      rm -rf -- "$codex_sessions_dir"/*(N)
       echo "All Codex sessions deleted."
     fi
 
     if [ -d "$opencode_sessions_dir" ]; then
-      rm -rf "$opencode_sessions_dir"/*
+      rm -rf -- "$opencode_sessions_dir"/*(N)
       echo "All OpenCode sessions deleted."
     fi
   else
