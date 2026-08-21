@@ -202,25 +202,27 @@ agent-free() {
 }
 
 agent-clear() {
-  sessions_dir="$HOME/.codex/sessions"
+  setopt localoptions RM_STAR_SILENT
 
-  if [ ! -d "$sessions_dir" ]; then
-    echo "No Codex sessions directory found."
-    return 0
-  fi
+  codex_sessions_dir="$HOME/.codex/sessions"
+  opencode_sessions_dir="$HOME/.local/share/opencode/storage/session"
 
-  printf "Delete ALL Codex sessions? [y/N] "
+  printf "Press Enter to delete ALL Codex and OpenCode sessions (anything else cancels): "
   read -r answer
 
-  case "$answer" in
-  y | Y | yes | YES)
-    rm -rf "$sessions_dir"/*
-    echo "All Codex sessions deleted."
-    ;;
-  *)
+  if [ -z "$answer" ]; then
+    if [ -d "$codex_sessions_dir" ]; then
+      rm -rf "$codex_sessions_dir"/*
+      echo "All Codex sessions deleted."
+    fi
+
+    if [ -d "$opencode_sessions_dir" ]; then
+      rm -rf "$opencode_sessions_dir"/*
+      echo "All OpenCode sessions deleted."
+    fi
+  else
     echo "Cancelled."
-    ;;
-  esac
+  fi
 }
 
 agent-sessions() {
