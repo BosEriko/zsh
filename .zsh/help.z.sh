@@ -27,31 +27,27 @@ bos() {
     if [[ "$1" == "-h" || "$1" == "--help" || -z "$1" ]]; then
         echo "Available commands:"
 
-        # Compute max lengths for alignment
+        # Compute max flag length
         local max_flag=0
-        local max_cmd=0
         for key in "${(@ok)BOS_CMDS}"; do
             local module="${key%%:*}"
-            local cmd="${key##*:}"
             local flag="-${module:0:1}/--$module"
             (( ${#flag} > max_flag )) && max_flag=${#flag}
-            (( ${#cmd} > max_cmd )) && max_cmd=${#cmd}
         done
 
         # Colors
         local GREEN="\033[0;32m"
-        local YELLOW="\033[0;33m"
         local NC="\033[0m"
 
-        # Print all commands
+        # Print modules
+        local last_flag=""
         for key in "${(@ok)BOS_CMDS}"; do
             local module="${key%%:*}"
-            local cmd="${key##*:}"
-            local desc="${BOS_DESC[$key]}"
             local flag="-${module:0:1}/--$module"
 
-            printf "${GREEN}%-*s${NC}  ${YELLOW}%-*s${NC}  %s\n" \
-                $max_flag "$flag" $max_cmd "$cmd" "$desc"
+            [[ "$flag" == "$last_flag" ]] && continue
+            printf "${GREEN}%-*s${NC}\n" $max_flag "$flag"
+            last_flag="$flag"
         done
         return
     fi
