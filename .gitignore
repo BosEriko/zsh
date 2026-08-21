@@ -10,8 +10,6 @@
 !.zsh/**
 !.agents/
 !.agents/**
-!.codex/
-!.codex/AGENTS.md
 !.gitconfig
 !.gitignore
 !.tmux.conf

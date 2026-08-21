@@ -15,7 +15,13 @@ git clone https://github.com/BosEriko/AGENTS.md.git ~/.config/agents
   git remote set-url --add --push origin git@bitbucket.org:BosEriko/AGENTS.md.git
 )
 
+# Symlink
+mkdir -p ~/.codex ~/.config/opencode
+ln -sf ~/.agents/AGENTS.md ~/.codex/AGENTS.md
+ln -sf ~/.agents/AGENTS.md ~/.config/opencode/AGENTS.md
+
 # Install Agent
 if [[ "$OS_TYPE" == "mac" ]]; then
   brew install --cask codex
+  brew install anomalyco/tap/opencode
 fi
