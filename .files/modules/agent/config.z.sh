@@ -17,10 +17,17 @@ agent-sync() {
       relative_repo_path=${relative_path%/AGENTS.md}
 
       repo_root="$HOME/$relative_repo_path"
+
       agents_target="$repo_root/AGENTS.md"
 
       skills_source="$agents_repo/$relative_repo_path/.agents/skills"
       skills_target="$repo_root/.agents/skills"
+
+      scripts_source="$agents_repo/$relative_repo_path/.scripts"
+      scripts_target="$repo_root/.scripts"
+
+      notes_source="$agents_repo/$relative_repo_path/.notes"
+      notes_target="$repo_root/.notes"
 
       if [ ! -d "$repo_root" ]; then
         printf 'Skipping %s: target repository does not exist\n' "$relative_repo_path" >&2
@@ -63,6 +70,40 @@ agent-sync() {
         fi
       fi
 
+      # --------------------------------------------------------------------- Scripts
+
+      if [ -d "$scripts_source" ]; then
+        if [ -L "$scripts_target" ]; then
+          current_source=$(readlink "$scripts_target")
+
+          if [ "$current_source" != "$scripts_source" ]; then
+            printf 'Skipping %s: symlink points to %s\n' "$scripts_target" "$current_source" >&2
+          fi
+        elif [ -e "$scripts_target" ]; then
+          printf 'Skipping %s: a non-symlink file or directory already exists\n' "$scripts_target" >&2
+        else
+          ln -s "$scripts_source" "$scripts_target"
+          printf 'Linked %s -> %s\n' "$scripts_target" "$scripts_source"
+        fi
+      fi
+
+      # ----------------------------------------------------------------------- Notes
+
+      if [ -d "$notes_source" ]; then
+        if [ -L "$notes_target" ]; then
+          current_source=$(readlink "$notes_target")
+
+          if [ "$current_source" != "$notes_source" ]; then
+            printf 'Skipping %s: symlink points to %s\n' "$notes_target" "$current_source" >&2
+          fi
+        elif [ -e "$notes_target" ]; then
+          printf 'Skipping %s: a non-symlink file or directory already exists\n' "$notes_target" >&2
+        else
+          ln -s "$notes_source" "$notes_target"
+          printf 'Linked %s -> %s\n' "$notes_target" "$notes_source"
+        fi
+      fi
+
       # ---------------------------------------------------------------- Git Ignore
 
       if git_dir=$(git -C "$repo_root" rev-parse --absolute-git-dir 2>/dev/null); then
@@ -78,6 +119,16 @@ agent-sync() {
         if ! grep -Fqx '.agents/skills' "$exclude_file" 2>/dev/null; then
           printf '%s\n' '.agents/skills' >>"$exclude_file"
           printf 'Ignored .agents/skills in %s\n' "$repo_root"
+        fi
+
+        if ! grep -Fqx '.scripts' "$exclude_file" 2>/dev/null; then
+          printf '%s\n' '.scripts' >>"$exclude_file"
+          printf 'Ignored .scripts in %s\n' "$repo_root"
+        fi
+
+        if ! grep -Fqx '.notes' "$exclude_file" 2>/dev/null; then
+          printf '%s\n' '.notes' >>"$exclude_file"
+          printf 'Ignored .notes in %s\n' "$repo_root"
         fi
       else
         printf 'Skipping ignore rules for %s: not a Git repository\n' "$repo_root" >&2
@@ -105,13 +156,22 @@ agent-create() {
   agents_dir="$agents_repo/$relative_path"
 
   agents_file="$agents_dir/AGENTS.md"
+
   skills_dir="$agents_dir/.agents/skills"
   template_skill_dir="$skills_dir/template"
   template_skill_file="$template_skill_dir/SKILL.md"
 
+  scripts_dir="$agents_dir/.scripts"
+  scripts_keep_file="$scripts_dir/.keep"
+
+  notes_dir="$agents_dir/.notes"
+  notes_keep_file="$notes_dir/.keep"
+
   repo_name=$(basename "$repo_root")
 
   mkdir -p "$template_skill_dir"
+  mkdir -p "$scripts_dir"
+  mkdir -p "$notes_dir"
 
   # ------------------------------------------------------------------- AGENTS.md
 
@@ -156,6 +216,30 @@ EOF
 
     echo "Created:"
     echo "$template_skill_file"
+  fi
+
+  # ---------------------------------------------------------------------- Scripts
+
+  if [ -e "$scripts_keep_file" ]; then
+    echo "Scripts directory already exists:"
+    echo "$scripts_dir"
+  else
+    touch "$scripts_keep_file"
+
+    echo "Created:"
+    echo "$scripts_dir"
+  fi
+
+  # ------------------------------------------------------------------------ Notes
+
+  if [ -e "$notes_keep_file" ]; then
+    echo "Notes directory already exists:"
+    echo "$notes_dir"
+  else
+    touch "$notes_keep_file"
+
+    echo "Created:"
+    echo "$notes_dir"
   fi
 
   # ------------------------------------------------------------------------- Git
