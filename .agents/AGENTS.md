@@ -1,13 +1,28 @@
-# General Development Guidelines
+# Development Workflow
 
-## Code Changes
+For development tasks, follow this workflow in order:
 
-- Prefer the smallest reasonable change.
-- Do not modify unrelated files.
-- Read surrounding code before implementing changes.
+1. Use `$task-analysis` to understand the task and establish the requirements.
+2. Use `$codebase-exploration` to understand the relevant code and existing patterns.
+3. Use `$task-planning` to determine the implementation approach.
+4. Implement the planned changes.
+5. Use `$testing` to validate the implementation.
+6. Use `$code-review` to review the completed changes.
+7. Use `$task-verification` to verify the implementation against the original task.
 
-## Git
+Do not skip a step unless it is clearly not applicable.
 
-- Never commit unless explicitly requested.
-- Never push unless explicitly requested.
-- Do not amend or force-push unless explicitly requested.
+Do not declare the task complete until `$task-verification` confirms that
+the implementation satisfies the requirements and acceptance criteria.
+
+# General Rules
+
+- Make the smallest change necessary to complete the task.
+- Follow repository-specific `AGENTS.md` instructions.
+- Prefer existing patterns and abstractions over introducing new ones.
+- Do not modify unrelated code.
+- Do not fix unrelated issues unless explicitly requested.
+- Do not introduce new dependencies unless necessary.
+- Do not commit changes unless explicitly requested.
+- Never claim that tests, linting, builds, or other checks passed unless they were actually run.
+- Clearly report anything that could not be verified.

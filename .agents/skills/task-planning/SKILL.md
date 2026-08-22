@@ -1,19 +1,38 @@
 ---
 name: task-planning
-description: Analyze development tasks, create sequential implementation plans, and optionally split plans into smaller logical tasks. Use when planning code changes or when the user asks to split, divide, simplify, or break down development work.
+description: Create a concrete implementation plan for a development task based on the task requirements and repository exploration. Use after task analysis and codebase exploration and before implementation.
 ---
 
-# Task Planning and Splitting
+# Task Planning
 
 ## Workflow
 
-1. Analyze the task, required changes, and likely affected files.
-2. Create and present a sequential implementation plan.
-3. If the user asks to split the work, divide it at logical boundaries into small, focused tasks that preserve the original requirements.
-4. Ask whether to proceed with the plan, or which split task to address first.
+1. Review the task requirements and acceptance criteria.
+2. Review findings from codebase exploration.
+3. Determine the smallest implementation that satisfies the task.
+4. Break the implementation into sequential steps.
+5. Identify the files affected by each step.
+6. Include required tests or test updates.
+7. Account for error handling, edge cases, and compatibility when relevant.
+8. Check that every acceptance criterion is covered by the plan.
+
+## Output
+
+Provide:
+
+- Implementation approach
+- Estimated files to change
+- Sequential implementation steps
+- Testing approach
+- Risks or assumptions, if any
+
+Keep implementation steps flat and actionable.
 
 ## Rules
 
-- Use a simple, single-level numbered list without nested steps.
-- Do not implement changes while planning or before the user selects a split task.
-- Do not introduce unrelated work.
+- Do not implement code while planning.
+- Avoid speculative changes.
+- Prefer modifying existing abstractions over creating new ones when appropriate.
+- Do not include unrelated refactoring.
+- Every planned change must contribute to a requirement, acceptance criterion, test, or necessary supporting behavior.
+- Call out blockers rather than silently designing around missing requirements.

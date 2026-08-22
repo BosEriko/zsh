@@ -1,23 +1,29 @@
 ---
 name: testing
-description: Create, update, and run tests for code changes. Use when asked to add tests, fix failing tests, improve test coverage, or verify behavior with tests.
+description: Validate completed code changes by identifying, adding, and running the smallest relevant set of tests and checks. Use after implementation changes are complete.
 ---
 
 # Testing
 
 ## Workflow
 
-1. Identify the behavior being changed.
-2. Find existing tests for similar behavior.
-3. Follow existing testing conventions.
-4. Add the smallest tests necessary.
-5. Run the relevant tests.
-6. Fix failures caused by the change.
-7. Run the broader test suite when appropriate.
+1. Identify the behavior changed by the implementation.
+2. Locate existing tests covering that behavior.
+3. Determine whether existing tests are sufficient.
+4. Add or update tests when required to validate new or changed behavior.
+5. Run the most focused relevant tests first.
+6. Fix failures caused by the implementation.
+7. Run broader relevant tests when appropriate.
+8. Run relevant type checking, linting, or build checks when appropriate.
+9. Record what was run and the results.
 
 ## Rules
 
-- Test behavior, not implementation details.
-- Prefer existing test utilities and factories.
-- Include failure and edge cases where meaningful.
-- Do not modify production behavior merely to make a test pass.
+- Never claim a test or check passed unless it was actually run.
+- Do not modify tests merely to make incorrect behavior pass.
+- Test observable behavior rather than implementation details when possible.
+- Follow existing testing conventions.
+- Prefer focused tests before expensive broad test suites.
+- Do not fix unrelated failing tests.
+- Clearly distinguish failures caused by the current changes from pre-existing failures.
+- Report checks that could not be run and why.

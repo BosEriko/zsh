@@ -7,15 +7,20 @@ description: Create Git commits for completed code changes using the Gitmoji con
 
 ## Workflow
 
-1. Review the changes and isolate those related to the completed work.
-2. Choose the most suitable Gitmoji and a concise imperative message.
-3. Create and show the commit.
+1. Review the current changes.
+2. Identify changes belonging to the completed task.
+3. Exclude unrelated changes.
+4. Choose the most appropriate Gitmoji.
+5. Create a concise imperative commit message.
+6. Create the commit.
+7. Show the resulting commit.
 
 ## Rules
 
-- Never commit without explicit user confirmation.
-- Commit only related changes.
+- Never commit without explicit user approval.
+- Commit only changes related to the requested work.
 - Do not amend, squash, rebase, or force-push unless explicitly requested.
+- Do not include unrelated working-tree changes.
 
 ## Examples
 
