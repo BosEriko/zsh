@@ -42,8 +42,7 @@ bind -Tcopy-mode-vi 'v' send -X begin-selection
 bind -Tcopy-mode-vi 'y' send -X copy-pipe-and-cancel "tmux save-buffer - | reattach-to-user-namespace pbcopy"
 
 # Agent Mode
-bind a run-shell 'zsh -ic "agent-start"'
-bind A run-shell 'zsh -ic "agent-free"'
+bind a display-popup -E -w 50% -h 40% -d "#{pane_current_path}" "zsh -c 'bos-append() { :; }; source ~/.files/modules/agent/config.z.sh; agent-start'"
 
 # Edit Mode
 bind e new-window -n NeoVim -c "#{pane_current_path}" "nvim .; read -p 'Press Enter to close...'"
