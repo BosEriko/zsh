@@ -280,6 +280,7 @@ agent-connect() {
     echo "Reconnecting: $mcp_name"
     codex mcp logout "$mcp_name" >/dev/null 2>&1
     codex mcp login "$mcp_name"
+    return $?
   fi
 
   case "$mcp_name" in
