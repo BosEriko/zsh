@@ -17,10 +17,13 @@ agent-sync() {
       relative_repo_path=${relative_path%/AGENTS.md}
 
       repo_root="$HOME/$relative_repo_path"
+
       agents_target="$repo_root/AGENTS.md"
+      claude_target="$repo_root/CLAUDE.md"
 
       skills_source="$agents_repo/$relative_repo_path/.agents/skills"
       skills_target="$repo_root/.agents/skills"
+      claude_skills_target="$repo_root/.claude/skills"
 
       if [ ! -d "$repo_root" ]; then
         printf 'Skipping %s: target repository does not exist\n' "$relative_repo_path" >&2
@@ -44,6 +47,21 @@ agent-sync() {
         printf 'Linked %s -> %s\n' "$agents_target" "$agents_source"
       fi
 
+      # ------------------------------------------------------------------- CLAUDE.md
+
+      if [ -L "$claude_target" ]; then
+        current_source=$(readlink "$claude_target")
+
+        if [ "$current_source" != "AGENTS.md" ]; then
+          printf 'Skipping %s: symlink points to %s\n' "$claude_target" "$current_source" >&2
+        fi
+      elif [ -e "$claude_target" ]; then
+        printf 'Skipping %s: a non-symlink file already exists\n' "$claude_target" >&2
+      else
+        ln -s "AGENTS.md" "$claude_target"
+        printf 'Linked %s -> AGENTS.md\n' "$claude_target"
+      fi
+
       # ---------------------------------------------------------------------- Skills
 
       if [ -d "$skills_source" ]; then
@@ -61,6 +79,23 @@ agent-sync() {
           ln -s "$skills_source" "$skills_target"
           printf 'Linked %s -> %s\n' "$skills_target" "$skills_source"
         fi
+
+        # --------------------------------------------------------------- Claude Skills
+
+        mkdir -p "$repo_root/.claude"
+
+        if [ -L "$claude_skills_target" ]; then
+          current_source=$(readlink "$claude_skills_target")
+
+          if [ "$current_source" != "../.agents/skills" ]; then
+            printf 'Skipping %s: symlink points to %s\n' "$claude_skills_target" "$current_source" >&2
+          fi
+        elif [ -e "$claude_skills_target" ]; then
+          printf 'Skipping %s: a non-symlink file or directory already exists\n' "$claude_skills_target" >&2
+        else
+          ln -s "../.agents/skills" "$claude_skills_target"
+          printf 'Linked %s -> ../.agents/skills\n' "$claude_skills_target"
+        fi
       fi
 
       # ---------------------------------------------------------------- Git Ignore
@@ -75,9 +110,19 @@ agent-sync() {
           printf 'Ignored AGENTS.md in %s\n' "$repo_root"
         fi
 
+        if ! grep -Fqx 'CLAUDE.md' "$exclude_file" 2>/dev/null; then
+          printf '%s\n' 'CLAUDE.md' >>"$exclude_file"
+          printf 'Ignored CLAUDE.md in %s\n' "$repo_root"
+        fi
+
         if ! grep -Fqx '.agents/skills' "$exclude_file" 2>/dev/null; then
           printf '%s\n' '.agents/skills' >>"$exclude_file"
           printf 'Ignored .agents/skills in %s\n' "$repo_root"
+        fi
+
+        if ! grep -Fqx '.claude/skills' "$exclude_file" 2>/dev/null; then
+          printf '%s\n' '.claude/skills' >>"$exclude_file"
+          printf 'Ignored .claude/skills in %s\n' "$repo_root"
         fi
       else
         printf 'Skipping ignore rules for %s: not a Git repository\n' "$repo_root" >&2
@@ -134,7 +179,7 @@ agent-create() {
     cat >"$template_skill_file" <<'EOF'
 ---
 name: template
-description: Template for creating repository-specific Codex skills. Do not invoke this skill directly.
+description: Template for creating repository-specific agent skills. Do not invoke this skill directly.
 ---
 
 # Workflow
@@ -198,7 +243,7 @@ agent-start() {
   local selected=1 countdown=5 countdown_active=1
   local agent_name index key
 
-  agent_names=(Codex OpenCode)
+  agent_names=(Codex Claude OpenCode)
 
   while true; do
     printf '\033[2J\033[H'
@@ -261,6 +306,9 @@ agent-start() {
   Codex)
     tmux new-window -n Codex -c "#{pane_current_path}" "codex resume --last; printf 'Press Enter to close...'; read -r"
     ;;
+  Claude)
+    tmux new-window -n Claude -c "#{pane_current_path}" "claude; printf 'Press Enter to close...'; read -r"
+    ;;
   OpenCode)
     tmux new-window -n Opencode -c "#{pane_current_path}" "opencode -c; printf 'Press Enter to close...'; read -r"
     ;;
@@ -272,19 +320,33 @@ agent-clear() {
 
   codex_sessions_dir="$HOME/.codex/sessions"
 
-  printf "Press Enter to delete ALL Codex and OpenCode sessions (anything else cancels): "
+  printf "Press Enter to delete ALL Codex, Claude, and OpenCode sessions (anything else cancels): "
   read -r answer
 
-  if [ -z "$answer" ]; then
-    if [ -d "$codex_sessions_dir" ]; then
-      rm -rf -- "$codex_sessions_dir"/*(N)
-      echo "All Codex sessions deleted."
-    fi
+  if [ -n "$answer" ]; then
+    echo "Cancelled."
+    return 0
+  fi
 
+  # ---------------------------------------------------------------------- Codex
+
+  if [ -d "$codex_sessions_dir" ]; then
+    rm -rf -- "$codex_sessions_dir"/*(N)
+    echo "All Codex sessions deleted."
+  fi
+
+  # --------------------------------------------------------------------- Claude
+
+  if command -v claude >/dev/null 2>&1; then
+    claude project purge --all --yes
+    echo "All Claude sessions deleted."
+  fi
+
+  # ------------------------------------------------------------------- OpenCode
+
+  if command -v opencode >/dev/null 2>&1; then
     opencode session list --format json | jq -r '.[].id' | xargs -I {} opencode session delete {}
     echo "All OpenCode sessions deleted."
-  else
-    echo "Cancelled."
   fi
 }
 
