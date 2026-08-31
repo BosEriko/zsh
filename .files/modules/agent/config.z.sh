@@ -52,14 +52,16 @@ agent-sync() {
       if [ -L "$claude_target" ]; then
         current_source=$(readlink "$claude_target")
 
-        if [ "$current_source" != "AGENTS.md" ]; then
-          printf 'Skipping %s: symlink points to %s\n' "$claude_target" "$current_source" >&2
+        if [ "$current_source" != "$agents_source" ]; then
+          rm "$claude_target"
+          ln -s "$agents_source" "$claude_target"
+          printf 'Relinked %s -> %s\n' "$claude_target" "$agents_source"
         fi
       elif [ -e "$claude_target" ]; then
         printf 'Skipping %s: a non-symlink file already exists\n' "$claude_target" >&2
       else
-        ln -s "AGENTS.md" "$claude_target"
-        printf 'Linked %s -> AGENTS.md\n' "$claude_target"
+        ln -s "$agents_source" "$claude_target"
+        printf 'Linked %s -> %s\n' "$claude_target" "$agents_source"
       fi
 
       # ---------------------------------------------------------------------- Skills
@@ -71,7 +73,9 @@ agent-sync() {
           current_source=$(readlink "$skills_target")
 
           if [ "$current_source" != "$skills_source" ]; then
-            printf 'Skipping %s: symlink points to %s\n' "$skills_target" "$current_source" >&2
+            rm "$skills_target"
+            ln -s "$skills_source" "$skills_target"
+            printf 'Relinked %s -> %s\n' "$skills_target" "$skills_source"
           fi
         elif [ -e "$skills_target" ]; then
           printf 'Skipping %s: a non-symlink file or directory already exists\n' "$skills_target" >&2
@@ -87,14 +91,16 @@ agent-sync() {
         if [ -L "$claude_skills_target" ]; then
           current_source=$(readlink "$claude_skills_target")
 
-          if [ "$current_source" != "../.agents/skills" ]; then
-            printf 'Skipping %s: symlink points to %s\n' "$claude_skills_target" "$current_source" >&2
+          if [ "$current_source" != "$skills_source" ]; then
+            rm "$claude_skills_target"
+            ln -s "$skills_source" "$claude_skills_target"
+            printf 'Relinked %s -> %s\n' "$claude_skills_target" "$skills_source"
           fi
         elif [ -e "$claude_skills_target" ]; then
           printf 'Skipping %s: a non-symlink file or directory already exists\n' "$claude_skills_target" >&2
         else
-          ln -s "../.agents/skills" "$claude_skills_target"
-          printf 'Linked %s -> ../.agents/skills\n' "$claude_skills_target"
+          ln -s "$skills_source" "$claude_skills_target"
+          printf 'Linked %s -> %s\n' "$claude_skills_target" "$skills_source"
         fi
       fi
 
