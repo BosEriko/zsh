@@ -15,18 +15,24 @@ git clone https://github.com/BosEriko/AGENTS.md.git ~/.config/agents
   git remote set-url --add --push origin git@bitbucket.org:BosEriko/AGENTS.md.git
 )
 
-# Symlink
-mkdir -p ~/.codex ~/.config/opencode ~/.claude
-ln -sf ~/.config/agents/AGENTS.md ~/.codex/AGENTS.md
-ln -sf ~/.config/agents/AGENTS.md ~/.config/opencode/AGENTS.md
-ln -sf ~/.config/agents/AGENTS.md ~/.claude/CLAUDE.md
-ln -sfn ~/.config/agents/.agents/skills ~/.codex/skills
-ln -sfn ~/.config/agents/.agents/skills ~/.config/opencode/skills
-ln -sfn ~/.config/agents/.agents/skills ~/.claude/skills
+# Symlink (Codex)
+mkdir -p ~/.codex
+ln -sf ~/.agents/AGENTS.md ~/.codex/AGENTS.md
+ln -sfn ~/.agents/skills ~/.codex/skills
+
+# Symlink (Claude)
+mkdir -p ~/.claude
+ln -sf ~/.agents/AGENTS.md ~/.claude/CLAUDE.md
+ln -sfn ~/.agents/skills ~/.claude/skills
+
+# Symlink (OpenCode)
+mkdir -p ~/.config/opencode
+ln -sf ~/.agents/AGENTS.md ~/.config/opencode/AGENTS.md
+ln -sfn ~/.agents/skills ~/.config/opencode/skills
 
 # Install Agent
 if [[ "$OS_TYPE" == "mac" ]]; then
   brew install --cask codex
-  brew install anomalyco/tap/opencode
   curl -fsSL https://claude.ai/install.sh | bash
+  brew install anomalyco/tap/opencode
 fi
