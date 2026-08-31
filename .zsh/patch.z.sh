@@ -7,4 +7,4 @@ if [ -d "$FNM_PATH" ]; then
 fi
 
 # local bin
-PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
