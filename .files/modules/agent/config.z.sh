@@ -338,7 +338,20 @@ agent-start() {
     tmux new-window -n Codex -c "#{pane_current_path}" "zsh -ic 'codex resume --last; printf \"Press Enter to close...\"; read -r'"
     ;;
   Claude)
-    tmux new-window -n Claude -c "#{pane_current_path}" "zsh -ic 'claude --continue; printf \"Press Enter to close...\"; read -r'"
+    tmux new-window -n Claude -c "#{pane_current_path}" \
+      "zsh -ic '
+        project_key=\$(pwd | sed \"s|/|-|g\")
+
+        if [[ -d \"\$HOME/.claude/projects/\$project_key\" ]] &&
+          find \"\$HOME/.claude/projects/\$project_key\" -name \"*.jsonl\" -print -quit | grep -q .; then
+          claude --continue
+        else
+          claude
+        fi
+
+        printf \"Press Enter to close...\"
+        read -r
+      '"
     ;;
   OpenCode)
     tmux new-window -n Opencode -c "#{pane_current_path}" "zsh -ic 'opencode -c; printf \"Press Enter to close...\"; read -r'"
