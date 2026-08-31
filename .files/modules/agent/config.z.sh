@@ -244,69 +244,94 @@ agent-pull() {
   agent-sync
 }
 
-agent-start() {
-  local -a agent_names
-  local selected=1 countdown=5 countdown_active=1
-  local agent_name index key
+agent-select() {
+  local prompt="$1"
+  local default_name="$2"
+  local countdown="$3"
+  shift 3
 
-  agent_names=(Codex Claude OpenCode)
+  local -a options
+  local selected=1 countdown_active=0
+  local index key
+
+  options=("$@")
+
+  if [ -n "$default_name" ] && ((countdown > 0)); then
+    countdown_active=1
+  fi
 
   while true; do
     printf '\033[2J\033[H'
-    echo "Select an agent (j/k, Enter; q to cancel):"
+    echo "$prompt"
 
     if ((countdown_active)); then
-      echo "Starting Codex in ${countdown}s..."
+      echo "Starting ${default_name} in ${countdown}s..."
     else
       echo
     fi
 
-    for ((index = 1; index <= ${#agent_names}; index++)); do
+    for ((index = 1; index <= ${#options}; index++)); do
       if ((index == selected)); then
-        printf '  \033[7m> %s\033[0m\n' "${agent_names[index]}"
+        printf '  \033[7m> %s\033[0m\n' "${options[index]}"
       else
-        printf '    %s\n' "${agent_names[index]}"
+        printf '    %s\n' "${options[index]}"
       fi
     done
 
     key=
+
     if ((countdown_active)); then
       if ! read -rs -k 1 -t 1 key </dev/tty; then
         ((countdown--))
 
         if ((countdown == 0)); then
-          agent_name=Codex
+          REPLY="$default_name"
           break
         fi
 
         continue
       fi
     else
-      read -rs -k 1 key </dev/tty || return 0
+      read -rs -k 1 key </dev/tty || return 1
     fi
 
     case "$key" in
     k)
-      ((selected = selected > 1 ? selected - 1 : ${#agent_names}))
+      ((selected = selected > 1 ? selected - 1 : ${#options}))
       countdown_active=0
       ;;
     j)
-      ((selected = selected < ${#agent_names} ? selected + 1 : 1))
+      ((selected = selected < ${#options} ? selected + 1 : 1))
       countdown_active=0
       ;;
     $'\n' | $'\r')
-      agent_name="${agent_names[selected]}"
+      REPLY="${options[selected]}"
       break
       ;;
-    q | Q)
+    $'\e')
       printf '\033[2J\033[H'
       echo "Cancelled."
-      return 0
+      return 1
       ;;
     esac
   done
 
   printf '\033[2J\033[H'
+}
+
+agent-start() {
+  local -a agent_names
+  local agent_name
+
+  agent_names=(Codex Claude OpenCode)
+
+  agent-select \
+    "Select an agent (j/k, Enter; Esc to cancel):" \
+    "Codex" \
+    5 \
+    "${agent_names[@]}" || return 0
+
+  agent_name="$REPLY"
 
   case "$agent_name" in
   Codex)
@@ -358,46 +383,17 @@ agent-clear() {
 
 agent-sessions() {
   local -a agent_names
-  local selected=1
-  local agent_name index key
+  local agent_name
 
   agent_names=(Codex Claude OpenCode)
 
-  while true; do
-    printf '\033[2J\033[H'
-    echo "Select an agent (j/k, Enter; q to cancel):"
-    echo
+  agent-select \
+    "Select an agent (j/k, Enter; Esc to cancel):" \
+    "" \
+    0 \
+    "${agent_names[@]}" || return 0
 
-    for ((index = 1; index <= ${#agent_names}; index++)); do
-      if ((index == selected)); then
-        printf '  \033[7m> %s\033[0m\n' "${agent_names[index]}"
-      else
-        printf '    %s\n' "${agent_names[index]}"
-      fi
-    done
-
-    read -rs -k 1 key </dev/tty || return 0
-
-    case "$key" in
-    k)
-      ((selected = selected > 1 ? selected - 1 : ${#agent_names}))
-      ;;
-    j)
-      ((selected = selected < ${#agent_names} ? selected + 1 : 1))
-      ;;
-    $'\n' | $'\r')
-      agent_name="${agent_names[selected]}"
-      break
-      ;;
-    q | Q)
-      printf '\033[2J\033[H'
-      echo "Cancelled."
-      return 0
-      ;;
-    esac
-  done
-
-  printf '\033[2J\033[H'
+  agent_name="$REPLY"
 
   case "$agent_name" in
   Codex)
@@ -419,48 +415,17 @@ agent-connect() {
   fi
 
   local -a mcp_names
-  local selected=1 key
   local mcp_name
 
   mcp_names=(atlassian)
 
-  while true; do
-    printf '\033[2J\033[H'
-    echo "Select an MCP server (↑/↓, Enter; q to cancel):"
-    echo
+  agent-select \
+    "Select an MCP server (j/k, Enter; Esc to cancel):" \
+    "" \
+    0 \
+    "${mcp_names[@]}" || return 0
 
-    local index
-    for ((index = 1; index <= ${#mcp_names}; index++)); do
-      if ((index == selected)); then
-        printf '  \033[7m> %s\033[0m\n' "${mcp_names[index]}"
-      else
-        printf '    %s\n' "${mcp_names[index]}"
-      fi
-    done
-
-    read -rs -k 1 key || return 0
-
-    case "$key" in
-    $'\e')
-      read -rs -k 2 key
-      case "$key" in
-      '[A') ((selected = selected > 1 ? selected - 1 : ${#mcp_names})) ;;
-      '[B') ((selected = selected < ${#mcp_names} ? selected + 1 : 1)) ;;
-      esac
-      ;;
-    $'\n' | $'\r')
-      mcp_name="${mcp_names[selected]}"
-      break
-      ;;
-    q | Q)
-      printf '\033[2J\033[H'
-      echo "Cancelled."
-      return 0
-      ;;
-    esac
-  done
-
-  printf '\033[2J\033[H'
+  mcp_name="$REPLY"
 
   if codex mcp get "$mcp_name" >/dev/null 2>&1; then
     echo "Reconnecting: $mcp_name"
