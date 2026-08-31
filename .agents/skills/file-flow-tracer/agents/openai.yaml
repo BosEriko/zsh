@@ -1,0 +1,4 @@
+interface:
+  display_name: "File Flow Tracer"
+  short_description: "Trace file-to-file execution flow with line links"
+  default_prompt: "Use $file-flow-tracer to show the concise calling flow between relevant files."
