@@ -26,3 +26,12 @@ the implementation satisfies the requirements and acceptance criteria.
 - Do not commit changes unless explicitly requested.
 - Never claim that tests, linting, builds, or other checks passed unless they were actually run.
 - Clearly report anything that could not be verified.
+
+# Code Comments
+
+- Do not add code comments unless explicitly requested.
+- Do not add comments explaining implementation details, data flow, security behavior, performance characteristics, or obvious design decisions.
+- Do not add comments describing what a function, block, variable, endpoint, or operation does.
+- Do not add JSDoc or documentation comments unless explicitly requested.
+- Preserve existing comments unless the change makes them inaccurate.
+- Prefer clear naming and self-explanatory code instead of comments.
