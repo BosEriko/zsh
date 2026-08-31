@@ -18,16 +18,19 @@ git clone https://github.com/BosEriko/AGENTS.md.git ~/.config/agents
 # Symlink (Codex)
 mkdir -p ~/.codex
 ln -sf ~/.agents/AGENTS.md ~/.codex/AGENTS.md
+rm -rf ~/.codex/skills
 ln -sfn ~/.agents/skills ~/.codex/skills
 
 # Symlink (Claude)
 mkdir -p ~/.claude
 ln -sf ~/.agents/AGENTS.md ~/.claude/CLAUDE.md
+rm -rf ~/.claude/skills
 ln -sfn ~/.agents/skills ~/.claude/skills
 
 # Symlink (OpenCode)
 mkdir -p ~/.config/opencode
 ln -sf ~/.agents/AGENTS.md ~/.config/opencode/AGENTS.md
+rm -rf ~/.config/opencode/skills
 ln -sfn ~/.agents/skills ~/.config/opencode/skills
 
 # Install Agent
