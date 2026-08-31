@@ -357,7 +357,59 @@ agent-clear() {
 }
 
 agent-sessions() {
-  codex resume --all
+  local -a agent_names
+  local selected=1
+  local agent_name index key
+
+  agent_names=(Codex Claude OpenCode)
+
+  while true; do
+    printf '\033[2J\033[H'
+    echo "Select an agent (j/k, Enter; q to cancel):"
+    echo
+
+    for ((index = 1; index <= ${#agent_names}; index++)); do
+      if ((index == selected)); then
+        printf '  \033[7m> %s\033[0m\n' "${agent_names[index]}"
+      else
+        printf '    %s\n' "${agent_names[index]}"
+      fi
+    done
+
+    read -rs -k 1 key </dev/tty || return 0
+
+    case "$key" in
+    k)
+      ((selected = selected > 1 ? selected - 1 : ${#agent_names}))
+      ;;
+    j)
+      ((selected = selected < ${#agent_names} ? selected + 1 : 1))
+      ;;
+    $'\n' | $'\r')
+      agent_name="${agent_names[selected]}"
+      break
+      ;;
+    q | Q)
+      printf '\033[2J\033[H'
+      echo "Cancelled."
+      return 0
+      ;;
+    esac
+  done
+
+  printf '\033[2J\033[H'
+
+  case "$agent_name" in
+  Codex)
+    codex resume --all
+    ;;
+  Claude)
+    claude --resume
+    ;;
+  OpenCode)
+    opencode session list
+    ;;
+  esac
 }
 
 agent-connect() {
