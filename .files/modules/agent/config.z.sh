@@ -307,7 +307,7 @@ agent-start() {
     tmux new-window -n Codex -c "#{pane_current_path}" "codex resume --last; printf 'Press Enter to close...'; read -r"
     ;;
   Claude)
-    tmux new-window -n Claude -c "#{pane_current_path}" "claude; printf 'Press Enter to close...'; read -r"
+    tmux new-window -n Claude -c "#{pane_current_path}" "claude --continue; printf 'Press Enter to close...'; read -r"
     ;;
   OpenCode)
     tmux new-window -n Opencode -c "#{pane_current_path}" "opencode -c; printf 'Press Enter to close...'; read -r"
