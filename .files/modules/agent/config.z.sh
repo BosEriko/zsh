@@ -340,6 +340,7 @@ agent-start() {
   Claude)
     tmux new-window -n Claude -c "#{pane_current_path}" \
       "zsh -ic '
+        export CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1
         project_key=\$(pwd | sed \"s|/|-|g\")
 
         if [[ -d \"\$HOME/.claude/projects/\$project_key\" ]] &&
