@@ -245,7 +245,14 @@ agent-pull() {
 }
 
 agent-select() {
-  local prompt="$1"
+  local noun="$1"
+  local article="a"
+
+  if [[ "$noun" == [aeiouAEIOU]* || "$noun" == [FHLMNRSX][A-Z]* ]]; then
+    article="an"
+  fi
+
+  local prompt="Select $article $noun (j/k, Enter; Esc to cancel):"
   local default_name="$2"
   local countdown="$3"
   shift 3
@@ -326,7 +333,7 @@ agent-start() {
   agent_names=(Codex Claude OpenCode)
 
   agent-select \
-    "Select an agent (j/k, Enter; Esc to cancel):" \
+    "agent" \
     "Codex" \
     5 \
     "${agent_names[@]}" || return 0
@@ -402,7 +409,7 @@ agent-sessions() {
   agent_names=(Codex Claude OpenCode)
 
   agent-select \
-    "Select an agent (j/k, Enter; Esc to cancel):" \
+    "agent" \
     "" \
     0 \
     "${agent_names[@]}" || return 0
@@ -482,7 +489,7 @@ agent-connect() {
   mcp_names=(atlassian)
 
   agent-select \
-    "Select an agent (j/k, Enter; Esc to cancel):" \
+    "agent" \
     "" \
     0 \
     "${agent_names[@]}" || return 0
@@ -490,7 +497,7 @@ agent-connect() {
   agent_name="$REPLY"
 
   agent-select \
-    "Select an MCP server (j/k, Enter; Esc to cancel):" \
+    "MCP server" \
     "" \
     0 \
     "${mcp_names[@]}" || return 0
