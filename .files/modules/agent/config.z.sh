@@ -422,11 +422,72 @@ agent-sessions() {
   esac
 }
 
-agent-connect() {
-  local -a mcp_names
-  local mcp_name mcp_url
+agent-mcp-connect() {
+  local agent_name="$1" mcp_name="$2" mcp_url="$3"
 
+  case "$agent_name" in
+  Codex)
+    if ! command -v codex >/dev/null 2>&1; then
+      echo "Codex: not installed or in PATH."
+      return 1
+    fi
+
+    if codex mcp get "$mcp_name" >/dev/null 2>&1; then
+      echo "Codex: reconnecting $mcp_name"
+      codex mcp logout "$mcp_name" >/dev/null 2>&1
+      codex mcp login "$mcp_name"
+    else
+      echo "Codex: adding $mcp_name"
+      codex mcp add "$mcp_name" --url "$mcp_url" && codex mcp login "$mcp_name"
+    fi
+    ;;
+  Claude)
+    if ! command -v claude >/dev/null 2>&1; then
+      echo "Claude: not installed or in PATH."
+      return 1
+    fi
+
+    if claude mcp get "$mcp_name" >/dev/null 2>&1; then
+      echo "Claude: reconnecting $mcp_name"
+      claude mcp logout "$mcp_name" >/dev/null 2>&1
+      claude mcp login "$mcp_name"
+    else
+      echo "Claude: adding $mcp_name"
+      claude mcp add --transport http --scope user "$mcp_name" "$mcp_url" && claude mcp login "$mcp_name"
+    fi
+    ;;
+  OpenCode)
+    if ! command -v opencode >/dev/null 2>&1; then
+      echo "OpenCode: not installed or in PATH."
+      return 1
+    fi
+
+    if opencode mcp list 2>/dev/null | grep -qi "$mcp_name"; then
+      echo "OpenCode: reconnecting $mcp_name"
+      opencode mcp logout "$mcp_name" >/dev/null 2>&1
+      opencode mcp auth "$mcp_name"
+    else
+      echo "OpenCode: adding $mcp_name"
+      opencode mcp add "$mcp_name" --url "$mcp_url" && opencode mcp auth "$mcp_name"
+    fi
+    ;;
+  esac
+}
+
+agent-connect() {
+  local -a agent_names mcp_names
+  local agent_name mcp_name mcp_url
+
+  agent_names=(All Codex Claude OpenCode)
   mcp_names=(atlassian)
+
+  agent-select \
+    "Select an agent (j/k, Enter; Esc to cancel):" \
+    "" \
+    0 \
+    "${agent_names[@]}" || return 0
+
+  agent_name="$REPLY"
 
   agent-select \
     "Select an MCP server (j/k, Enter; Esc to cancel):" \
@@ -446,50 +507,12 @@ agent-connect() {
     ;;
   esac
 
-  if ! command -v codex >/dev/null 2>&1 &&
-    ! command -v claude >/dev/null 2>&1 &&
-    ! command -v opencode >/dev/null 2>&1; then
-    echo "No agent is installed or in PATH (codex, claude, opencode)."
-    return 1
-  fi
-
-  # ---------------------------------------------------------------------- Codex
-
-  if command -v codex >/dev/null 2>&1; then
-    if codex mcp get "$mcp_name" >/dev/null 2>&1; then
-      echo "Codex: reconnecting $mcp_name"
-      codex mcp logout "$mcp_name" >/dev/null 2>&1
-      codex mcp login "$mcp_name"
-    else
-      echo "Codex: adding $mcp_name"
-      codex mcp add "$mcp_name" --url "$mcp_url"
-    fi
-  fi
-
-  # --------------------------------------------------------------------- Claude
-
-  if command -v claude >/dev/null 2>&1; then
-    if claude mcp get "$mcp_name" >/dev/null 2>&1; then
-      echo "Claude: reconnecting $mcp_name"
-      claude mcp logout "$mcp_name" >/dev/null 2>&1
-      claude mcp login "$mcp_name"
-    else
-      echo "Claude: adding $mcp_name"
-      claude mcp add --transport http --scope user "$mcp_name" "$mcp_url"
-    fi
-  fi
-
-  # ------------------------------------------------------------------- OpenCode
-
-  if command -v opencode >/dev/null 2>&1; then
-    if opencode mcp list 2>/dev/null | grep -qi "$mcp_name"; then
-      echo "OpenCode: reconnecting $mcp_name"
-      opencode mcp logout "$mcp_name" >/dev/null 2>&1
-      opencode mcp auth "$mcp_name"
-    else
-      echo "OpenCode: adding $mcp_name"
-      opencode mcp add "$mcp_name" --url "$mcp_url"
-    fi
+  if [ "$agent_name" = "All" ]; then
+    agent-mcp-connect Codex "$mcp_name" "$mcp_url"
+    agent-mcp-connect Claude "$mcp_name" "$mcp_url"
+    agent-mcp-connect OpenCode "$mcp_name" "$mcp_url"
+  else
+    agent-mcp-connect "$agent_name" "$mcp_name" "$mcp_url"
   fi
 }
 
