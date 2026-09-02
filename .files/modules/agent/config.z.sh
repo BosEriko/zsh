@@ -370,8 +370,6 @@ agent-start() {
 agent-clear() {
   setopt localoptions RM_STAR_SILENT
 
-  codex_sessions_dir="$HOME/.codex/sessions"
-
   printf "Press Enter to delete ALL Codex, Claude, and OpenCode sessions (anything else cancels): "
   read -r answer
 
@@ -382,8 +380,11 @@ agent-clear() {
 
   # ---------------------------------------------------------------------- Codex
 
-  if [ -d "$codex_sessions_dir" ]; then
-    rm -rf -- "$codex_sessions_dir"/*(N)
+  if command -v codex >/dev/null 2>&1; then
+    rm -rf -- \
+      "$HOME/.codex/sessions" \
+      "$HOME/.codex/session_index.jsonl"(N) \
+      "$HOME/.codex/"thread_history_*.sqlite*(N)
     echo "All Codex sessions deleted."
   fi
 
