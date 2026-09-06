@@ -26,6 +26,8 @@ the implementation satisfies the requirements and acceptance criteria.
 - Do not commit changes unless explicitly requested.
 - Never claim that tests, linting, builds, or other checks passed unless they were actually run.
 - Clearly report anything that could not be verified.
+- Never add yourself, an AI assistant, agent, model, or tool as a commit author or co-author.
+- Never add `Co-authored-by` or similar attribution for yourself to commit messages.
 
 # Code Comments
 
