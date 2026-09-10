@@ -1,5 +1,7 @@
 # =========================================================================== [Installation] ===== #
 
 if [[ "$OS_TYPE" == "win" ]]; then
-  echo "[Initalizers — Windows] Installed."
+  # Install Fastfetch
+  sudo apt-get update
+  sudo apt-get install -y fastfetch
 fi

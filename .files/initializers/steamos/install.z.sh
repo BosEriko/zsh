@@ -16,6 +16,6 @@ if [[ "$OS_TYPE" == "stm" ]]; then
     export __NIX_ENV_LOADED=1
   fi
 
-  # Install Neofetch
-  nix-env -iA nixpkgs.neofetch
+  # Install Fastfetch
+  nix-env -iA nixpkgs.fastfetch
 fi
