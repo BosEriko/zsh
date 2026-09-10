@@ -118,7 +118,12 @@ git-push-automatic() {
 
 # Branch Name Copy
 git-branch-name-copy() {
-  git branch | grep \* | cut -d ' ' -f2 | tr -d '\n' | clip.exe
+  local branch_name=$(git branch --show-current)
+  case "$OS_TYPE" in
+  mac) printf '%s' "$branch_name" | pbcopy ;;
+  win) printf '%s' "$branch_name" | clip.exe ;;
+  *) printf '%s' "$branch_name" | xclip -selection clipboard ;;
+  esac
   echo "Branch name has been copied."
 }
 
