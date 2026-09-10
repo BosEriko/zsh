@@ -17,5 +17,7 @@ if [[ "$OS_TYPE" == "stm" ]]; then
   fi
 
   # Install Fastfetch
-  nix-env -iA nixpkgs.fastfetch
+  if ! command -v fastfetch >/dev/null 2>&1; then
+    nix-env -iA nixpkgs.fastfetch
+  fi
 fi

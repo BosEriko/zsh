@@ -2,8 +2,12 @@
 
 if [[ "$OS_TYPE" == "mac" ]]; then
   # Install Brew
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  if ! command -v brew >/dev/null 2>&1; then
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  fi
 
   # Install Fastfetch
-  brew install fastfetch
+  if ! command -v fastfetch >/dev/null 2>&1; then
+    brew install fastfetch
+  fi
 fi

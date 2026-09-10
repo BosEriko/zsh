@@ -1,22 +1,36 @@
 # =========================================================================== [Installation] ===== #
 
-if [[ "$OS_TYPE" == "mac" ]]; then
-  # Install figlet, lolcat and gitmoji
-  brew install figlet lolcat gitmoji
+# Install figlet
+if ! command -v figlet >/dev/null 2>&1; then
+  if [[ "$OS_TYPE" == "mac" ]]; then
+    brew install figlet
+  elif [[ "$OS_TYPE" == "stm" ]]; then
+    nix-env -iA nixpkgs.figlet
+  elif [[ "$OS_TYPE" == "win" ]]; then
+    sudo apt-get update
+    sudo apt-get install -y figlet
+  fi
 fi
 
-if [[ "$OS_TYPE" == "stm" ]]; then
-  # Install figlet, lolcat and gitmoji
-  nix-env -iA nixpkgs.figlet nixpkgs.lolcat nixpkgs.gitmoji-cli
+# Install lolcat
+if ! command -v lolcat >/dev/null 2>&1; then
+  if [[ "$OS_TYPE" == "mac" ]]; then
+    brew install lolcat
+  elif [[ "$OS_TYPE" == "stm" ]]; then
+    nix-env -iA nixpkgs.lolcat
+  elif [[ "$OS_TYPE" == "win" ]]; then
+    sudo apt-get update
+    sudo apt-get install -y lolcat
+  fi
 fi
 
-if [[ "$OS_TYPE" == "win" ]]; then
-  # Install figlet and lolcat
-  sudo apt-get update
-  sudo apt-get install -y figlet lolcat
-
-  # Install gitmoji
-  if command -v npm >/dev/null 2>&1; then
+# Install gitmoji
+if ! command -v gitmoji >/dev/null 2>&1; then
+  if [[ "$OS_TYPE" == "mac" ]]; then
+    brew install gitmoji
+  elif [[ "$OS_TYPE" == "stm" ]]; then
+    nix-env -iA nixpkgs.gitmoji-cli
+  elif [[ "$OS_TYPE" == "win" ]] && command -v npm >/dev/null 2>&1; then
     npm install -g gitmoji-cli
   fi
 fi

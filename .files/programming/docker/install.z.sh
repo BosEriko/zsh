@@ -3,17 +3,21 @@
 
 # Install Podman
 if [[ "$OS_TYPE" == "stm" ]]; then
-  nix-env -iA nixpkgs.podman nixpkgs.podman-compose
+  command -v podman >/dev/null 2>&1 || nix-env -iA nixpkgs.podman
+  command -v podman-compose >/dev/null 2>&1 || nix-env -iA nixpkgs.podman-compose
 fi
 
+# Install Docker
 if [[ "$OS_TYPE" == "mac" ]]; then
-  brew install docker
-  brew install docker-compose
-  brew install colima
+  command -v docker >/dev/null 2>&1 || brew install docker
+  command -v docker-compose >/dev/null 2>&1 || brew install docker-compose
+  command -v colima >/dev/null 2>&1 || brew install colima
   brew services start colima
 fi
 
 if [[ "$OS_TYPE" == "win" ]]; then
-  curl -fsSL https://get.docker.com | sh
-  sudo usermod -aG docker "$USER"
+  if ! command -v docker >/dev/null 2>&1; then
+    curl -fsSL https://get.docker.com | sh
+    sudo usermod -aG docker "$USER"
+  fi
 fi
