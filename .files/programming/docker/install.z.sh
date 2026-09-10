@@ -12,3 +12,8 @@ if [[ "$OS_TYPE" == "mac" ]]; then
   brew install colima
   brew services start colima
 fi
+
+if [[ "$OS_TYPE" == "win" ]]; then
+  curl -fsSL https://get.docker.com | sh
+  sudo usermod -aG docker "$USER"
+fi

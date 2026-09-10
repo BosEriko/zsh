@@ -33,9 +33,35 @@ ln -sf ~/.agents/AGENTS.md ~/.config/opencode/AGENTS.md
 rm -rf ~/.config/opencode/skills
 ln -sfn ~/.agents/skills ~/.config/opencode/skills
 
-# Install Agent
+# Install Agent (Claude Code)
+curl -fsSL https://claude.ai/install.sh | bash
+
+# Install Agent (Codex, OpenCode)
 if [[ "$OS_TYPE" == "mac" ]]; then
   brew install --cask codex
-  curl -fsSL https://claude.ai/install.sh | bash
   brew install anomalyco/tap/opencode
+fi
+
+if [[ "$OS_TYPE" == "stm" ]]; then
+  nix-env -iA nixpkgs.codex nixpkgs.opencode
+fi
+
+if [[ "$OS_TYPE" == "win" ]]; then
+  curl -fsSL https://opencode.ai/install | bash
+
+  case "$(uname -m)" in
+  x86_64 | amd64) codex_arch="x86_64" ;;
+  aarch64 | arm64) codex_arch="aarch64" ;;
+  *) codex_arch="" ;;
+  esac
+
+  if [[ -n "$codex_arch" ]]; then
+    mkdir -p ~/.local/bin
+    curl -fsSL -o /tmp/codex.tar.gz \
+      "https://github.com/openai/codex/releases/latest/download/codex-${codex_arch}-unknown-linux-musl.tar.gz"
+    tar -xzf /tmp/codex.tar.gz -C ~/.local/bin
+    mv "$HOME/.local/bin/codex-${codex_arch}-unknown-linux-musl" ~/.local/bin/codex
+    chmod +x ~/.local/bin/codex
+    rm /tmp/codex.tar.gz
+  fi
 fi

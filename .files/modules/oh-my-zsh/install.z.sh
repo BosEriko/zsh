@@ -11,3 +11,8 @@ fi
 if [[ "$OS_TYPE" == "mac" ]]; then
   brew install antigen
 fi
+
+if [[ "$OS_TYPE" == "win" ]]; then
+  sudo apt-get update
+  sudo apt-get install -y zsh-antigen
+fi

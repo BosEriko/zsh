@@ -12,6 +12,10 @@ if [[ "$OS_TYPE" == "mac" ]]; then
   source $(brew --prefix)/share/antigen/antigen.zsh
 fi
 
+if [[ "$OS_TYPE" == "win" ]]; then
+  source /usr/share/zsh-antigen/antigen.zsh
+fi
+
 export ZSH_PLUGINS_ALIAS_TIPS_TEXT="Has alias: "
 antigen use oh-my-zsh
 antigen bundle djui/alias-tips

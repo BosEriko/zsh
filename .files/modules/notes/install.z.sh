@@ -16,6 +16,16 @@ git clone https://github.com/BosEriko/obsidian.git ~/Documents/Notes
 )
 
 # Install Obsidian
+if [[ "$OS_TYPE" == "mac" ]]; then
+  brew install --cask obsidian
+fi
+
 if [[ "$OS_TYPE" == "stm" ]]; then
   NIXPKGS_ALLOW_UNFREE=1 nix-env -iA nixpkgs.obsidian
+fi
+
+if [[ "$OS_TYPE" == "win" ]]; then
+  if command -v winget.exe >/dev/null 2>&1; then
+    winget.exe install -e --id Obsidian.Obsidian
+  fi
 fi
