@@ -1,19 +1,19 @@
 # =========================================================================== [Installation] ===== #
 
 # Clone repository
-if [ ! -d ~/.config/agents ]; then
+if [ ! -d ~/.config/brains ]; then
   mkdir -p ~/.config
-  git clone https://github.com/BosEriko/AGENTS.md.git ~/.config/agents
+  git clone https://github.com/BosEriko/BRAINS.md.git ~/.config/brains
   (
-    cd ~/.config/agents
+    cd ~/.config/brains
     git remote rm origin
-    git remote add origin git@github.com:BosEriko/AGENTS.md.git
-    git remote add github git@github.com:BosEriko/AGENTS.md.git
-    git remote add gitlab git@gitlab.com:BosEriko/AGENTS.md.git
-    git remote add bitbucket git@bitbucket.org:BosEriko/AGENTS.md.git
-    git remote set-url --add --push origin git@github.com:BosEriko/AGENTS.md.git
-    git remote set-url --add --push origin git@gitlab.com:BosEriko/AGENTS.md.git
-    git remote set-url --add --push origin git@bitbucket.org:BosEriko/AGENTS.md.git
+    git remote add origin git@github.com:BosEriko/BRAINS.md.git
+    git remote add github git@github.com:BosEriko/BRAINS.md.git
+    git remote add gitlab git@gitlab.com:BosEriko/BRAINS.md.git
+    git remote add bitbucket git@bitbucket.org:BosEriko/BRAINS.md.git
+    git remote set-url --add --push origin git@github.com:BosEriko/BRAINS.md.git
+    git remote set-url --add --push origin git@gitlab.com:BosEriko/BRAINS.md.git
+    git remote set-url --add --push origin git@bitbucket.org:BosEriko/BRAINS.md.git
   )
 fi
 
