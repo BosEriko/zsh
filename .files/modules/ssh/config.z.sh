@@ -61,6 +61,6 @@ ssh-key-copy() {
   echo "SSH key for '$identifier' has been copied to clipboard."
 }
 
-bos-append ssh key "Copy Main SSH Key to clipboard" "ssh-copy"
+bos-append ssh key "Copy the unnamed SSH Key to clipboard" "ssh-copy"
 bos-append ssh generate "Generate a new named SSH key and GitHub host alias" "ssh-key-generate"
 bos-append ssh copy "Copy a named SSH key to clipboard" "ssh-key-copy"
