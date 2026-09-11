@@ -78,7 +78,51 @@ ssh-key-list() {
   done
 }
 
+ssh-key-delete() {
+  ssh-key-list || return 1
+
+  echo "Please specify the identifier of the key to delete [e.g.: bos]:"
+  read identifier
+
+  if [[ ! "$identifier" =~ ^[a-zA-Z0-9_-]+$ ]]; then
+    echo "Invalid identifier. Use only letters, numbers, hyphens and underscores."
+    return 1
+  fi
+
+  local key_file="$HOME/.ssh/id_rsa_${identifier}"
+  local host_alias="github.${identifier}"
+  local ssh_config="$HOME/.ssh/config"
+
+  if [ ! -f "$key_file" ]; then
+    echo "No key found for '$identifier'."
+    return 1
+  fi
+
+  printf "Delete key '%s' and its host alias? (anything but Enter cancels): " "$identifier"
+  read -r answer
+  if [ -n "$answer" ]; then
+    echo "Cancelled."
+    return 0
+  fi
+
+  rm -f "$key_file" "$key_file.pub"
+
+  if [ -f "$ssh_config" ] && grep -Fxq "Host $host_alias" "$ssh_config"; then
+    awk -v host="Host $host_alias" '
+      $0 == host { skip = 1; next }
+      skip == 1 {
+        if ($0 ~ /^[ \t]/) { next }
+        skip = 0
+      }
+      { print }
+    ' "$ssh_config" >"${ssh_config}.tmp" && mv "${ssh_config}.tmp" "$ssh_config"
+  fi
+
+  echo "Deleted key '$identifier'."
+}
+
 bos-append ssh key "Copy the unnamed SSH Key to clipboard" "ssh-copy"
 bos-append ssh generate "Generate a new named SSH key and GitHub host alias" "ssh-key-generate"
 bos-append ssh copy "Copy a named SSH key to clipboard" "ssh-key-copy"
 bos-append ssh list "List named SSH keys" "ssh-key-list"
+bos-append ssh delete "Delete a named SSH key and its host alias" "ssh-key-delete"
