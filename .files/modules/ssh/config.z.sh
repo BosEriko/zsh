@@ -61,6 +61,22 @@ ssh-key-copy() {
   echo "SSH key for '$identifier' has been copied to clipboard."
 }
 
+ssh-key-list() {
+  local pubkeys=("$HOME"/.ssh/id_rsa_*.pub(N))
+
+  if [[ ${#pubkeys[@]} -eq 0 ]]; then
+    echo "No named SSH keys found. Run 'bos --ssh generate' first."
+    return
+  fi
+
+  for pub in "${pubkeys[@]}"; do
+    local identifier="${${pub:t}#id_rsa_}"
+    identifier="${identifier%.pub}"
+    echo "$identifier  (git@github.${identifier}:...)"
+  done
+}
+
 bos-append ssh key "Copy the unnamed SSH Key to clipboard" "ssh-copy"
 bos-append ssh generate "Generate a new named SSH key and GitHub host alias" "ssh-key-generate"
 bos-append ssh copy "Copy a named SSH key to clipboard" "ssh-key-copy"
+bos-append ssh list "List named SSH keys" "ssh-key-list"
