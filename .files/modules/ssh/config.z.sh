@@ -43,6 +43,8 @@ ssh-key-generate() {
 }
 
 ssh-key-copy() {
+  ssh-key-list || return 1
+
   echo "Please specify the identifier of the key to copy [e.g.: bos]:"
   read identifier
 
@@ -66,7 +68,7 @@ ssh-key-list() {
 
   if [[ ${#pubkeys[@]} -eq 0 ]]; then
     echo "No named SSH keys found. Run 'bos --ssh generate' first."
-    return
+    return 1
   fi
 
   for pub in "${pubkeys[@]}"; do
