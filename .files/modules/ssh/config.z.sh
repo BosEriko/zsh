@@ -8,4 +8,4 @@ ssh-copy() {
   esac
   echo "SSH Key has been copied to clipboard."
 }
-bos-append programming ssh-key "Copy Main SSH Key to clipboard" "ssh-copy"
+bos-append ssh key "Copy Main SSH Key to clipboard" "ssh-copy"
