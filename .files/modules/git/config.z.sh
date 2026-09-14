@@ -15,6 +15,7 @@ ${RESET}
     b                           Alias for branch
     bd, branch-delete           Delete a branch locally and remotely
     bnc, branch-name-copy       Copy the current branch name to clipboard
+    cl, clone                   Clone a repository, choosing which SSH key to use
     cmc, commit-message-copy    Copy the latest commit message to clipboard
     c                           Alias for commit
     cp                          Alias for cherry-pick
@@ -57,6 +58,8 @@ g() {
     git-emoji
   elif [ "$1" = "bnc" ] || [ "$1" = "branch-name-copy" ]; then
     git-branch-name-copy
+  elif [ "$1" = "cl" ] || [ "$1" = "clone" ]; then
+    git-clone $2
   elif [ "$1" = "pa" ] || [ "$1" = "push-automatic" ]; then
     git-push-automatic
   elif [ "$1" = "cmc" ] || [ "$1" = "commit-message-copy" ]; then
@@ -125,6 +128,58 @@ git-branch-name-copy() {
   *) printf '%s' "$branch_name" | xclip -selection clipboard ;;
   esac
   echo "Branch name has been copied."
+}
+
+# Clone
+git-clone() {
+  local repo="$1"
+
+  if [ -z "$repo" ]; then
+    echo "Please specify the git slug [e.g.: BosEriko/config]:"
+    read repo
+  fi
+
+  if [ -z "$repo" ]; then
+    echo "No repository specified."
+    return 1
+  fi
+
+  local -a identifiers
+  identifiers=(default)
+
+  local pub identifier
+  for pub in "$HOME"/.ssh/id_rsa_*.pub(N); do
+    identifier="${${pub:t}#id_rsa_}"
+    identifiers+=("${identifier%.pub}")
+  done
+
+  if [[ ${#identifiers[@]} -eq 1 ]]; then
+    identifier="default"
+  else
+    echo "Which SSH key do you want to clone with?"
+
+    local index=1
+    for identifier in "${identifiers[@]}"; do
+      echo "  $index) $identifier"
+      ((index++))
+    done
+
+    printf "Selection [1]: "
+    read choice
+    [ -z "$choice" ] && choice=1
+
+    if ! [[ "$choice" =~ ^[0-9]+$ ]] || ((choice < 1 || choice > ${#identifiers[@]})); then
+      echo "Invalid selection."
+      return 1
+    fi
+
+    identifier="${identifiers[choice]}"
+  fi
+
+  local host="github.com"
+  [ "$identifier" != "default" ] && host="github.${identifier}"
+
+  git clone "git@${host}:${repo}.git"
 }
 
 # Latest Commit Message Copy
