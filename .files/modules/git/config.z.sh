@@ -144,36 +144,40 @@ git-clone() {
     return 1
   fi
 
-  local -a identifiers
-  identifiers=(default)
+  # Normalize a full URL (git@host:org/repo.git or https://host/org/repo.git) down to org/repo
+  case "$repo" in
+  git@*:*)
+    repo="${repo#*:}"
+    ;;
+  *://*/*)
+    repo="${repo#*://*/}"
+    ;;
+  esac
+  repo="${repo%.git}"
 
-  local pub identifier
-  for pub in "$HOME"/.ssh/id_rsa_*.pub(N); do
-    identifier="${${pub:t}#id_rsa_}"
-    identifiers+=("${identifier%.pub}")
-  done
+  local -a pubkeys
+  pubkeys=("$HOME"/.ssh/id_rsa_*.pub(N))
 
-  if [[ ${#identifiers[@]} -eq 1 ]]; then
-    identifier="default"
-  else
-    echo "Which SSH key do you want to clone with?"
+  local identifier="default"
 
-    local index=1
-    for identifier in "${identifiers[@]}"; do
-      echo "  $index) $identifier"
-      ((index++))
+  if [[ ${#pubkeys[@]} -gt 0 ]]; then
+    echo "default  (git@github.com:...)"
+
+    local pub
+    for pub in "${pubkeys[@]}"; do
+      identifier="${${pub:t}#id_rsa_}"
+      identifier="${identifier%.pub}"
+      echo "$identifier  (git@github.${identifier}:...)"
     done
 
-    printf "Selection [1]: "
-    read choice
-    [ -z "$choice" ] && choice=1
+    echo "Please specify the identifier to clone with [e.g.: bos, or 'default']:"
+    read identifier
+    [ -z "$identifier" ] && identifier="default"
 
-    if ! [[ "$choice" =~ ^[0-9]+$ ]] || ((choice < 1 || choice > ${#identifiers[@]})); then
-      echo "Invalid selection."
+    if [ "$identifier" != "default" ] && [ ! -f "$HOME/.ssh/id_rsa_${identifier}.pub" ]; then
+      echo "No key found for '$identifier'."
       return 1
     fi
-
-    identifier="${identifiers[choice]}"
   fi
 
   local host="github.com"
