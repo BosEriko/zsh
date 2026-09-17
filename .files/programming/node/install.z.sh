@@ -12,14 +12,14 @@ if ! command -v node >/dev/null 2>&1; then
   fi
 fi
 
-# Install Yarn
-if ! command -v yarn >/dev/null 2>&1; then
+# Install pnpm
+if ! command -v pnpm >/dev/null 2>&1; then
   if [[ "$OS_TYPE" == "mac" ]]; then
-    brew install yarn
+    brew install pnpm
   elif [[ "$OS_TYPE" == "stm" ]]; then
-    nix-env -iA nixpkgs.yarn
+    nix-env -iA nixpkgs.pnpm
   elif [[ "$OS_TYPE" == "win" ]] && command -v npm >/dev/null 2>&1; then
-    npm install -g yarn
+    npm install -g pnpm
   fi
 fi
 
@@ -35,8 +35,8 @@ if ! command -v fnm >/dev/null 2>&1; then
 fi
 
 # Disable SSL Verification
-if command -v yarn >/dev/null 2>&1; then
-  yarn config set "strict-ssl" false
+if command -v pnpm >/dev/null 2>&1; then
+  pnpm config set "strict-ssl" false
 fi
 
 # Avoid running postinstall scripts from packages
