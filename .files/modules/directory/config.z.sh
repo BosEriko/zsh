@@ -18,23 +18,40 @@ jf() {
 }
 
 jc() {
-  case "$1" in
-  "foot")
-    check-and-cd ~/.config/foot
-    ;;
-  "kmonad")
-    check-and-cd ~/.config/kmonad
-    ;;
-  "steam")
-    check-and-cd ~
-    ;;
-  "sway")
-    check-and-cd ~/.config/sway
-    ;;
-  *)
-    echo "Jump Configuration: foot, kmonad, steam or sway"
-    ;;
-  esac
+  if [[ "$OS_TYPE" == "stm" ]]; then
+    case "$1" in
+    "foot")
+      check-and-cd ~/.config/foot
+      ;;
+    "kmonad")
+      check-and-cd ~/.config/kmonad
+      ;;
+    "steam")
+      check-and-cd ~
+      ;;
+    "sway")
+      check-and-cd ~/.config/sway
+      ;;
+    *)
+      echo "Jump Configuration: foot, kmonad, steam or sway"
+      ;;
+    esac
+  elif [[ "$OS_TYPE" == "mac" ]]; then
+    case "$1" in
+    "yabai")
+      check-and-cd ~/Documents/Codes/Configuration/yabai
+      ;;
+    "agent")
+      check-and-cd ~/.config/agents
+      ;;
+    "jarbos")
+      check-and-cd ~/.jarbos
+      ;;
+    *)
+      echo "Jump Configuration: yabai, agent or jarbos"
+      ;;
+    esac
+  fi
 }
 
 work() {
