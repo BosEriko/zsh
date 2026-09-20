@@ -10,4 +10,4 @@ fi
 export PATH="$HOME/.local/bin:$PATH"
 
 # jarbos
-jarbos-start &!
+jarbos-start
