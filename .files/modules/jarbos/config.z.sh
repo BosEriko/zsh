@@ -9,7 +9,7 @@ jarbos-start() {
 
   (
     cd ~/.jarbos || return 1
-    git pull --ff-only
+    git pull --ff-only origin main
     [ -d node_modules ] || pnpm install
     pnpm tauri dev &
     echo $! >"$pid_file"
