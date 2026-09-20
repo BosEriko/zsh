@@ -19,5 +19,5 @@ jarbos-start() {
     echo $! >"$lock_dir/pid"
     wait $!
     rm -rf "$lock_dir"
-  )
+  ) >"$HOME/.jarbos.log" 2>&1
 }
