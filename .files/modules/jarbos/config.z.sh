@@ -1,19 +1,23 @@
 # ========================================================================== [Configuration] ===== #
 
 jarbos-start() {
-  local pid_file="$HOME/.jarbos.pid"
+  local lock_dir="$HOME/.jarbos.lock"
 
-  if [ -f "$pid_file" ] && kill -0 "$(cat "$pid_file")" 2>/dev/null; then
-    return 1
+  if ! mkdir "$lock_dir" 2>/dev/null; then
+    kill -0 "$(cat "$lock_dir/pid" 2>/dev/null)" 2>/dev/null && return 1
+    rm -rf "$lock_dir"
+    mkdir "$lock_dir" 2>/dev/null || return 1
   fi
 
+  echo $$ >"$lock_dir/pid"
+
   (
-    cd ~/.jarbos || return 1
+    cd ~/.jarbos || { rm -rf "$lock_dir"; return 1; }
     git pull --ff-only origin main
     [ -d node_modules ] || pnpm install
     pnpm tauri dev &
-    echo $! >"$pid_file"
+    echo $! >"$lock_dir/pid"
     wait $!
-    rm -f "$pid_file"
+    rm -rf "$lock_dir"
   )
 }
