@@ -365,6 +365,9 @@ agent-start() {
     tmux new-window -n Opencode -c "#{pane_current_path}" "zsh -ic 'opencode -c; printf \"Press Enter to close...\"; read -r'"
     ;;
   esac
+
+  source ~/.files/modules/jarbos/config.z.sh
+  jarbos-start &!
 }
 
 agent-clear() {
