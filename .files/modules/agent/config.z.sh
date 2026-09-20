@@ -340,9 +340,6 @@ agent-start() {
 
   agent_name="$REPLY"
 
-  source ~/.files/modules/jarbos/config.z.sh
-  jarbos-start &!
-
   case "$agent_name" in
   Codex)
     tmux new-window -n Codex -c "#{pane_current_path}" "zsh -ic 'codex resume --last; printf \"Press Enter to close...\"; read -r'"
