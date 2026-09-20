@@ -8,6 +8,3 @@ fi
 
 # local bin
 export PATH="$HOME/.local/bin:$PATH"
-
-# jarbos
-jarbos-start

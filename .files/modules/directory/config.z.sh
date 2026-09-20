@@ -44,11 +44,8 @@ jc() {
     "agent")
       check-and-cd ~/.config/agents
       ;;
-    "jarbos")
-      check-and-cd ~/.jarbos
-      ;;
     *)
-      echo "Jump Configuration: yabai, agent or jarbos"
+      echo "Jump Configuration: yabai or agent"
       ;;
     esac
   fi
