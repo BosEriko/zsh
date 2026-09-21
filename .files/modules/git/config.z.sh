@@ -231,12 +231,13 @@ git-create() {
     echo "glab not installed, skipping GitLab."
   fi
 
-  if [ -n "$BITBUCKET_USERNAME" ] && [ -n "$BITBUCKET_APP_PASSWORD" ]; then
+  # BITBUCKET_API_TOKEN needs the "admin:repository:bitbucket" scope to create repos. (https://id.atlassian.com/manage-profile/security/api-tokens)
+  if [ -n "$BITBUCKET_EMAIL" ] && [ -n "$BITBUCKET_API_TOKEN" ] && [ -n "$BITBUCKET_WORKSPACE" ]; then
     local bb_response bb_status bb_body
-    bb_response=$(curl -s -w '\n%{http_code}' -u "${BITBUCKET_USERNAME}:${BITBUCKET_APP_PASSWORD}" \
+    bb_response=$(curl -s -w '\n%{http_code}' -u "${BITBUCKET_EMAIL}:${BITBUCKET_API_TOKEN}" \
       -X POST -H "Content-Type: application/json" \
       -d '{"scm": "git", "is_private": false}' \
-      "https://api.bitbucket.org/2.0/repositories/${BITBUCKET_USERNAME}/${repo_name}")
+      "https://api.bitbucket.org/2.0/repositories/${BITBUCKET_WORKSPACE}/${repo_name}")
     bb_status="${bb_response##*$'\n'}"
     bb_body="${bb_response%$'\n'*}"
     if [ "$bb_status" = "200" ]; then
@@ -245,7 +246,7 @@ git-create() {
       echo "Bitbucket repo creation failed (HTTP $bb_status): $bb_body"
     fi
   else
-    echo "BITBUCKET_USERNAME/BITBUCKET_APP_PASSWORD not set, skipping Bitbucket."
+    echo "BITBUCKET_EMAIL/BITBUCKET_API_TOKEN/BITBUCKET_WORKSPACE not set, skipping Bitbucket."
   fi
 }
 
