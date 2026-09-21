@@ -226,37 +226,26 @@ git-create() {
   fi
 
   if command -v glab >/dev/null 2>&1; then
-    glab repo create "$repo_name" --public
+    glab repo create "$repo_name" --public --skipGitInit
   else
     echo "glab not installed, skipping GitLab."
   fi
 
   if [ -n "$BITBUCKET_USERNAME" ] && [ -n "$BITBUCKET_APP_PASSWORD" ]; then
-    local bb_status
-    bb_status=$(curl -s -o /dev/null -w "%{http_code}" -u "${BITBUCKET_USERNAME}:${BITBUCKET_APP_PASSWORD}" \
+    local bb_response bb_status bb_body
+    bb_response=$(curl -s -w '\n%{http_code}' -u "${BITBUCKET_USERNAME}:${BITBUCKET_APP_PASSWORD}" \
       -X POST -H "Content-Type: application/json" \
       -d '{"scm": "git", "is_private": false}' \
       "https://api.bitbucket.org/2.0/repositories/${BITBUCKET_USERNAME}/${repo_name}")
+    bb_status="${bb_response##*$'\n'}"
+    bb_body="${bb_response%$'\n'*}"
     if [ "$bb_status" = "200" ]; then
       echo "Bitbucket repo created."
     else
-      echo "Bitbucket repo creation failed (HTTP $bb_status)."
+      echo "Bitbucket repo creation failed (HTTP $bb_status): $bb_body"
     fi
   else
     echo "BITBUCKET_USERNAME/BITBUCKET_APP_PASSWORD not set, skipping Bitbucket."
-  fi
-
-  if git rev-parse --show-toplevel >/dev/null 2>&1; then
-    local git_slug="BosEriko/${repo_name}"
-    git remote rm origin 2>/dev/null
-    git remote add origin git@github.com:${git_slug}.git
-    git remote add github git@github.com:${git_slug}.git
-    git remote add gitlab git@gitlab.com:${git_slug}.git
-    git remote add bitbucket git@bitbucket.org:${git_slug}.git
-    git remote set-url --add --push origin git@github.com:${git_slug}.git
-    git remote set-url --add --push origin git@gitlab.com:${git_slug}.git
-    git remote set-url --add --push origin git@bitbucket.org:${git_slug}.git
-    git remote -v
   fi
 }
 
