@@ -20,6 +20,7 @@ ${RESET}
     c                           Alias for commit
     cp                          Alias for cherry-pick
     co                          Alias for checkout
+    cr, create                  Create a repo on GitHub, GitLab and Bitbucket
     d                           Alias for diff
     dt                          Alias for difftool
     e, emoji                    Show the list of Gitmojis
@@ -60,6 +61,8 @@ g() {
     git-branch-name-copy
   elif [ "$1" = "cl" ] || [ "$1" = "clone" ]; then
     git-clone $2
+  elif [ "$1" = "cr" ] || [ "$1" = "create" ]; then
+    git-create $2
   elif [ "$1" = "pa" ] || [ "$1" = "push-automatic" ]; then
     git-push-automatic
   elif [ "$1" = "cmc" ] || [ "$1" = "commit-message-copy" ]; then
@@ -199,6 +202,61 @@ git-branch-delete() {
     echo "Please specify a branch"
   else
     git branch -D "$1"
+  fi
+}
+
+# Create
+git-create() {
+  local repo_name="$1"
+
+  if [ -z "$repo_name" ]; then
+    echo "Please specify a repo name:"
+    read repo_name
+  fi
+
+  if [ -z "$repo_name" ]; then
+    echo "No repo name specified."
+    return 1
+  fi
+
+  if command -v gh >/dev/null 2>&1; then
+    gh repo create "$repo_name" --public
+  else
+    echo "gh not installed, skipping GitHub."
+  fi
+
+  if command -v glab >/dev/null 2>&1; then
+    glab repo create "$repo_name" --public
+  else
+    echo "glab not installed, skipping GitLab."
+  fi
+
+  if [ -n "$BITBUCKET_USERNAME" ] && [ -n "$BITBUCKET_APP_PASSWORD" ]; then
+    local bb_status
+    bb_status=$(curl -s -o /dev/null -w "%{http_code}" -u "${BITBUCKET_USERNAME}:${BITBUCKET_APP_PASSWORD}" \
+      -X POST -H "Content-Type: application/json" \
+      -d '{"scm": "git", "is_private": false}' \
+      "https://api.bitbucket.org/2.0/repositories/${BITBUCKET_USERNAME}/${repo_name}")
+    if [ "$bb_status" = "200" ]; then
+      echo "Bitbucket repo created."
+    else
+      echo "Bitbucket repo creation failed (HTTP $bb_status)."
+    fi
+  else
+    echo "BITBUCKET_USERNAME/BITBUCKET_APP_PASSWORD not set, skipping Bitbucket."
+  fi
+
+  if git rev-parse --show-toplevel >/dev/null 2>&1; then
+    local git_slug="BosEriko/${repo_name}"
+    git remote rm origin 2>/dev/null
+    git remote add origin git@github.com:${git_slug}.git
+    git remote add github git@github.com:${git_slug}.git
+    git remote add gitlab git@gitlab.com:${git_slug}.git
+    git remote add bitbucket git@bitbucket.org:${git_slug}.git
+    git remote set-url --add --push origin git@github.com:${git_slug}.git
+    git remote set-url --add --push origin git@gitlab.com:${git_slug}.git
+    git remote set-url --add --push origin git@bitbucket.org:${git_slug}.git
+    git remote -v
   fi
 }
 

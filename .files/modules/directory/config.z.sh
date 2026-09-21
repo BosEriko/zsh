@@ -51,26 +51,6 @@ jc() {
   fi
 }
 
-work() {
-  case "$1" in
-  "bos-eriko-com")
-    check-and-cd $(eval echo $BOS_ERIKO_COM_DIRECTORY)
-    ;;
-  "bos-eriko-plus")
-    check-and-cd $(eval echo $BOS_ERIKO_PLUS_DIRECTORY)
-    ;;
-  "boteriko")
-    check-and-cd $(eval echo $BOTERIKO_DIRECTORY)
-    ;;
-  "overlay")
-    check-and-cd $(eval echo $OVERLAY_DIRECTORY)
-    ;;
-  *)
-    echo "Jump Work Folder: bos-eriko-com, bos-eriko-plus, boteriko or overlay"
-    ;;
-  esac
-}
-
 check-and-cd() {
   if [ ! -d "$1" ]; then
     mkdir -p "$1"
