@@ -20,7 +20,7 @@ ${RESET}
     c                           Alias for commit
     cp                          Alias for cherry-pick
     co                          Alias for checkout
-    cr, create                  Create a repo on GitHub, GitLab and Bitbucket
+    cr, create                  Print links to create a repo on GitHub, GitLab and Bitbucket
     d                           Alias for diff
     dt                          Alias for difftool
     e, emoji                    Show the list of Gitmojis
@@ -62,7 +62,7 @@ g() {
   elif [ "$1" = "cl" ] || [ "$1" = "clone" ]; then
     git-clone $2
   elif [ "$1" = "cr" ] || [ "$1" = "create" ]; then
-    git-create $2
+    git-create
   elif [ "$1" = "pa" ] || [ "$1" = "push-automatic" ]; then
     git-push-automatic
   elif [ "$1" = "cmc" ] || [ "$1" = "commit-message-copy" ]; then
@@ -207,47 +207,9 @@ git-branch-delete() {
 
 # Create
 git-create() {
-  local repo_name="$1"
-
-  if [ -z "$repo_name" ]; then
-    echo "Please specify a repo name:"
-    read repo_name
-  fi
-
-  if [ -z "$repo_name" ]; then
-    echo "No repo name specified."
-    return 1
-  fi
-
-  if command -v gh >/dev/null 2>&1; then
-    gh repo create "$repo_name" --public
-  else
-    echo "gh not installed, skipping GitHub."
-  fi
-
-  if command -v glab >/dev/null 2>&1; then
-    glab repo create "$repo_name" --public --skipGitInit
-  else
-    echo "glab not installed, skipping GitLab."
-  fi
-
-  # BITBUCKET_API_TOKEN needs the "admin:repository:bitbucket" scope to create repos. (https://id.atlassian.com/manage-profile/security/api-tokens)
-  if [ -n "$BITBUCKET_EMAIL" ] && [ -n "$BITBUCKET_API_TOKEN" ] && [ -n "$BITBUCKET_WORKSPACE" ]; then
-    local bb_response bb_status bb_body
-    bb_response=$(curl -s -w '\n%{http_code}' -u "${BITBUCKET_EMAIL}:${BITBUCKET_API_TOKEN}" \
-      -X POST -H "Content-Type: application/json" \
-      -d '{"scm": "git", "is_private": false}' \
-      "https://api.bitbucket.org/2.0/repositories/${BITBUCKET_WORKSPACE}/${repo_name}")
-    bb_status="${bb_response##*$'\n'}"
-    bb_body="${bb_response%$'\n'*}"
-    if [ "$bb_status" = "200" ]; then
-      echo "Bitbucket repo created."
-    else
-      echo "Bitbucket repo creation failed (HTTP $bb_status): $bb_body"
-    fi
-  else
-    echo "BITBUCKET_EMAIL/BITBUCKET_API_TOKEN/BITBUCKET_WORKSPACE not set, skipping Bitbucket."
-  fi
+  echo "GitHub:    https://github.com/new"
+  echo "GitLab:    https://gitlab.com/projects/new"
+  echo "Bitbucket: https://bitbucket.org/repo/create"
 }
 
 # Set Origin
