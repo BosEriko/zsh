@@ -14,7 +14,14 @@ function notes() {
     case "$cmd" in
     pull)
       git fetch origin
-      rm -rf .zsh_history
+      local overwrite_files=(
+        .obsidian/workspace.json
+        .zsh_history
+      )
+      local file
+      for file in "${overwrite_files[@]}"; do
+        git cat-file -e "origin/$BRANCH:$file" 2>/dev/null && git checkout "origin/$BRANCH" -- "$file"
+      done
       git pull origin "$BRANCH"
       ;;
     push)
