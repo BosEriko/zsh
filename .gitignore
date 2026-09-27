@@ -21,3 +21,4 @@
 
 # Except these
 .agents/skills/synced/
+.agents/skills/.system/
