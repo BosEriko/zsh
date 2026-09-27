@@ -18,3 +18,6 @@
 !README.md
 !example.env.z.sh
 !install.sh
+
+# Except these
+.agents/skills/synced/
