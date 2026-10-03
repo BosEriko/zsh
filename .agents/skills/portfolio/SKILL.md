@@ -111,7 +111,6 @@ A JSON array of topic names, formatted exactly like this:
 - Include a topic only when the repository genuinely uses that technology.
 - Do not add anything other than the topic names.
 - Validate the file with `jq -e 'type == "array" and all(type == "string")' TOPICS.json`.
-- Remove a `TOPICS.md` left over from older runs (see Commit).
 
 ## COVER.png
 
@@ -142,7 +141,6 @@ Look at the card after generating it and check that the text is not cut off.
 
 - Stage only the portfolio files that were written:
   ```sh
-  git rm -q --ignore-unmatch TOPICS.md
   git add PORTFOLIO.md ABOUT.md TOPICS.json COVER.png
   ```
 - Commit with a Gitmoji message that ends with today's date:
