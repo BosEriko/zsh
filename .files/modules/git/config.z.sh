@@ -276,7 +276,11 @@ git-about() {
   local website=$(awk '/^## Website/{found=1; next} /^## /{found=0} found' ABOUT.md | sed '/^[[:space:]]*$/d' | head -n 1)
   local -a listed managed current add_topics remove_topics
   listed=(${(f)"$(jq -r '.[]' TOPICS.json)"})
-  managed=(${(f)"$(curl -s https://raw.githubusercontent.com/BosEriko/BosEriko/refs/heads/master/topics.json | jq -r 'keys[] | select(. != "product" and . != "project")')"})
+  local managed_filter='keys[] | select(. != "product" and . != "project")'
+  if (( ${listed[(Ie)product]} || ${listed[(Ie)project]} )); then
+    managed_filter='keys[]'
+  fi
+  managed=(${(f)"$(curl -s https://raw.githubusercontent.com/BosEriko/BosEriko/refs/heads/master/topics.json | jq -r "$managed_filter")"})
   current=(${(f)"$(gh repo view --json repositoryTopics -q '.repositoryTopics[].name')"})
 
   local topic
