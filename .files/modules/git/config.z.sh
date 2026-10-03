@@ -100,14 +100,35 @@ git-help() {
 
 # Go
 git-go() {
-  git add .
-  if [ -z "$1" ]; then
-    claude -p "Use the git-commit skill to commit the currently staged changes in this repository." \
-      --permission-mode acceptEdits \
-      --allowedTools "Bash(git status:*),Bash(git diff:*),Bash(git log:*),Bash(git commit:*)" || return 1
-  else
+  if [ -n "$1" ]; then
+    git add .
     git commit -m "$1" || return 1
+    git push -u origin HEAD
+    return 0
   fi
+
+  if [ -z "$(git status --porcelain)" ]; then
+    echo "Nothing to commit."
+    return 1
+  fi
+
+  local message
+  message=$(claude -p "Use the git-commit skill to write a commit message for the currently uncommitted changes in this repository (staged and unstaged). Do not run git add or git commit. Print only the commit message, nothing else." \
+    --permission-mode acceptEdits \
+    --allowedTools "Bash(git status:*),Bash(git diff:*),Bash(git log:*)")
+
+  if [ -z "$message" ]; then
+    echo "Could not generate a commit message."
+    return 1
+  fi
+
+  echo "Proposed commit message:"
+  echo "$message"
+  echo "Continue with this commit? (Ctrl-C to abort, or press enter to continue)"
+  read
+
+  git add .
+  git commit -m "$message" || return 1
   git push -u origin HEAD
 }
 
