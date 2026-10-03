@@ -34,3 +34,27 @@ if ! command -v gitmoji >/dev/null 2>&1; then
     npm install -g gitmoji-cli
   fi
 fi
+
+# Install gh
+if ! command -v gh >/dev/null 2>&1; then
+  if [[ "$OS_TYPE" == "mac" ]]; then
+    brew install gh
+  elif [[ "$OS_TYPE" == "stm" ]]; then
+    nix-env -iA nixpkgs.gh
+  elif [[ "$OS_TYPE" == "win" ]]; then
+    sudo apt-get update
+    sudo apt-get install -y gh
+  fi
+fi
+
+# Install jq
+if ! command -v jq >/dev/null 2>&1; then
+  if [[ "$OS_TYPE" == "mac" ]]; then
+    brew install jq
+  elif [[ "$OS_TYPE" == "stm" ]]; then
+    nix-env -iA nixpkgs.jq
+  elif [[ "$OS_TYPE" == "win" ]]; then
+    sudo apt-get update
+    sudo apt-get install -y jq
+  fi
+fi

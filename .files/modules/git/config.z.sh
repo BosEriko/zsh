@@ -12,7 +12,8 @@ ${B_GREEN}
 ${RESET}
 
     a, add                      Interactively add files
-    b                           Alias for branch
+    ab, about                   Apply ABOUT.md and TOPICS.md to the GitHub repository
+    b                       Alias for branch
     bd, branch-delete           Delete a branch locally and remotely
     bnc, branch-name-copy       Copy the current branch name to clipboard
     cl, clone                   Clone a repository, choosing which SSH key to use
@@ -49,6 +50,8 @@ g() {
     git-help
   elif [ "$1" = "a" ] || [ "$1" = "add" ]; then
     git-add
+  elif [ "$1" = "ab" ] || [ "$1" = "about" ]; then
+    git-about
   elif [ "$1" = "r" ] || [ "$1" = "rework" ]; then
     git-rework
   elif [ "$1" = "g" ] || [ "$1" = "go" ]; then
@@ -253,4 +256,50 @@ git-add() {
   git add -N .
   git add -p
   git status
+}
+
+# About
+git-about() {
+  if [ ! -f ABOUT.md ] || [ ! -f TOPICS.md ]; then
+    echo "ABOUT.md and TOPICS.md must exist in the current directory."
+    return 1
+  fi
+
+  local repository
+  repository=$(gh repo view --json nameWithOwner -q .nameWithOwner) || return 1
+  local description=$(awk '/^## Description/{found=1; next} /^## /{found=0} found' ABOUT.md | sed '/^[[:space:]]*$/d' | paste -sd ' ' -)
+  local website=$(awk '/^## Website/{found=1; next} /^## /{found=0} found' ABOUT.md | sed '/^[[:space:]]*$/d' | head -n 1)
+  local -a listed managed current add_topics remove_topics
+  listed=(${(f)"$(sed -n 's/^- *//p' TOPICS.md)"})
+  managed=(${(f)"$(curl -s https://raw.githubusercontent.com/BosEriko/BosEriko/refs/heads/master/topics.json | jq -r 'keys[] | select(. != "product" and . != "project")')"})
+  current=(${(f)"$(gh repo view --json repositoryTopics -q '.repositoryTopics[].name')"})
+
+  local topic
+  for topic in "${listed[@]}"; do
+    (( ${current[(Ie)$topic]} )) || add_topics+=("$topic")
+  done
+  for topic in "${managed[@]}"; do
+    if (( ${current[(Ie)$topic]} )) && ! (( ${listed[(Ie)$topic]} )); then
+      remove_topics+=("$topic")
+    fi
+  done
+
+  echo "Repository:     $repository"
+  echo "Description:    $description"
+  echo "Website:        ${website:-(none)}"
+  echo "Add topics:     ${(j:, :)add_topics:-(none)}"
+  echo "Remove topics:  ${(j:, :)remove_topics:-(none)}"
+  echo "Apply these changes? (Ctrl-C to abort, or press enter to continue)"
+  read
+
+  local -a arguments
+  arguments=(--description "$description" --homepage "$website")
+  for topic in "${add_topics[@]}"; do
+    arguments+=(--add-topic "$topic")
+  done
+  for topic in "${remove_topics[@]}"; do
+    arguments+=(--remove-topic "$topic")
+  done
+
+  gh repo edit "$repository" "${arguments[@]}"
 }
