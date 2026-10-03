@@ -12,7 +12,7 @@ ${B_GREEN}
 ${RESET}
 
     a, add                      Interactively add files
-    ab, about                   Apply ABOUT.md and TOPICS.md to the GitHub repository
+    ab, about                   Apply ABOUT.md and TOPICS.json to the GitHub repository
     b                       Alias for branch
     bd, branch-delete           Delete a branch locally and remotely
     bnc, branch-name-copy       Copy the current branch name to clipboard
@@ -260,8 +260,13 @@ git-add() {
 
 # About
 git-about() {
-  if [ ! -f ABOUT.md ] || [ ! -f TOPICS.md ]; then
-    echo "ABOUT.md and TOPICS.md must exist in the current directory."
+  if [ ! -f ABOUT.md ] || [ ! -f TOPICS.json ]; then
+    echo "ABOUT.md and TOPICS.json must exist in the current directory."
+    return 1
+  fi
+
+  if ! jq -e 'type == "array" and all(type == "string")' TOPICS.json >/dev/null 2>&1; then
+    echo "TOPICS.json must be a JSON array of strings."
     return 1
   fi
 
@@ -270,7 +275,7 @@ git-about() {
   local description=$(awk '/^## Description/{found=1; next} /^## /{found=0} found' ABOUT.md | sed '/^[[:space:]]*$/d' | paste -sd ' ' -)
   local website=$(awk '/^## Website/{found=1; next} /^## /{found=0} found' ABOUT.md | sed '/^[[:space:]]*$/d' | head -n 1)
   local -a listed managed current add_topics remove_topics
-  listed=(${(f)"$(sed -n 's/^- *//p' TOPICS.md)"})
+  listed=(${(f)"$(jq -r '.[]' TOPICS.json)"})
   managed=(${(f)"$(curl -s https://raw.githubusercontent.com/BosEriko/BosEriko/refs/heads/master/topics.json | jq -r 'keys[] | select(. != "product" and . != "project")')"})
   current=(${(f)"$(gh repo view --json repositoryTopics -q '.repositoryTopics[].name')"})
 
