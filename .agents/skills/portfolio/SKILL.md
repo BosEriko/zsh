@@ -14,20 +14,28 @@ Prepares the current repository for boseriko.com by writing four files at the re
 | `ABOUT.md` | Description and website for the GitHub About section |
 | `TOPICS.json` | Topics for the GitHub Topics section |
 
-`ABOUT.md` and `TOPICS.json` are applied to GitHub by the user with `g about`. Never apply them yourself.
+`ABOUT.md` and `TOPICS.json` are applied to GitHub with `g about`. Ask the user whether to run it now or they will run it themselves later — never run it without asking.
 
 ## Workflow
 
 1. Confirm the current directory is the root of a Git repository. Stop if it is not.
-2. Read the repository metadata:
+2. Check for `gh`:
+   ```sh
+   command -v gh
+   ```
+   If it is missing, ask the user whether the skill may install it with `brew install gh`. Stop if they decline.
+3. Read the repository metadata:
    ```sh
    gh repo view --json nameWithOwner,description,homepageUrl,defaultBranchRef,repositoryTopics
    ```
-3. Ask the user whether the repository is a **product** (something they work on constantly) or a **project** (something they work on every now and then). Mention which one the repository currently has on GitHub, if any. Wait for the answer before continuing, and never decide it yourself.
-4. Study the repository: README, package or dependency manifests (`package.json`, `Gemfile`, `mix.exs`, `composer.json`, …), configuration files, folder structure, and the source code. Base every statement on what the repository actually contains.
-5. Write `PORTFOLIO.md`, `ABOUT.md`, `TOPICS.json`, and `COVER.png` as described below. Replace any existing versions so they stay up to date.
-6. Commit the files as described below.
-7. Report what was written, the chosen topics, whether `COVER.png` is a screenshot or a branded card, and remind the user to run `g about` to apply `ABOUT.md` and `TOPICS.json` to GitHub.
+4. Check `repositoryTopics` for an existing `product` or `project` topic.
+   - If one exists, ask the user whether to **keep existing** (name the one that is set), or switch to **product** (something they work on constantly) / **project** (something they work on every now and then). List "keep existing" first.
+   - If neither exists, ask the user whether the repository is a **product** or a **project**.
+   Wait for the answer before continuing, and never decide it yourself.
+5. Study the repository: README, package or dependency manifests (`package.json`, `Gemfile`, `mix.exs`, `composer.json`, …), configuration files, folder structure, and the source code. Base every statement on what the repository actually contains.
+6. Write `PORTFOLIO.md`, `ABOUT.md`, `TOPICS.json`, and `COVER.png` as described below. Replace any existing versions so they stay up to date.
+7. Commit the files as described below.
+8. Report what was written, the chosen topics, and whether `COVER.png` is a screenshot or a branded card. Then ask whether to run `g about` now to apply `ABOUT.md` and `TOPICS.json` to GitHub, or whether the user will run it themselves. Run it only if they say yes.
 
 ## PORTFOLIO.md
 
