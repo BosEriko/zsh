@@ -37,6 +37,7 @@ Prepares the current repository for boseriko.com by writing four files at the re
 7. Commit the files as described below.
 8. Report what was written, the chosen topics, and whether `COVER.png` is a screenshot or a branded card.
 9. Ask the user with a selection, the same way as the product/project question, whether to apply `ABOUT.md` and `TOPICS.json` to GitHub with `g about`. Offer **run `g about` now** (listed first) and **I'll run it myself later**. Run it only if they choose to run it now.
+10. Ask the user with a selection, the same way, whether to push the commit with `g pa`. Offer **run `g pa` now** (listed first) and **I'll push it myself later**. Run it only if they choose to run it now.
 
 ## PORTFOLIO.md
 
