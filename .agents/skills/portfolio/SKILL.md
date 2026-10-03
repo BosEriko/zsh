@@ -14,7 +14,7 @@ Prepares the current repository for boseriko.com by writing four files at the re
 | `ABOUT.md` | Description and website for the GitHub About section |
 | `TOPICS.json` | Topics for the GitHub Topics section |
 
-`ABOUT.md` and `TOPICS.json` are applied to GitHub with `g about`. Ask the user whether to run it now or they will run it themselves later — never run it without asking.
+`ABOUT.md` and `TOPICS.json` are applied to GitHub with `g about`. Ask the user with a selection whether to run it now or they will run it themselves later — never run it without asking.
 
 ## Workflow
 
@@ -35,7 +35,8 @@ Prepares the current repository for boseriko.com by writing four files at the re
 5. Study the repository: README, package or dependency manifests (`package.json`, `Gemfile`, `mix.exs`, `composer.json`, …), configuration files, folder structure, and the source code. Base every statement on what the repository actually contains.
 6. Write `PORTFOLIO.md`, `ABOUT.md`, `TOPICS.json`, and `COVER.png` as described below. Replace any existing versions so they stay up to date.
 7. Commit the files as described below.
-8. Report what was written, the chosen topics, and whether `COVER.png` is a screenshot or a branded card. Then ask whether to run `g about` now to apply `ABOUT.md` and `TOPICS.json` to GitHub, or whether the user will run it themselves. Run it only if they say yes.
+8. Report what was written, the chosen topics, and whether `COVER.png` is a screenshot or a branded card.
+9. Ask the user with a selection, the same way as the product/project question, whether to apply `ABOUT.md` and `TOPICS.json` to GitHub with `g about`. Offer **run `g about` now** (listed first) and **I'll run it myself later**. Run it only if they choose to run it now.
 
 ## PORTFOLIO.md
 
