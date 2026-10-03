@@ -102,9 +102,11 @@ git-help() {
 git-go() {
   git add .
   if [ -z "$1" ]; then
-    git-wtf
+    claude -p "Use the git-commit skill to commit the currently staged changes in this repository." \
+      --permission-mode acceptEdits \
+      --allowedTools "Bash(git status:*),Bash(git diff:*),Bash(git log:*),Bash(git commit:*)" || return 1
   else
-    git commit -m "$1"
+    git commit -m "$1" || return 1
   fi
   git push -u origin HEAD
 }
