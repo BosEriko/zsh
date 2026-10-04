@@ -144,7 +144,7 @@ git-emoji() {
 
 # Push Automatically
 git-push-automatic() {
-  BRANCH_NAME=$(git branch | grep \* | cut -d ' ' -f2 | tr -d '\n')
+  BRANCH_NAME=$(git branch --show-current)
   git push origin $BRANCH_NAME
 }
 
