@@ -14,7 +14,7 @@ Prepares the current repository for boseriko.com by writing four files at the re
 | `ABOUT.md` | Description and website for the GitHub About section |
 | `TOPICS.json` | Topics for the GitHub Topics section |
 
-`ABOUT.md` and `TOPICS.json` are applied to GitHub with `g about`. Ask the user with a selection whether to run it now or they will run it themselves later — never run it without asking.
+`ABOUT.md` and `TOPICS.json` are applied to GitHub with `git-about`. Ask the user with a selection whether to run it now or they will run it themselves later — never run it without asking.
 
 ## Workflow
 
@@ -36,8 +36,8 @@ Prepares the current repository for boseriko.com by writing four files at the re
 6. Write `PORTFOLIO.md`, `ABOUT.md`, `TOPICS.json`, and `COVER.png` as described below. Replace any existing versions so they stay up to date.
 7. Commit the files as described below.
 8. Report what was written, the chosen topics, and whether `COVER.png` is a screenshot or a branded card.
-9. Ask the user with a selection, the same way as the product/project question, whether to apply `ABOUT.md` and `TOPICS.json` to GitHub with `g about`. Offer **run `g about` now** (listed first) and **I'll run it myself later**. Run it only if they choose to run it now.
-10. Ask the user with a selection, the same way, whether to push the commit with `g pa`. Offer **run `g pa` now** (listed first) and **I'll push it myself later**. Run it only if they choose to run it now.
+9. Ask the user with a selection, the same way as the product/project question, whether to apply `ABOUT.md` and `TOPICS.json` to GitHub with `git-about`. Offer **run `git-about` now** (listed first) and **I'll run it myself later**. Run it only if they choose to run it now.
+10. Ask the user with a selection, the same way, whether to push the commit with `git-push-automatic`. Offer **run `git-push-automatic` now** (listed first) and **I'll push it myself later**. Run it only if they choose to run it now.
 
 ## PORTFOLIO.md
 
@@ -126,15 +126,36 @@ A JSON array of topic names, formatted exactly like this:
 
 A 1600×800 image. Both scripts download Chrome's headless shell to `~/.cache/portfolio-skill` on first use.
 
+Look for an existing image that could already serve as the cover: a banner, screenshot, or logo linked from the README, elsewhere in the repository, or on the GitHub repository itself. Only count a result when it is a real, reachable image URL.
+
+Ask the user with a selection how to produce `COVER.png`:
+- **Use the existing image** — only offer this option when one was actually found, and list it first when it is offered.
+- **Keep what we have now** — the current behavior described below (screenshot when live, otherwise a branded card).
+- **Generate a branded card** — skip the screenshot and build the card directly.
+
+Wait for the answer before continuing, and never decide it yourself.
+
+### Use the existing image
+
+```sh
+curl -s -L -o COVER.png <image-url>
+```
+
+Look at the downloaded image and check it reads well as a cover before keeping it.
+
+### Keep what we have now
+
 When the website from `ABOUT.md` is a live site of the project, take a screenshot of it. When the website is empty but there is a live production deployment, take the screenshot of the deployment instead:
 
 ```sh
 ~/.agents/skills/portfolio/scripts/cover.sh <website-url> COVER.png
 ```
 
-Look at the screenshot after taking it. If it shows an error page, a login wall, or a blank page, use the branded card instead.
+Look at the screenshot after taking it. If it shows an error page, a login wall, or a blank page, generate a branded card instead.
 
-In every other case (no live site to screenshot, the website is a registry page, or the screenshot is unusable), generate a branded card:
+In every other case (no live site to screenshot, the website is a registry page, or the screenshot is unusable), generate a branded card.
+
+### Generate a branded card
 
 ```sh
 ~/.agents/skills/portfolio/scripts/card.py \
