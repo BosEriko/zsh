@@ -1,5 +1,5 @@
 ---
-name: code-review
+name: workflow-code-review
 description: Review completed code changes for correctness, regressions, unnecessary complexity, scope violations, and maintainability. Use after implementation and testing before declaring a development task complete.
 ---
 

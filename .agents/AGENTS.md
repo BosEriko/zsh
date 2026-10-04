@@ -2,17 +2,17 @@
 
 For development tasks, follow this workflow in order:
 
-1. Use `$task-analysis` to understand the task and establish the requirements.
-2. Use `$codebase-exploration` to understand the relevant code and existing patterns.
-3. Use `$task-planning` to determine the implementation approach.
+1. Use `$workflow-task-analysis` to understand the task and establish the requirements.
+2. Use `$workflow-codebase-exploration` to understand the relevant code and existing patterns.
+3. Use `$workflow-task-planning` to determine the implementation approach.
 4. Implement the planned changes.
-5. Use `$testing` to validate the implementation.
-6. Use `$code-review` to review the completed changes.
-7. Use `$task-verification` to verify the implementation against the original task.
+5. Use `$workflow-testing` to validate the implementation.
+6. Use `$workflow-code-review` to review the completed changes.
+7. Use `$workflow-task-verification` to verify the implementation against the original task.
 
 Do not skip a step unless it is clearly not applicable.
 
-Do not declare the task complete until `$task-verification` confirms that
+Do not declare the task complete until `$workflow-task-verification` confirms that
 the implementation satisfies the requirements and acceptance criteria.
 
 # General Rules

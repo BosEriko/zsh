@@ -1,5 +1,5 @@
 ---
-name: codebase-exploration
+name: workflow-codebase-exploration
 description: Explore the repository to locate code relevant to a development task, understand existing behavior, identify dependencies, and find established implementation patterns. Use after understanding the task and before planning changes.
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: task-planning
+name: workflow-task-planning
 description: Create a concrete implementation plan for a development task based on the task requirements and repository exploration. Use after task analysis and codebase exploration and before implementation.
 ---
 

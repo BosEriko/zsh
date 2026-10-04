@@ -1,5 +1,5 @@
 ---
-name: task-analysis
+name: workflow-task-analysis
 description: Analyze a development task and turn it into clear requirements, acceptance criteria, scope, and implementation-relevant information. Use before planning or implementing a development task.
 ---
 

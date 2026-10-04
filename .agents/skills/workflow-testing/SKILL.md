@@ -1,5 +1,5 @@
 ---
-name: testing
+name: workflow-testing
 description: Validate completed code changes by identifying, adding, and running the smallest relevant set of tests and checks. Use after implementation changes are complete.
 ---
 

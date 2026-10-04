@@ -1,5 +1,5 @@
 ---
-name: task-verification
+name: workflow-task-verification
 description: Verify that a completed implementation satisfies the original development task, requirements, and acceptance criteria. Use as the final step before declaring a task complete.
 ---
 
