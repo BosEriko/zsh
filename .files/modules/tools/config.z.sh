@@ -11,22 +11,31 @@ tools-afk() {
     return 1
   fi
 
+  if ! command -v jq >/dev/null 2>&1; then
+    echo "jq is required. Install it first."
+    return 1
+  fi
+
   zmodload zsh/mathfunc
 
-  local -a c=(${(s:,:)$(cliclick p)})
-  local cx=${c[1]}
-  local cy=${c[2]}
+  local resolution
+  resolution=$(system_profiler SPDisplaysDataType -json 2>/dev/null | jq -r '[.SPDisplaysDataType[].spdisplays_ndrvs[]? | select(.spdisplays_main == "spdisplays_yes")._spdisplays_resolution][0]')
+  local -a dims=(${(s: :)resolution})
+  local cx=$((dims[1] / 2))
+  local cy=$((dims[3] / 2))
   local radius=150
 
   echo "Moving the mouse in a circle around ($cx, $cy). Press Ctrl-C to stop."
 
   local angle=0
+  local step=0.1
+  local two_pi=6.283185307
   while true; do
     local x=$((cx + int(radius * cos(angle))))
     local y=$((cy + int(radius * sin(angle))))
     cliclick m:$x,$y
-    angle=$((angle + 0.2))
-    sleep 1
+    angle=$((fmod(angle + step, two_pi)))
+    sleep 0.05
   done
 }
 
