@@ -23,19 +23,23 @@ tools-afk() {
   local -a dims=(${(s: :)resolution})
   local cx=$((dims[1] / 2))
   local cy=$((dims[3] / 2))
-  local radius=150
+  local radius=40
+  local points=96
+  local two_pi=6.283185307
 
   echo "Moving the mouse in a circle around ($cx, $cy). Press Ctrl-C to stop."
 
-  local angle=0
-  local step=0.1
-  local two_pi=6.283185307
+  local -a cmds
+  local i angle x y
+  for ((i = 0; i < points; i++)); do
+    angle=$((i * two_pi / points))
+    x=$((cx + int(radius * cos(angle))))
+    y=$((cy + int(radius * sin(angle))))
+    cmds+=("m:$x,$y")
+  done
+
   while true; do
-    local x=$((cx + int(radius * cos(angle))))
-    local y=$((cy + int(radius * sin(angle))))
-    cliclick m:$x,$y
-    angle=$((fmod(angle + step, two_pi)))
-    sleep 0.05
+    cliclick -w 25 "${cmds[@]}"
   done
 }
 
