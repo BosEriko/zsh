@@ -24,7 +24,7 @@ tools-afk() {
   local cx=$((dims[1] / 2))
   local cy=$((dims[3] / 2))
   local radius=40
-  local points=96
+  local points=240
   local two_pi=6.283185307
 
   echo "Moving the mouse in a circle around ($cx, $cy). Press Ctrl-C to stop."
@@ -39,7 +39,7 @@ tools-afk() {
   done
 
   while true; do
-    cliclick -w 25 "${cmds[@]}"
+    cliclick -w 20 "${cmds[@]}"
   done
 }
 
