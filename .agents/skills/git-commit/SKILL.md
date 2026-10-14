@@ -13,6 +13,11 @@ description: Create Git commits for completed code changes using Gitmoji. Use wh
 4. Commit only after explicit approval.
 5. Show the resulting commit.
 
+## General Rules
+
+- Never add yourself, an AI assistant, agent, model, or tool as a commit author or co-author.
+- Never add `Co-authored-by` or similar attribution for yourself to commit messages.
+
 ## Gitmoji
 
 ✨ feature
