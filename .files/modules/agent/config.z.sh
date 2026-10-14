@@ -216,7 +216,7 @@ EOF
   if git -C "$agents_repo" diff --cached --quiet; then
     echo "No agent configuration changes to commit."
   else
-    git -C "$agents_repo" commit -m "add agent config for $relative_path"
+    git -C "$agents_repo" commit -m "✨ Add agent config for $relative_path"
     git -C "$agents_repo" push -u origin main
   fi
 
@@ -233,7 +233,7 @@ agent-push() {
     return 0
   fi
 
-  git -C "$agents_repo" commit -m "${1:-update agent configuration}"
+  git -C "$agents_repo" commit -m "${1:-🔧 Update agent configuration}"
   git -C "$agents_repo" push -u origin main
 }
 
@@ -388,7 +388,7 @@ agent-clear() {
   # --------------------------------------------------------------------- Claude
 
   if command -v claude >/dev/null 2>&1; then
-    claude project purge --all --yes
+    claude purge --all --yes
     echo "All Claude sessions deleted."
   fi
 
