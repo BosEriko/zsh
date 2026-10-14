@@ -329,6 +329,7 @@ agent-select() {
 agent-start() {
   local -a agent_names
   local agent_name
+  local cwd="$PWD"
 
   agent_names=(Codex Claude OpenCode)
 
@@ -342,16 +343,16 @@ agent-start() {
 
   case "$agent_name" in
   Codex)
-    tmux new-window -n Codex -c "#{pane_current_path}" "zsh -ic 'codex resume --last'"
+    tmux new-window -n Codex -c "$cwd" "zsh -ic 'codex resume --last'"
     ;;
   Claude)
-    tmux new-window -n Claude -c "#{pane_current_path}" \
+    tmux new-window -n Claude -c "$cwd" \
       "zsh -ic '
         export CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1
         project_key=\$(pwd | sed \"s|/|-|g\")
 
         if [[ -d \"\$HOME/.claude/projects/\$project_key\" ]] &&
-          find \"\$HOME/.claude/projects/\$project_key\" -name \"*.jsonl\" -print -quit | grep -q .; then
+          grep -l \"\\\"entrypoint\\\":\\\"cli\\\"\" \"\$HOME/.claude/projects/\$project_key\"/*.jsonl >/dev/null 2>&1; then
           claude --continue
         else
           claude
@@ -359,7 +360,7 @@ agent-start() {
       '"
     ;;
   OpenCode)
-    tmux new-window -n Opencode -c "#{pane_current_path}" "zsh -ic 'opencode -c'"
+    tmux new-window -n Opencode -c "$cwd" "zsh -ic 'opencode -c'"
     ;;
   esac
 }
