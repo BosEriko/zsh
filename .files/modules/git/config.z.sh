@@ -113,12 +113,17 @@ git-go() {
   fi
 
   local raw
-  raw=$(claude -p "Use the git-commit skill to write a commit message for the currently uncommitted changes in this repository (staged and unstaged). Do not run git add or git commit. Output the commit message wrapped exactly between the markers <<<COMMIT_MESSAGE>>> and <<<END_COMMIT_MESSAGE>>>, each on their own line, with nothing else before, after, or between those markers besides the message itself." \
+  raw=$(claude -p "Use the git-commit skill to write a commit message for the currently uncommitted changes in this repository (staged and unstaged). Do not run git add or git commit. Keep the first line to at most 72 characters. Output the commit message wrapped exactly between the markers <<<COMMIT_MESSAGE>>> and <<<END_COMMIT_MESSAGE>>>, each on their own line, with nothing else before, after, or between those markers besides the message itself." \
     --permission-mode acceptEdits \
     --allowedTools "Bash(git status:*),Bash(git diff:*),Bash(git log:*)")
 
   local message
   message=$(print -r -- "$raw" | sed -n '/<<<COMMIT_MESSAGE>>>/,/<<<END_COMMIT_MESSAGE>>>/p' | grep -v '<<<COMMIT_MESSAGE>>>\|<<<END_COMMIT_MESSAGE>>>')
+
+  local subject="${message%%$'\n'*}"
+  if ((${#subject} > 72)); then
+    message="${subject:0:72}${message#"$subject"}"
+  fi
 
   if [ -z "$message" ]; then
     echo "Could not generate a commit message."
