@@ -112,10 +112,13 @@ git-go() {
     return 1
   fi
 
-  local message
-  message=$(claude -p "Use the git-commit skill to write a commit message for the currently uncommitted changes in this repository (staged and unstaged). Do not run git add or git commit. Print only the commit message, nothing else." \
+  local raw
+  raw=$(claude -p "Use the git-commit skill to write a commit message for the currently uncommitted changes in this repository (staged and unstaged). Do not run git add or git commit. Output the commit message wrapped exactly between the markers <<<COMMIT_MESSAGE>>> and <<<END_COMMIT_MESSAGE>>>, each on their own line, with nothing else before, after, or between those markers besides the message itself." \
     --permission-mode acceptEdits \
     --allowedTools "Bash(git status:*),Bash(git diff:*),Bash(git log:*)")
+
+  local message
+  message=$(print -r -- "$raw" | sed -n '/<<<COMMIT_MESSAGE>>>/,/<<<END_COMMIT_MESSAGE>>>/p' | grep -v '<<<COMMIT_MESSAGE>>>\|<<<END_COMMIT_MESSAGE>>>')
 
   if [ -z "$message" ]; then
     echo "Could not generate a commit message."
