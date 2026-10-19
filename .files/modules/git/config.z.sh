@@ -99,10 +99,18 @@ git-help() {
 }
 
 # Go
+git-go-commit() {
+  if git diff --cached --quiet && [ -n "$(git submodule foreach --quiet 'git status --porcelain')" ]; then
+    git commit --allow-empty -m "$1"
+  else
+    git commit -m "$1"
+  fi
+}
+
 git-go() {
   if [ -n "$1" ]; then
     git add .
-    git commit -m "$1" || return 1
+    git-go-commit "$1" || return 1
     git push -u origin HEAD
     return 0
   fi
@@ -136,7 +144,7 @@ git-go() {
   read
 
   git add .
-  git commit -m "$message" || return 1
+  git-go-commit "$message" || return 1
   git push -u origin HEAD
 }
 
