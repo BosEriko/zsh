@@ -121,7 +121,7 @@ git-go() {
         --allowedTools "Bash(git status:*),Bash(git diff:*),Bash(git log:*)") || raw=""
     else
       echo "Claude could not generate a commit message. Trying Codex..."
-      raw=$(codex exec --sandbox read-only "$prompt" </dev/null) || raw=""
+      raw=$(codex exec --sandbox read-only "$prompt" </dev/null 2>/dev/null) || raw=""
     fi
 
     message=$(print -r -- "$raw" | sed -n '/<<<COMMIT_MESSAGE>>>/,/<<<END_COMMIT_MESSAGE>>>/p' | grep -v '<<<COMMIT_MESSAGE>>>\|<<<END_COMMIT_MESSAGE>>>')
