@@ -326,49 +326,6 @@ agent-select() {
   printf '\033[2J\033[H'
 }
 
-agent-start() {
-  local -a agent_names
-  local agent_name
-  local cwd="$PWD"
-
-  agent_names=(Herdr Claude Codex OpenCode)
-
-  agent-select \
-    "agent" \
-    "Herdr" \
-    5 \
-    "${agent_names[@]}" || return 0
-
-  agent_name="$REPLY"
-
-  case "$agent_name" in
-  Codex)
-    tmux new-window -n Codex -c "$cwd" "zsh -ic 'codex resume --last'"
-    ;;
-  Claude)
-    tmux new-window -n Claude -c "$cwd" \
-      "zsh -ic '
-        export CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1
-        project_key=\$(pwd | sed \"s|/|-|g\")
-
-        if [[ -d \"\$HOME/.claude/projects/\$project_key\" ]] &&
-          grep -l \"\\\"entrypoint\\\":\\\"cli\\\"\" \"\$HOME/.claude/projects/\$project_key\"/*.jsonl >/dev/null 2>&1; then
-          claude --continue
-        else
-          claude
-        fi
-      '"
-    ;;
-  OpenCode)
-    tmux new-window -n Opencode -c "$cwd" "zsh -ic 'opencode -c'"
-    ;;
-  Herdr)
-    tmux new-window -n Herdr -c "$cwd" \
-      "zsh -c 'bos-append() { :; }; source ~/.files/modules/herdr/config.z.sh; herdr-open'"
-    ;;
-  esac
-}
-
 agent-clear() {
   setopt localoptions RM_STAR_SILENT
 
@@ -534,5 +491,4 @@ bos-append agent diff "Show agent config changes" "agent-diff"
 bos-append agent pull "Pull and sync agent changes" "agent-pull"
 bos-append agent push "Push agent changes" "agent-push"
 bos-append agent sessions "List all sessions" "agent-sessions"
-bos-append agent start "Start agent" "agent-start"
 bos-append agent sync "Sync agent configuration" "agent-sync"

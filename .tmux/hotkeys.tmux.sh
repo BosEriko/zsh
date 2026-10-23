@@ -41,8 +41,8 @@ bind p paste-buffer
 bind -Tcopy-mode-vi 'v' send -X begin-selection
 bind -Tcopy-mode-vi 'y' send -X copy-pipe-and-cancel "tmux save-buffer - | reattach-to-user-namespace pbcopy"
 
-# Agent Mode
-bind a display-popup -E -w 50% -h 40% -d "#{pane_current_path}" "zsh -c 'bos-append() { :; }; source ~/.files/modules/agent/config.z.sh; agent-start'"
+# Herdr Mode
+bind a new-window -n Herdr -c "#{pane_current_path}" "zsh -c 'bos-append() { :; }; source ~/.files/modules/herdr/config.z.sh; herdr-open'"
 
 # Edit Mode
 bind e new-window -n NeoVim -c "#{pane_current_path}" "nvim .; read -p 'Press Enter to close...'"
