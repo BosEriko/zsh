@@ -9,6 +9,8 @@
 !.files/**
 !.gitconfig
 !.gitignore
+!.herdr/
+!.herdr/config.toml
 !.tmux.conf
 !.tmux/
 !.tmux/**

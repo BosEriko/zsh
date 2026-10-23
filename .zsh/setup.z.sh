@@ -11,8 +11,6 @@ setup() {
       if source "$module_dir/install.z.sh"; then
         touch "$state_file"
         cd ~
-        git checkout .
-        git clean -fd
       else
         echo "❌ Install failed for $module_dir"
         return 1
