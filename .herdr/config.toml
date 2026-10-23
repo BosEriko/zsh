@@ -1,3 +1,8 @@
 onboarding = false
 [keys]
 prefix = "ctrl+a"
+new_tab = "prefix+c"
+next_agent = "prefix+j"
+previous_agent = "prefix+k"
+focus_pane_down = ""
+focus_pane_up = ""

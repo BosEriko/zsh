@@ -4,6 +4,58 @@ if [[ -d "$HOME/.local/bin" && ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
   export PATH="$HOME/.local/bin:$PATH"
 fi
 
+herdr-run-agent() {
+  local agent="$BOS_HERDR_AGENT"
+  unset BOS_HERDR_AGENT
+  precmd_functions=(${precmd_functions:#herdr-run-agent})
+  command "$agent"
+}
+
+if [[ "$HERDR_ENV" == "1" && "$BOS_HERDR_AGENT" == (claude|codex|opencode) ]]; then
+  typeset -ga precmd_functions
+  precmd_functions+=(herdr-run-agent)
+fi
+
+herdr-create-tabs() {
+  local attempt created workspace tab
+  for attempt in {1..100}; do
+    if herdr workspace list >/dev/null 2>&1; then
+      break
+    fi
+    sleep 0.1
+  done
+
+  created=$(herdr workspace create --cwd "$PWD" --label "${PWD:t}" \
+    --env BOS_HERDR_AGENT=claude --focus) || return 1
+  workspace=$(print -r -- "$created" | jq -er '.result.workspace.workspace_id') || return 1
+  tab=$(print -r -- "$created" | jq -er '.result.tab.tab_id') || return 1
+  herdr tab rename "$tab" Claude >/dev/null || return 1
+  herdr tab create --workspace "$workspace" --cwd "$PWD" --label Codex \
+    --env BOS_HERDR_AGENT=codex --no-focus >/dev/null || return 1
+  herdr tab create --workspace "$workspace" --cwd "$PWD" --label OpenCode \
+    --env BOS_HERDR_AGENT=opencode --no-focus >/dev/null || return 1
+}
+
+herdr-open() {
+  local executable bootstrap result
+  for executable in herdr jq claude codex opencode; do
+    if ! command -v "$executable" >/dev/null 2>&1; then
+      echo "$executable is not installed."
+      return 1
+    fi
+  done
+
+  herdr-create-tabs &
+  bootstrap=$!
+  herdr
+  result=$?
+  wait "$bootstrap" || {
+    echo "Could not finish creating the Herdr agent tabs."
+    return 1
+  }
+  return "$result"
+}
+
 herdr-start() {
   if [[ "$HERDR_ENV" == "1" ]]; then
     echo "Already inside Herdr."
@@ -17,9 +69,10 @@ herdr-start() {
 
   if [[ -n "$TMUX" ]]; then
     tmux new-window -n Herdr -c "$PWD" \
-      -e "HERDR_CONFIG_PATH=$HERDR_CONFIG_PATH" -e "PATH=$PATH" herdr
+      -e "HERDR_CONFIG_PATH=$HERDR_CONFIG_PATH" -e "PATH=$PATH" \
+      "zsh -c 'bos-append() { :; }; source ~/.files/modules/herdr/config.z.sh; herdr-open'"
   else
-    herdr
+    herdr-open
   fi
 }
 

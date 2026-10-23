@@ -331,11 +331,11 @@ agent-start() {
   local agent_name
   local cwd="$PWD"
 
-  agent_names=(Codex Claude OpenCode Herdr)
+  agent_names=(Herdr Claude Codex OpenCode)
 
   agent-select \
     "agent" \
-    "Codex" \
+    "Herdr" \
     5 \
     "${agent_names[@]}" || return 0
 
@@ -364,7 +364,7 @@ agent-start() {
     ;;
   Herdr)
     tmux new-window -n Herdr -c "$cwd" \
-      "zsh -c 'bos-append() { :; }; source ~/.files/modules/herdr/config.z.sh; herdr'"
+      "zsh -c 'bos-append() { :; }; source ~/.files/modules/herdr/config.z.sh; herdr-open'"
     ;;
   esac
 }
