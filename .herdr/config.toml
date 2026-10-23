@@ -11,3 +11,6 @@ close_pane = "ctrl+w"
 detach = "ctrl+q"
 focus_pane_down = ""
 focus_pane_up = ""
+
+[ui]
+sidebar_start_collapsed = true
