@@ -79,6 +79,7 @@ herdr-open() {
   done
 
   herdr-close
+  rm -rf "$HOME/.local/state/herdr/client-shell"
   herdr-create-tabs &
   bootstrap=$!
   herdr
