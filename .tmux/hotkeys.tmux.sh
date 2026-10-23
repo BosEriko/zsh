@@ -47,9 +47,6 @@ bind a display-popup -E -w 50% -h 40% -d "#{pane_current_path}" "zsh -c 'bos-app
 # Edit Mode
 bind e new-window -n NeoVim -c "#{pane_current_path}" "nvim .; read -p 'Press Enter to close...'"
 
-# Herdr Mode
-bind g new-window -n Herdr -c "#{pane_current_path}" "zsh -c 'bos-append() { :; }; source ~/.files/modules/herdr/config.z.sh; herdr'"
-
 # Buffers
 bind C-c run "tmux save-buffer - | reattach-to-user-namespace pbcopy"
 bind C-v run "tmux set-buffer $(reattach-to-user-namespace pbpaste); tmux paste-buffer"

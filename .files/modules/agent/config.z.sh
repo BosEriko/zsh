@@ -331,7 +331,7 @@ agent-start() {
   local agent_name
   local cwd="$PWD"
 
-  agent_names=(Codex Claude OpenCode)
+  agent_names=(Codex Claude OpenCode Herdr)
 
   agent-select \
     "agent" \
@@ -361,6 +361,10 @@ agent-start() {
     ;;
   OpenCode)
     tmux new-window -n Opencode -c "$cwd" "zsh -ic 'opencode -c'"
+    ;;
+  Herdr)
+    tmux new-window -n Herdr -c "$cwd" \
+      "zsh -c 'bos-append() { :; }; source ~/.files/modules/herdr/config.z.sh; herdr'"
     ;;
   esac
 }
