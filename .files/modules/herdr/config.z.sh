@@ -59,6 +59,16 @@ herdr-create-tabs() {
     --env BOS_HERDR_AGENT=opencode --no-focus >/dev/null || return 1
 }
 
+herdr-close() {
+  local workspaces workspace
+  if workspaces=$(herdr workspace list 2>/dev/null); then
+    for workspace in ${(f)"$(print -r -- "$workspaces" | jq -r '.result.workspaces[].workspace_id')"}; do
+      herdr workspace close "$workspace" >/dev/null 2>&1
+    done
+  fi
+  herdr server stop >/dev/null 2>&1
+}
+
 herdr-open() {
   local executable bootstrap result
   for executable in herdr jq claude codex opencode; do
@@ -68,6 +78,7 @@ herdr-open() {
     fi
   done
 
+  herdr-close
   herdr-create-tabs &
   bootstrap=$!
   herdr
