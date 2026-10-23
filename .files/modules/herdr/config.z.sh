@@ -8,7 +8,26 @@ herdr-run-agent() {
   local agent="$BOS_HERDR_AGENT"
   unset BOS_HERDR_AGENT
   precmd_functions=(${precmd_functions:#herdr-run-agent})
-  command "$agent"
+
+  case "$agent" in
+  claude)
+    export CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1
+    local project_key=$(pwd | sed "s|/|-|g")
+
+    if [[ -d "$HOME/.claude/projects/$project_key" ]] &&
+      grep -l '"entrypoint":"cli"' "$HOME/.claude/projects/$project_key"/*.jsonl >/dev/null 2>&1; then
+      command claude --continue
+    else
+      command claude
+    fi
+    ;;
+  codex)
+    command codex resume --last
+    ;;
+  opencode)
+    command opencode -c
+    ;;
+  esac
 }
 
 if [[ "$HERDR_ENV" == "1" && "$BOS_HERDR_AGENT" == (claude|codex|opencode) ]]; then
