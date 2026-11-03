@@ -15,6 +15,16 @@ Do not skip a step unless it is clearly not applicable.
 Do not declare the task complete until `workflow-task-verification` confirms that
 the implementation satisfies the requirements and acceptance criteria.
 
+# Subagents
+
+When building a feature, use subagents so the work goes faster and the main conversation stays small:
+
+- Skip separate exploration subagents when the builders can explore their own area: give each builder the plan and the contract and let it read what it needs, so the same files aren't read twice. Use an explorer only when you need the map before you can settle the plan, for example to choose between approaches across several areas.
+- Implement independent parts in parallel subagents once the plan is settled, as long as they don't edit the same files. Give each one a self-contained brief: the files involved, the agreed API shape between the parts, the repository conventions to follow, and what done looks like.
+- Hand checks with long output (full test suites, lint, type checks, browser or simulator screenshots) to subagents that report back only the results and any failures.
+- Keep decisions, the contract between parts, code review and final verification in the main conversation, and review every subagent's changes before relying on them.
+- Skip subagents for small changes, where writing the brief costs more than doing the work.
+
 # General Rules
 
 - Make the smallest change necessary to complete the task.
