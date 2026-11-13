@@ -1,6 +1,6 @@
 ---
-name: portfolio
-description: Generate or refresh the portfolio files of a BosEriko repository (PORTFOLIO.md, COVER.png, ABOUT.md, TOPICS.json) that boseriko.com and the GitHub About section read from, then commit them. Use when the user asks to prepare a repository for the portfolio or invokes /portfolio.
+name: publish
+description: Generate or refresh the portfolio files of a BosEriko repository (PORTFOLIO.md, COVER.png, ABOUT.md, TOPICS.json) that boseriko.com and the GitHub About section read from, then commit them. Use when the user asks to prepare a repository for the portfolio or invokes /publish.
 ---
 
 # Portfolio
@@ -148,7 +148,7 @@ Look at the downloaded image and check it reads well as a cover before keeping i
 When the website from `ABOUT.md` is a live site of the project, take a screenshot of it. When the website is empty but there is a live production deployment, take the screenshot of the deployment instead:
 
 ```sh
-~/.agents/skills/portfolio/scripts/cover.sh <website-url> COVER.png
+~/.agents/skills/publish/scripts/cover.sh <website-url> COVER.png
 ```
 
 Look at the screenshot after taking it. If it shows an error page, a login wall, or a blank page, generate a branded card instead.
@@ -158,7 +158,7 @@ In every other case (no live site to screenshot, the website is a registry page,
 ### Generate a branded card
 
 ```sh
-~/.agents/skills/portfolio/scripts/card.py \
+~/.agents/skills/publish/scripts/card.py \
   --name "<product name>" \
   --tagline "<first sentence of the ABOUT.md description>" \
   --label "<owner/repo>" \

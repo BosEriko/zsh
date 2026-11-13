@@ -1,5 +1,5 @@
 ---
-name: amnesia
+name: forget
 description: Delete all but the latest 10 handoff documents in every directory of the handoff folder.
 disable-model-invocation: true
 ---

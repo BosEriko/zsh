@@ -112,7 +112,7 @@ git-go() {
     return 1
   fi
 
-  local prompt="Use the git-commit skill to write a commit message for the currently uncommitted changes in this repository (staged and unstaged). Do not run git add or git commit. The commit message must be a single line only, with no body, bullet points, or explanation: just the Gitmoji and an imperative summary, at most 72 characters. Output the commit message wrapped exactly between the markers <<<COMMIT_MESSAGE>>> and <<<END_COMMIT_MESSAGE>>>, each on their own line, with nothing else before, after, or between those markers besides the message itself."
+  local prompt="Use the commit skill to write a commit message for the currently uncommitted changes in this repository (staged and unstaged). Do not run git add or git commit. The commit message must be a single line only, with no body, bullet points, or explanation: just the Gitmoji and an imperative summary, at most 72 characters. Output the commit message wrapped exactly between the markers <<<COMMIT_MESSAGE>>> and <<<END_COMMIT_MESSAGE>>>, each on their own line, with nothing else before, after, or between those markers besides the message itself."
   local raw message provider
   for provider in claude codex; do
     if [ "$provider" = "claude" ]; then
