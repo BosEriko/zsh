@@ -2,6 +2,7 @@
 name: pickup
 description: List the latest handoff documents for the current working directory and read the one the user selects so the work from a previous session can continue.
 argument-hint: "Which handoff document should be read?"
+disable-model-invocation: true
 ---
 
 Run `~/.agents/skills/handoff/scripts/handoff.sh list` from the current working directory. It prints the paths of the latest 10 handoff documents for this directory, newest first.

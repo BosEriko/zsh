@@ -25,10 +25,6 @@ When building a feature, use subagents so the work goes faster and the main conv
 - Keep decisions, the contract between parts, code review and final verification in the main conversation, and review every subagent's changes before relying on them.
 - Skip subagents for small changes, where writing the brief costs more than doing the work.
 
-# Handoffs
-
-At the start of a new session or after the context is cleared, use `pickup` before responding to the first message.
-
 # General Rules
 
 - Make the smallest change necessary to complete the task.
