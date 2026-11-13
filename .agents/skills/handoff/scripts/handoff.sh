@@ -13,7 +13,7 @@ project_dir() {
 }
 
 handoffs() {
-  dir="$(project_dir)"
+  dir="${1:-$(project_dir)}"
   [ -d "$dir" ] || return 0
   find "$dir" -maxdepth 1 -type f -name '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9]-*.md' |
     sort -r
@@ -36,9 +36,12 @@ list)
   handoffs | head -n "${2:-10}"
   ;;
 prune)
-  handoffs | tail -n "+$((${2:-10} + 1))" | while IFS= read -r file; do
-    rm -- "$file"
-    echo "$file"
+  [ -d "$root" ] || exit 0
+  find "$root" -type d | while IFS= read -r dir; do
+    handoffs "$dir" | tail -n "+$((${2:-10} + 1))" | while IFS= read -r file; do
+      rm -- "$file"
+      echo "$file"
+    done
   done
   ;;
 *)
