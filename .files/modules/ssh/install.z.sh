@@ -15,6 +15,7 @@ hosts=(
   github.com
   gitlab.com
   bitbucket.org
+  ssh.bitbucket.org
 )
 for host in "${hosts[@]}"; do
   ssh-keygen -F "$host" >/dev/null 2>&1 || ssh-keyscan -t rsa "$host" >>~/.ssh/known_hosts

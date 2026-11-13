@@ -264,10 +264,10 @@ git-set-origin() {
   git remote add origin git@github.com:${git_slug}.git
   git remote add github git@github.com:${git_slug}.git
   git remote add gitlab git@gitlab.com:${git_slug}.git
-  git remote add bitbucket git@bitbucket.org:${git_slug}.git
+  git remote add bitbucket git@ssh.bitbucket.org:${git_slug}.git
   git remote set-url --add --push origin git@github.com:${git_slug}.git
   git remote set-url --add --push origin git@gitlab.com:${git_slug}.git
-  git remote set-url --add --push origin git@bitbucket.org:${git_slug}.git
+  git remote set-url --add --push origin git@ssh.bitbucket.org:${git_slug}.git
   git remote -v
 }
 
