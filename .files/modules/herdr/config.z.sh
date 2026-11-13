@@ -36,9 +36,10 @@ if [[ "$HERDR_ENV" == "1" && "$BOS_HERDR_AGENT" == (claude|codex|opencode) ]]; t
 fi
 
 herdr-create-tabs() {
-  local attempt created workspace tab workspaces candidates panes tabs
+  local attempt created workspace tab workspaces candidates panes tabs stray
   for attempt in {1..100}; do
-    if workspaces=$(herdr workspace list 2>/dev/null); then
+    if workspaces=$(herdr workspace list 2>/dev/null) &&
+      print -r -- "$workspaces" | jq -e '.result.workspaces | length > 0' >/dev/null; then
       break
     fi
     sleep 0.1
@@ -76,6 +77,12 @@ herdr-create-tabs() {
     --env BOS_HERDR_AGENT=codex --no-focus >/dev/null || return 1
   herdr tab create --workspace "$workspace" --cwd "$PWD" --label OpenCode \
     --env BOS_HERDR_AGENT=opencode --no-focus >/dev/null || return 1
+
+  workspaces=$(herdr workspace list) || return 1
+  for stray in ${(f)"$(print -r -- "$workspaces" | jq -r --arg keep "$workspace" \
+    '.result.workspaces[] | select(.workspace_id != $keep and .tokens.bos_cwd == null) | .workspace_id')"}; do
+    herdr workspace close "$stray" >/dev/null
+  done
 }
 
 herdr-close() {
