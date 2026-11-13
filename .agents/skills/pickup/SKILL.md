@@ -1,17 +1,19 @@
 ---
 name: pickup
-description: Read the latest handoff document for the current working directory so the work from a previous session can continue.
+description: List the latest handoff documents for the current working directory and read the one the user selects so the work from a previous session can continue.
 argument-hint: "Which handoff document should be read?"
 ---
 
-Find the handoff subdirectory for the current working directory: the subdirectory of `~/Documents/Notes/Handoff` that mirrors the working directory's path relative to `~` (for example, `~/Documents` uses `~/Documents/Notes/Handoff/Documents`, and `~` uses `~/Documents/Notes/Handoff`). If it does not exist or has no handoff documents directly inside it, stop and continue without a handoff.
+Run `~/.agents/skills/handoff/scripts/handoff.sh list` from the current working directory. It prints the paths of the latest 10 handoff documents for this directory, newest first.
 
-Handoff filenames start with a `YYYY-MM-DD-HHMM` local date and 24-hour time (for example, `2026-11-13-1430-fix-login-bug.md`). Read the handoff document directly inside that subdirectory with the latest date and time in its filename, not the latest modification time. Ignore the subdirectories of other projects nested below it.
+If the user passed arguments or named a handoff document, read the matching one and skip the list.
 
-If the user passed arguments or named another handoff document in that subdirectory, read that one instead.
+Otherwise, if nothing was printed, say nothing about handoffs and continue with the user's message.
 
-Call the Skill tool for the skills listed in its suggested skills section.
+Otherwise, show them as a numbered list with each one's date, time, and title from its filename. Ask the user which one to read, and wait for their answer before reading any of them. If the user declines, continue without a handoff.
 
-Verify claims in the document against the current code and git history before relying on them.
+After reading the selected handoff document:
 
-Use it as context for the user's message, and continue its open items when the user asks to continue.
+- Call the Skill tool for the skills listed in its suggested skills section.
+- Verify claims in the document against the current code and git history before relying on them.
+- Use it as context, and continue its open items when the user asks to continue.
