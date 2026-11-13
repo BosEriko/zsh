@@ -1,6 +1,7 @@
 ---
 name: publish
 description: Generate or refresh the portfolio files of a BosEriko repository (PORTFOLIO.md, COVER.png, ABOUT.md, TOPICS.json) that boseriko.com and the GitHub About section read from, then commit them. Use when the user asks to prepare a repository for the portfolio or invokes /publish.
+disable-model-invocation: true
 ---
 
 # Portfolio

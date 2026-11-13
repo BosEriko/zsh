@@ -1,6 +1,7 @@
 ---
 name: commit
 description: Create Git commits for completed code changes using Gitmoji. Use when the user explicitly asks to commit changes or approves a proposed commit.
+disable-model-invocation: true
 ---
 
 # Git Commit

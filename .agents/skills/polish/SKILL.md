@@ -1,6 +1,7 @@
 ---
 name: polish
 description: Design, build, and review polished, production-quality web interfaces that are mobile-first, responsive, accessible, and free of generic AI-generated aesthetics. Use when creating, modifying, redesigning, or reviewing frontend pages, layouts, and components.
+disable-model-invocation: true
 ---
 
 # Frontend Design
