@@ -31,6 +31,22 @@ When building a feature, use subagents so the work goes faster and the main conv
 - Keep decisions, the contract between parts, code review and final verification in the main conversation, and review every subagent's changes before relying on them.
 - Skip subagents for small changes, where writing the brief costs more than doing the work.
 
+## Codex
+
+Use the Codex CLI (`codex`) as an independent second reviewer at the points named in the steps below. Codex runs with no knowledge of this conversation, so every prompt must be self-contained: the task, the requirements and acceptance criteria, and what you want back.
+
+- Second opinion: `codex exec -s read-only -o "$out" "<prompt>"`, where `$out` is a file in the scratchpad directory, then read `$out`.
+- Testing: `codex exec -s workspace-write -o "$out" "<prompt>"`, telling it to run the relevant tests and checks and report results, and not to edit any files. Run `git status` afterwards and revert anything it changed.
+- Code review: `codex review --uncommitted` for uncommitted work, or `codex review --base <branch>` for committed work on a branch. These flags don't accept a custom prompt, so check its findings against the task yourself.
+
+Rules:
+
+- Codex runs can take several minutes: use a long timeout or run them in the background.
+- Treat Codex output as advice, not fact. Verify each claim against the code before acting on it, and say which points you accepted or rejected and why.
+- Do not let Codex edit files. You make every change yourself.
+- If `codex` is missing, not logged in, or fails, continue without it and report that the Codex step was skipped.
+- For small changes, skip the second opinion on the plan and keep only the Codex code review.
+
 ## 1. Task Analysis
 
 Turn the task into clear requirements, acceptance criteria, scope, and implementation-relevant information.
@@ -142,6 +158,7 @@ Keep implementation steps flat and actionable.
 - Do not include unrelated refactoring.
 - Every planned change must contribute to a requirement, acceptance criterion, test, or necessary supporting behavior.
 - Call out blockers rather than silently designing around missing requirements.
+- Before implementing, get a Codex second opinion on the plan: give it the requirements, acceptance criteria, and plan, and ask for missing requirements, risks, and simpler approaches. Revise the plan where its points hold up.
 
 ## 4. Implementation
 
@@ -166,7 +183,8 @@ Validate the changes by identifying, adding, and running the smallest relevant s
 6. Fix failures caused by the implementation.
 7. Run broader relevant tests when appropriate.
 8. Run relevant type checking, linting, or build checks when appropriate.
-9. Record what was run and the results.
+9. Ask Codex to run the relevant tests and checks independently and to list behavior the tests don't cover. Compare its results with yours and investigate any disagreement.
+10. Record what was run, by you and by Codex, and the results.
 
 ### Rules
 
@@ -194,8 +212,9 @@ Review the completed changes for correctness, regressions, unnecessary complexit
 7. Check whether existing repository patterns were followed.
 8. Check for unnecessary abstractions, duplication, or complexity introduced by the change.
 9. Check whether tests adequately cover the changed behavior.
-10. Fix issues introduced by the implementation when appropriate.
-11. Re-run affected tests after review fixes.
+10. Run a Codex code review of the same diff.
+11. Fix issues introduced by the implementation when appropriate, including verified Codex findings.
+12. Re-run affected tests after review fixes.
 
 ### Review Priorities
 
@@ -243,6 +262,7 @@ Provide a final verification summary containing:
 - Files changed
 - Tests and checks performed
 - Acceptance criteria status
+- Codex findings accepted, rejected, or skipped
 - Unresolved items, if any
 - Final status: Complete or Incomplete
 
@@ -262,3 +282,4 @@ For acceptance criteria, use:
 - Do not hide incomplete work.
 - Do not declare the task complete when a required criterion is FAIL or PARTIAL.
 - Treat materially important UNVERIFIED criteria as incomplete unless there is sufficient evidence to justify completion.
+- When you are unsure whether a criterion is met, ask Codex for a second opinion before deciding.
