@@ -61,7 +61,14 @@ Write issue bodies to files in the scratchpad directory and pass them with `--bo
 
 ## 5. Report
 
-List each created issue with its URL, show which are sub-issues of the epic, and confirm they were added to the project. List any issue types or labels that were created, and any type that fell back to a label. Report anything that failed.
+Reply with a table of every created issue, epic first, with these columns:
+
+| # | Title | Type | Parent | URL |
+|---|---|---|---|---|
+
+Use the issue type or fallback label for Type, the epic's number for Parent (`—` for the epic or a single issue), and the full issue URL for URL.
+
+Below the table, confirm the issues were added to the project, list any issue types or labels that were created and any type that fell back to a label, and report anything that failed.
 
 ## Rules
 
