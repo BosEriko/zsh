@@ -19,3 +19,7 @@
 - Do not add JSDoc or documentation comments unless explicitly requested.
 - Preserve existing comments unless the change makes them inaccurate.
 - Prefer clear naming and self-explanatory code instead of comments.
+
+# Skills
+
+- Name skills with a single verb in imperative form, such as `commit`, `forget`, `implement`, or `taskify`.
